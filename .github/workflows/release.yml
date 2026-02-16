@@ -39,8 +39,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: v__VERSION__ # Will be replaced by version in package.json
-          releaseName: "Oxide v__VERSION__"
+          tagName: v${{ github.ref_name }} # Uses the pushed tag name directly
+          releaseName: "Oxide ${{ github.ref_name }}"
           releaseBody: "See CHANGELOG.md for details."
           releaseDraft: true
           prerelease: false
