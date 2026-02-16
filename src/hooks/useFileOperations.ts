@@ -17,7 +17,7 @@
  */
 
 import { useCallback } from "react";
-import { readDir, stat, readFile, readTextFile } from "@tauri-apps/plugin-fs";
+import { stat, readFile, readTextFile } from "@tauri-apps/plugin-fs";
 import { invoke } from "@tauri-apps/api/core";
 import { useStore } from "../store/useStore";
 import { calculateTaskProgress } from "../utils/mdUtils";
