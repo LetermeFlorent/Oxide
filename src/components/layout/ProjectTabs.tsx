@@ -9,6 +9,7 @@ import { CloseTabsModal } from "./ProjectTabs/CloseTabsModal";
 import { TabContextMenu } from "./ProjectTabs/TabContextMenu";
 import { useProjectTabs } from "./ProjectTabs/useProjectTabs";
 import { useShallow } from "zustand/react/shallow";
+import { t } from "../../i18n";
 
 export const ProjectTabs = memo(({ onOpen }: { onOpen: () => void }) => {
   const s = useProjectTabs();

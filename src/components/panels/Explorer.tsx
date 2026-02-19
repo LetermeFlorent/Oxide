@@ -1,5 +1,6 @@
 import { useState, memo, useCallback, useEffect } from "react";
-import { useStore, FileEntry } from "../../store/useStore";
+import { useStore } from "../../store/useStore";
+import { FileEntry } from "../../store/types";
 import { hasTasks } from "../../utils/mdUtils";
 import { TreeItemContent } from "./Explorer/TreeItemContent";
 import { useFolderManagement } from "../../hooks/useFolderManagement";
@@ -10,13 +11,11 @@ import { monitoredInvoke } from "../../utils/performance";
 import { t } from "../../i18n";
 
 export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry, onClick: (e: FileEntry) => void, level?: number }) => {
-  const [canFollow, setCanFollow] = useState(false);
   const [menu, setMenu] = useState<{ x: number, y: number, entry: FileEntry } | null>(null);
   const { scanFolder } = useFolderManagement();
   
   const activeProjectId = useStore(s => s.activeProjectId);
   const toggleFolder = useStore(s => s.toggleFolder);
-  const setFolderExpanded = useStore(s => s.setFolderExpanded);
   const applyFilePatch = useStore(s => s.applyFilePatch);
   const setLastDeleted = useStore(s => s.setLastDeleted);
   const setExplorerModal = useStore(s => s.setExplorerModal);

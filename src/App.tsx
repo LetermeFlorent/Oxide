@@ -1,7 +1,6 @@
 import { useStore } from "./store/useStore";
 import { useFileOperations } from "./hooks/useFileOperations";
 import { ProjectTabs } from "./components/layout/ProjectTabs";
-import { SettingsPanel } from "./components/panels/SettingsPanel";
 import { useAppInitialization } from "./hooks/useAppInitialization";
 import { useFolderManagement } from "./hooks/useFolderManagement";
 import { useFollowedFileSync } from "./hooks/useFollowedFileSync";

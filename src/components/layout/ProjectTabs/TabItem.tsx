@@ -14,7 +14,6 @@ export const TabItem = memo(({ id, type, active, compactMode, onClick, onClose, 
   if (!item) return null;
 
   const Icon = type === 'overview' ? Terminal : (type === 'settings' ? Settings : Folder);
-  const progress = (item as any).taskProgress;
   const status = (item as any).status;
   const isLoading = (item as any).isLoading;
 

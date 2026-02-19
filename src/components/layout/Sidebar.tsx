@@ -1,7 +1,6 @@
 import { memo, useMemo, useState, useEffect, useCallback } from "react";
 import { RefreshCcw } from "lucide-react";
 import { useStore } from "../../store/useStore";
-import { selectActiveProject } from "../../store/selectors";
 import { GPUExplorer } from "../panels/GPUExplorer";
 import { SidebarSearch } from "./Sidebar/SidebarSearch";
 import { ImageGallery } from "./Sidebar/ImageGallery";
@@ -28,7 +27,7 @@ export const Sidebar = memo(({ onFileClick }: { onFileClick: (f: any) => void })
   const expandedFolders = useStore(s => s.expandedFolders);
   const isLarge = useMemo(() => (activeProject?.tree?.length || 0) > 50000, [activeProject]);
 
-  const { scrollRef, setScrollTop, containerHeight, setContainerHeight, expandedCount, visibleItems } = useSidebarWorker(activeProject, expandedFolders, searchQuery);
+  const { scrollRef, setScrollTop, setContainerHeight, expandedCount, visibleItems } = useSidebarWorker(activeProject, expandedFolders, searchQuery);
 
   const [bgMenu, setBgMenu] = useState<{ x: number, y: number } | null>(null);
   const explorerModal = useStore(s => s.explorerModal);

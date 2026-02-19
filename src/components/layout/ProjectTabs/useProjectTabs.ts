@@ -67,7 +67,7 @@ export function useProjectTabs() {
 
   return {
     projects, terminalOverviews, groups, activeProjectId, allTabs, renamingId, tempName, setTempName, contextMenu, setContextMenu,
-    showEditOverviewModal, setShowEditOverviewModal, editingProjectIds, setEditingProjectIds, showGroupModal, setShowGroupModal,
+    showEditOverviewModal, setShowEditOverviewModal, editingOverviewId, editingProjectIds, setEditingProjectIds, showGroupModal, setShowGroupModal,
     newGroupName, setNewGroupName, showCloseModal, setShowCloseModal, selectedCloseIds, setSelectedCloseIds,
     switchProject, closeProject, closeTerminalOverview, updateProject, updateTerminalOverview, deleteGroup, toggleGroup, moveToGroup, createGroup,
     handleOpenEditOverview, submitRename, handleCloseSelected, handleCreateGroup, setRenamingId, setPendingItemId
