@@ -11,7 +11,7 @@
  * @module utils/treeUtils
  */
 
-import { FileEntry } from "../store/useStore";
+import { FileEntry } from "../store/types";
 
 /**
  * Represents a flattened tree entry with nesting level

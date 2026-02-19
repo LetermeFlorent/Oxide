@@ -11,7 +11,6 @@ import { monitoredInvoke } from "../../utils/performance";
 import { t } from "../../i18n";
 
 export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry, onClick: (e: FileEntry) => void, level?: number }) => {
-  const [canFollow, setCanFollow] = useState(false);
   const [menu, setMenu] = useState<{ x: number, y: number, entry: FileEntry } | null>(null);
   const { scanFolder } = useFolderManagement();
   
@@ -46,10 +45,6 @@ export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry,
 
   const isPdf = entry.name.toLowerCase().endsWith('.pdf');
   const isMd = entry.name.toLowerCase().endsWith('.md');
-
-  useEffect(() => {
-    if (isMd) monitoredInvoke<string>("read_text_file", { path: entry.path }).then(c => setCanFollow(hasTasks(c))).catch(() => {});
-  }, [entry.path, isMd]);
 
   const handleAction = useCallback(async (e: any) => {
     e.stopPropagation();
