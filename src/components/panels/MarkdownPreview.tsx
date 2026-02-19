@@ -36,7 +36,7 @@ export const MarkdownPreview = memo(({ content, fileName }: { content: string, f
       <Monitor size={12} className="text-gray-400 mr-2" />
       <span className="text-[9px] font-black uppercase text-gray-400 tracking-widest">Preview {fileName}</span>
     </div>
-    <div className="flex-1 p-6 overflow-auto scrollbar-modern selection:bg-indigo-50">
+    <div className="flex-1 p-6 overflow-auto scrollbar-modern selection:bg-gray-50">
       <div className="prose-custom max-w-2xl mx-auto">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
       </div>

@@ -46,8 +46,7 @@ export const Terminal = memo(({ projectId }: { projectId: string }) => {
   }
 
   return (
-    <div className={`flex-1 flex flex-col bg-white overflow-hidden h-full ${compactMode ? '' : 'rounded-xl'}`}>
-      <TerminalHeader projectId={projectId} />
+    <div className={`flex-1 flex flex-col bg-slate-50 overflow-hidden h-full ${compactMode ? '' : 'rounded-xl'}`}>
       <div className="flex-1 flex flex-col min-h-0 relative">
         <BashTerminal projectId={projectId} />
       </div>

@@ -1,175 +1,166 @@
-/**
- * @file Explorer.tsx
- * @description File tree item component with task following support
- * Renders individual file/folder entries in the project tree
- * 
- * Features:
- * - Folder expansion/collapse with chevron indicators
- * - File type icons (PDF, markdown, generic files)
- * - Task following integration for markdown files with checkboxes
- * - Context menu for follow/unfollow actions
- * - Visual indicators for selected and followed files
- * 
- * @component TreeItem
- * @example
- * <TreeItem 
- *   entry={fileEntry}
- *   onClick={handleFileClick}
- *   level={2}
- * />
- */
-
-import { ChevronRight, ChevronDown, Folder, FileText, File, Target } from "lucide-react";
-import { useState, memo, useCallback, useMemo, useEffect } from "react";
+import { useState, memo, useCallback, useEffect } from "react";
 import { useStore, FileEntry } from "../../store/useStore";
-import { readTextFile } from "@tauri-apps/plugin-fs";
-import { calculateTaskProgress, hasTasks } from "../../utils/mdUtils";
-import { motion, AnimatePresence } from "framer-motion";
+import { hasTasks } from "../../utils/mdUtils";
+import { TreeItemContent } from "./Explorer/TreeItemContent";
+import { useFolderManagement } from "../../hooks/useFolderManagement";
+import { FileContextMenu } from "./Explorer/FileContextMenu";
+import { revealItemInDir } from "@tauri-apps/plugin-opener";
+import { monitoredInvoke } from "../../utils/performance";
 
-/**
- * TreeItem Component
- * 
- * Individual file or folder entry in the project tree.
- * Supports folder expansion, file selection, and task following.
- * 
- * @param {Object} props - Component props
- * @param {FileEntry} props.entry - The file/folder entry data
- * @param {(e: FileEntry) => void} props.onClick - Callback when item is clicked
- * @param {number} [props.level=0] - Nesting level for indentation
- * @returns {JSX.Element} The tree item interface
- */
+import { t } from "../../i18n";
+
 export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry, onClick: (e: FileEntry) => void, level?: number }) => {
-  const [menuPos, setMenuPos] = useState<{ x: number, y: number } | null>(null);
   const [canFollow, setCanFollow] = useState(false);
+  const [menu, setMenu] = useState<{ x: number, y: number, entry: FileEntry } | null>(null);
+  const { scanFolder } = useFolderManagement();
   
   const activeProjectId = useStore(s => s.activeProjectId);
-  const projects = useStore(s => s.projects) || [];
-  const activeProject = projects.find(p => p.id === activeProjectId);
-  const setFollowedFile = useStore(s => s.setFollowedFile);
-  const expandedFolders = useStore(s => s.expandedFolders);
   const toggleFolder = useStore(s => s.toggleFolder);
+  const setFolderExpanded = useStore(s => s.setFolderExpanded);
+  const applyFilePatch = useStore(s => s.applyFilePatch);
+  const setLastDeleted = useStore(s => s.setLastDeleted);
+  const setExplorerModal = useStore(s => s.setExplorerModal);
+  const setConfirmModal = useStore(s => s.setConfirmModal);
   
-  const isOpen = !!expandedFolders[entry.path];
-  const isSelected = activeProject?.selectedFile?.path === entry.path;
-  const isPdf = useMemo(() => entry.name.toLowerCase().endsWith('.pdf'), [entry.name]);
-  const isMd = useMemo(() => entry.name.toLowerCase().endsWith('.md'), [entry.name]);
-  const isFollowing = activeProject?.followedFilePath === entry.path;
+  const isOpen = useStore(useCallback(s => !!s.expandedFolders[entry.path], [entry.path]));
+  const isSelected = useStore(useCallback(s => {
+    const proj = s.projects.find(p => p.id === s.activeProjectId);
+    if (!proj?.selectedFile) return false;
+    
+    // Normalize path separators and remove trailing slash
+    const norm1 = proj.selectedFile.path.replace(/\\/g, '/').replace(/\/$/, '');
+    const norm2 = entry.path.replace(/\\/g, '/').replace(/\/$/, '');
+    const selected = norm1 === norm2;
+    
+    if (!entry.name && selected) console.log("[Explorer] Empty-named file matched selected:", norm2);
+    return selected;
+  }, [entry.path, entry.name]));
 
-  /**
-   * Check if markdown file has tasks that can be followed
-   * Reads file content on mount to determine follow eligibility
-   */
+  const isFollowing = useStore(useCallback(s => {
+    const proj = s.projects.find(p => p.id === s.activeProjectId);
+    if (!proj?.followedFilePath) return false;
+    const norm1 = proj.followedFilePath.replace(/\\/g, '/').replace(/\/$/, '');
+    const norm2 = entry.path.replace(/\\/g, '/').replace(/\/$/, '');
+    return norm1 === norm2;
+  }, [entry.path]));
+
+  const isPdf = entry.name.toLowerCase().endsWith('.pdf');
+  const isMd = entry.name.toLowerCase().endsWith('.md');
+
   useEffect(() => {
-    if (isMd) {
-      readTextFile(entry.path).then(content => {
-        setCanFollow(hasTasks(content));
-      }).catch(() => setCanFollow(false));
-    }
+    if (isMd) monitoredInvoke<string>("read_text_file", { path: entry.path }).then(c => setCanFollow(hasTasks(c))).catch(() => {});
   }, [entry.path, isMd]);
 
-  /**
-   * Handle click on the tree item
-   * Toggles folder expansion or selects the file
-   * 
-   * @param {React.MouseEvent} e - Click event
-   */
-  const handleAction = useCallback(async (e: React.MouseEvent) => {
+  const handleAction = useCallback(async (e: any) => {
     e.stopPropagation();
-    if (entry.isFolder) toggleFolder(entry.path);
-    await onClick(entry);
-  }, [entry, onClick, toggleFolder]);
-
-  /**
-   * Handle right-click context menu
-   * Only shows menu for markdown files with tasks
-   * 
-   * @param {React.MouseEvent} e - Context menu event
-   */
-  const handleContextMenu = useCallback((e: React.MouseEvent) => {
-    if (isMd && canFollow) {
-      e.preventDefault();
-      e.stopPropagation();
-      setMenuPos({ x: e.clientX, y: e.clientY });
+    if (entry.isFolder) {
+      if (!isOpen && activeProjectId && (!entry.children?.length)) await scanFolder(activeProjectId, entry.path);
+      toggleFolder(entry.path);
     }
-  }, [isMd, canFollow]);
+    onClick(entry);
+  }, [entry, onClick, toggleFolder, isOpen, activeProjectId, scanFolder]);
 
-  /**
-   * Handle follow/unfollow action from context menu
-   * Calculates task progress when following
-   * 
-   * @param {React.MouseEvent} e - Click event
-   */
-  const handleFollow = useCallback(async (e: React.MouseEvent) => {
+  const handleContextMenu = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
-    setMenuPos(null);
-    if (!activeProjectId) return;
-    
-    const content = await readTextFile(entry.path);
-    const progress = calculateTaskProgress(content);
-    setFollowedFile(activeProjectId, isFollowing ? null : entry.path, isFollowing ? null : progress);
-  }, [activeProjectId, entry.path, isFollowing, setFollowedFile]);
+    setMenu({ x: e.clientX, y: e.clientY, entry });
+  }, [entry]);
 
-  // Hide context menu when clicking elsewhere
-  useEffect(() => {
-    const hide = () => setMenuPos(null);
-    window.addEventListener('click', hide);
-    return () => window.removeEventListener('click', hide);
+  const onRename = useCallback(async (target: FileEntry) => {
+    const newName = window.prompt(`Rename ${target.isFolder ? 'folder' : 'file'} "${target.name}" to:`, target.name);
+    if (!newName || newName.trim() === target.name || !activeProjectId) return;
+    const cleanName = newName.trim();
+    try {
+      const newPath = await monitoredInvoke<string>("rename_entry", { path: target.path, new_name: cleanName });
+      const lastSlash = target.path.lastIndexOf('/');
+      const parentPath = lastSlash === -1 ? "" : target.path.substring(0, lastSlash);
+      applyFilePatch(activeProjectId, { 
+        parent_path: parentPath || target.path, 
+        removed: [target.path], 
+        added: [{ ...target, name: cleanName, path: newPath }] 
+      });
+    } catch (err) {
+      console.error("Rename failed:", err);
+      alert("Rename failed: " + err);
+    }
+  }, [activeProjectId, applyFilePatch]);
+
+  const onCreateFile = useCallback((target: FileEntry) => setExplorerModal({ show: true, type: 'file', target }), [setExplorerModal]);
+  const onCreateFolder = useCallback((target: FileEntry) => setExplorerModal({ show: true, type: 'folder', target }), [setExplorerModal]);
+
+  const onDelete = useCallback(async (target: FileEntry) => {
+    const type = target.isFolder ? (t('explorer.folder') || 'folder') : (t('explorer.file') || 'file');
+    const message = t('explorer.confirm_delete', { type, name: target.name }) || `Are you sure you want to delete ${type} "${target.name}"? This action cannot be undone.`;
+    
+    setConfirmModal({
+      show: true,
+      title: target.isFolder ? "Delete Folder" : "Delete File",
+      message,
+      kind: 'danger',
+      onConfirm: async () => {
+        if (!activeProjectId) return;
+        try {
+          const lastSlash = target.path.lastIndexOf('/');
+          const parentPath = lastSlash === -1 ? "" : target.path.substring(0, lastSlash);
+          
+          let content = "";
+          if (!target.isFolder) {
+            try { content = await monitoredInvoke<string>("read_text_file", { path: target.path }); } catch {}
+          }
+          setLastDeleted({ entry: target, projectId: activeProjectId, parentPath: parentPath || target.path, content });
+          
+          await monitoredInvoke("delete_entry", { path: target.path });
+          applyFilePatch(activeProjectId, { 
+            parent_path: parentPath || target.path, 
+            removed: [target.path], 
+            added: [] 
+          });
+        } catch (err) {
+          console.error("Delete failed:", err);
+          alert("Delete failed: " + err);
+        }
+      }
+    });
+  }, [activeProjectId, applyFilePatch, setLastDeleted, setConfirmModal]);
+
+  const onReveal = useCallback(async (target: FileEntry) => {
+    try {
+      await revealItemInDir(target.path);
+    } catch (err) {
+      console.error("Reveal failed:", err);
+    }
   }, []);
 
-  return (
-    <div className="select-none relative">
-      <div 
-        className={`flex items-center py-1 px-4 cursor-pointer text-[12px] transition-all duration-150 ${isSelected ? 'bg-indigo-50 text-indigo-700 font-bold border-r-2 border-indigo-500' : 'hover:bg-gray-50 text-gray-600'}`} 
-        style={{ paddingLeft: `${(level * 12) + 16}px` }} 
-        onClick={handleAction}
-        onContextMenu={handleContextMenu}
-      >
-        <div className="w-4 mr-1 flex items-center justify-center">
-          {entry.isFolder && (isOpen ? <ChevronDown size={14} className="text-indigo-500" /> : <ChevronRight size={14} className="text-gray-400" />)}
-        </div>
-        <div className="mr-2 flex items-center justify-center relative">
-          {entry.isFolder ? (
-            <Folder size={16} className={isOpen ? 'text-indigo-500' : 'text-gray-400'} />
-          ) : isPdf ? (
-            <File size={16} className={isSelected ? 'text-orange-500' : 'text-orange-400'} />
-          ) : (
-            <>
-              <FileText size={16} className={isSelected ? 'text-indigo-500' : 'text-gray-300'} />
-              {/* Follow indicator badge for followed files */}
-              {isFollowing && (
-                <div className="absolute -top-1 -right-1 bg-orange-500 rounded-full border border-white">
-                  <Target size={8} className="text-white" />
-                </div>
-              )}
-            </>
-          )}
-        </div>
-        <span className="truncate flex-1 tracking-tight">{entry.name}</span>
-      </div>
+  const handleDoubleClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    onRename(entry);
+  }, [entry, onRename]);
 
-      {/* Context menu for follow/unfollow actions */}
-      <AnimatePresence>
-        {menuPos && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            style={{ position: 'fixed', top: menuPos.y, left: menuPos.x, zIndex: 1000 }}
-            className="bg-white border border-gray-100 rounded-xl p-1.5 min-w-[140px]"
-          >
-            <button 
-              onClick={handleFollow}
-              className="w-full flex items-center gap-2 px-3 py-2 hover:bg-orange-50 rounded-lg transition-colors group"
-            >
-              <Target size={14} className={isFollowing ? "text-red-500" : "text-orange-500"} />
-              <span className="text-[11px] font-bold text-gray-600 group-hover:text-orange-700 tracking-tight">
-                {isFollowing ? "Unfollow" : "Follow tasks"}
-              </span>
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+  return (
+    <>
+      <TreeItemContent 
+        entry={entry} 
+        isOpen={isOpen} 
+        isSelected={isSelected} 
+        isPdf={isPdf} 
+        isFollowing={isFollowing} 
+        level={level} 
+        handleAction={handleAction} 
+        handleContextMenu={handleContextMenu}
+        onDoubleClick={handleDoubleClick}
+      />
+      {menu && (
+        <FileContextMenu 
+          menu={menu} 
+          onHide={() => setMenu(null)} 
+          onRename={onRename} 
+          onDelete={onDelete} 
+          onReveal={onReveal} 
+          onCreateFile={onCreateFile}
+          onCreateFolder={onCreateFolder}
+        />
+      )}
+    </>
   );
 });
 

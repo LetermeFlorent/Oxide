@@ -6,32 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Oxide</title>
     <style>
-      .scrollbar-modern-thin::-webkit-scrollbar { height: 2px; }
-      .scrollbar-modern-thin::-webkit-scrollbar-track { background: transparent; }
-      .scrollbar-modern-thin::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
-      .scrollbar-modern-thin::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
-      
-      html, body {
-        margin: 0;
-        padding: 0;
-        background-color: #f3f3f3;
-        height: 100vh;
-        width: 100vw;
-        overflow: hidden;
-      }
+      html, body { margin: 0; padding: 0; background-color: #ffffff; height: 100vh; width: 100vw; overflow: hidden; }
+      #initial-loader { position: fixed; inset: 0; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #ffffff; font-family: system-ui, sans-serif; transition: opacity 0.4s ease-out; }
+      .progress-container { width: 320px; height: 4px; background: #f1f5f9; border-radius: 10px; overflow: hidden; margin-top: 32px; position: relative; }
+      .progress-bar { position: absolute; left: 0; top: 0; height: 100%; background: #000000; width: 0%; border-radius: 10px; transition: width 0.4s cubic-bezier(0.1, 0.5, 0.1, 1); }
+      .percentage { margin-top: 16px; font-size: 11px; font-weight: 900; color: #94a3b8; font-variant-numeric: tabular-nums; }
+      .title { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5em; color: #000000; }
     </style>
   </head>
   <body>
-    <div id="initial-loader" style="position: fixed; inset: 0; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f3f3f3; font-family: system-ui, -apple-system, sans-serif;">
-      <div style="position: relative; width: 80px; height: 80px; background: white; border-radius: 24px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(31,38,135,0.07);">
-        <div style="width: 32px; height: 32px; border: 2px solid #4f46e5; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-      </div>
-      <div style="margin-top: 24px; color: #1f2937; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.3em;">Oxide</div>
-      <div style="margin-top: 8px; color: #9ca3af; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em;">Démarrage du système...</div>
-      <style>
-        @keyframes spin { to { transform: rotate(360deg); } }
-      </style>
+    <div id="initial-loader">
+      <div class="title">Oxide</div>
+      <div class="progress-container"><div id="loader-bar" class="progress-bar"></div></div>
+      <div id="loader-pct" class="percentage">0%</div>
     </div>
+    <script>
+      // Native Bootstrapper: Move bar instantly
+      (function() {
+        var progress = 0;
+        var bar = document.getElementById('loader-bar');
+        var pct = document.getElementById('loader-pct');
+        window.bootProgress = 0;
+        var int = setInterval(function() {
+          if (window.bootProgress < 90) {
+            window.bootProgress += (90 - window.bootProgress) * 0.05;
+            if (bar) bar.style.width = window.bootProgress + '%';
+            if (pct) pct.innerText = Math.round(window.bootProgress) + '%';
+          }
+          if (window.bootProgress >= 100) clearInterval(int);
+        }, 100);
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

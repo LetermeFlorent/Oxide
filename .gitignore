@@ -25,26 +25,7 @@ dist-ssr
 # AI and Task files
 GEMINI.md
 TASKS.md
-
-# Caches and Environment Variables
-.vite/
-.env*
-*.env
-*.tsbuildinfo
-
-# Rust/Tauri
-src-tauri/target
-src-tauri/gen
-
-# OS Files
-.DS_Store
-Thumbs.db
-Desktop.ini
-
-# Misc
-*.bak
-*.tmp
-temp/
-out/
+SKILL.md
 .gemini/
+.gemini-skills/
 

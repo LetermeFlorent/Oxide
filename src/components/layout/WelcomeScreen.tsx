@@ -35,8 +35,8 @@ export const WelcomeScreen = memo(({ onOpen }: { onOpen: () => void }) => {
       {/* Main container for content - re-enable pointer events for interactions */}
       <div className="flex flex-col items-center gap-6 max-w-sm w-full pointer-events-auto">
         {/* Brand icon container with indigo accent color */}
-        <div className={`w-20 h-20 bg-indigo-50 flex items-center justify-center ${compactMode ? '' : 'rounded-2xl'}`}>
-          <FolderOpen size={40} className="text-indigo-500 opacity-60" />
+        <div className={`w-20 h-20 bg-gray-50 flex items-center justify-center ${compactMode ? '' : 'rounded-2xl'}`}>
+          <FolderOpen size={40} className="text-black opacity-60" />
         </div>
         
         {/* Text content section with brand messaging */}
@@ -48,7 +48,7 @@ export const WelcomeScreen = memo(({ onOpen }: { onOpen: () => void }) => {
         {/* Primary action button - opens folder picker dialog */}
         <button 
           onClick={onOpen} 
-          className={`w-full flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-[0.1em] hover:bg-indigo-700 transition-all active:scale-95 ${compactMode ? '' : 'rounded-xl'}`}
+          className={`w-full flex items-center justify-center gap-2 px-6 py-3 bg-black text-white text-[10px] font-black uppercase tracking-[0.1em] hover:bg-black transition-all active:scale-95 ${compactMode ? '' : 'rounded-xl'}`}
         >
           Open Folder
         </button>
