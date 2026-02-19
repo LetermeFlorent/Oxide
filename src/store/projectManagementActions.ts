@@ -1,4 +1,4 @@
-import { ProjectSession, ProjectStatus } from "./types";
+import { ProjectStatus } from "./types";
 import { createProject } from "./projectActions";
 
 export const addProject = (path: string, name: string, tree: any) => (s: any) => {

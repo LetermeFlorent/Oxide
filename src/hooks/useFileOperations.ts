@@ -2,7 +2,7 @@
  * @file useFileOperations.ts
  */
 
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useStore } from "../store/useStore";
 import { useFileLoading } from "./useFileLoading";
 import { useFileSaving } from "./useFileSaving";

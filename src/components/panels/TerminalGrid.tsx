@@ -18,7 +18,7 @@
 import { useStore } from "../../store/useStore";
 import { makeSelectOverviewById } from "../../store/selectors";
 import { Terminal } from "./Terminal";
-import { memo, useMemo, useState, useCallback } from "react";
+import { memo, useMemo, useState } from "react";
 import { Zap, Send, X } from "lucide-react";
 import { invoke } from "@tauri-apps/api/core";
 

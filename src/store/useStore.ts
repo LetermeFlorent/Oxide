@@ -37,7 +37,7 @@ export const useStore = create<WorkspaceState>()(
       return persistedState as WorkspaceState;
     },
     partialize: (s) => ({
-      projects: s.reopenLastFiles ? s.projects.map(p => ({
+      projects: (s.reopenLastFiles && s.projects) ? s.projects.map(p => ({
         id: p.id, name: p.name, groupId: s.restoreGroups ? p.groupId : undefined,
         terminalTab: p.terminalTab, selectedFile: p.selectedFile,
                   followedFilePath: s.restoreFollowedFiles ? p.followedFilePath : null,
@@ -49,7 +49,7 @@ export const useStore = create<WorkspaceState>()(
       startOnOverview: s.startOnOverview, restoreActiveTab: s.restoreActiveTab,
       compactMode: s.compactMode, verticalTabs: s.verticalTabs,
       viewMode: s.viewMode, showExplorer: s.showExplorer,
-      terminalOverviews: s.restoreTerminalOverviews ? s.terminalOverviews.map(o => ({
+      terminalOverviews: (s.restoreTerminalOverviews && s.terminalOverviews) ? s.terminalOverviews.map(o => ({
         id: o.id, name: o.name, projectIds: o.projectIds, groupId: s.restoreGroups ? o.groupId : undefined
       })) : [],
       groups: s.restoreGroups ? s.groups : [],

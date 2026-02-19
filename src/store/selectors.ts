@@ -1,12 +1,11 @@
 import { createSelector } from 'reselect';
-import { WorkspaceState, ProjectSession, TerminalOverview, ProjectGroup } from './types';
+import { WorkspaceState, ProjectSession, TerminalOverview } from './types';
 
 // Root selectors
 const getProjects = (state: WorkspaceState) => state.projects;
 const getActiveProjectId = (state: WorkspaceState) => state.activeProjectId;
 const getGroups = (state: WorkspaceState) => state.groups;
 const getTerminalOverviews = (state: WorkspaceState) => state.terminalOverviews;
-const getExpandedFolders = (state: WorkspaceState) => state.expandedFolders;
 const getShowExplorer = (state: WorkspaceState) => state.showExplorer;
 const getCompactMode = (state: WorkspaceState) => state.compactMode;
 const getViewMode = (state: WorkspaceState) => state.viewMode;

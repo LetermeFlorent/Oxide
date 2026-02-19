@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, memo } from 'react';
 import { useStore } from '../../store/useStore';
 import { selectActiveProject } from '../../store/selectors';
-import { useSidebarWorker, ITEM_HEIGHT } from '../layout/Sidebar/useSidebarWorker';
+import { useSidebarWorker } from '../layout/Sidebar/useSidebarWorker';
 import { useGPUDraw } from './GPUExplorer/useGPUDraw';
 
 export const GPUExplorer = memo(({ onFileClick }: { onFileClick: (file: any) => void }) => {

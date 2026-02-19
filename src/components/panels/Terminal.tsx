@@ -16,7 +16,6 @@
 
 import { memo, useCallback } from "react";
 import { useStore } from "../../store/useStore";
-import { TerminalHeader } from "./Terminal/TerminalHeader";
 import { BashTerminal } from "./Terminal/BashTerminal";
 
 /**

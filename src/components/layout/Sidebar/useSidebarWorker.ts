@@ -31,5 +31,5 @@ export function useSidebarWorker(activeProject: any, expandedFolders: any, searc
     worker.postMessage({ type: 'GET_VISIBLE_TREE', nodes: activeProject.tree, expandedFolders, startIndex: start, endIndex: end });
   }, [activeProject?.tree, expandedCount, expandedFolders, scrollTop, containerHeight, searchQuery, activeProject?.isLoading]);
 
-  return { scrollRef, setScrollTop, containerHeight, setContainerHeight, expandedCount, visibleItems };
+  return { scrollRef, scrollTop, setScrollTop, containerHeight, setContainerHeight, expandedCount, visibleItems };
 }

@@ -76,11 +76,11 @@ export const applyFilePatch = (tree: FileEntry[], patch: { parent_path: string, 
         const nodeNorm = node.path.replace(/\\/g, '/').replace(/\/$/, '');
         if (nodeNorm === normParent) {
           const currentChildren = node.children || [];
-          const filtered = currentChildren.filter(c => !removed.includes(c.path));
+          const filtered = currentChildren.filter((c: FileEntry) => !removed.includes(c.path));
           
           // Avoid adding duplicates
           const addedPaths = cleanAdded.map(a => a.path);
-          const finalFiltered = filtered.filter(c => !addedPaths.includes(c.path));
+          const finalFiltered = filtered.filter((c: FileEntry) => !addedPaths.includes(c.path));
           
           const updated = [...finalFiltered, ...cleanAdded];
           // Sort children: folders first, then alphabetically
@@ -112,10 +112,10 @@ export const applyFilePatch = (tree: FileEntry[], patch: { parent_path: string, 
      const rootMatch = tree.find(n => n.path.replace(/\\/g, '/').replace(/\/$/, '') === normParent);
      if (!rootMatch) {
         console.log("[treeUtils] Patching root level for:", normParent);
-        const filtered = tree.filter(c => !removed.includes(c.path));
+        const filtered = tree.filter((c: FileEntry) => !removed.includes(c.path));
         
         const addedPaths = cleanAdded.map(a => a.path);
-        const finalFiltered = filtered.filter(c => !addedPaths.includes(c.path));
+        const finalFiltered = filtered.filter((c: FileEntry) => !addedPaths.includes(c.path));
         
         const updated = [...finalFiltered, ...cleanAdded];
         updated.sort((a, b) => {

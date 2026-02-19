@@ -11,6 +11,7 @@ import { monitoredInvoke } from "../../utils/performance";
 import { t } from "../../i18n";
 
 export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry, onClick: (e: FileEntry) => void, level?: number }) => {
+  const [canFollow, setCanFollow] = useState(false);
   const [menu, setMenu] = useState<{ x: number, y: number, entry: FileEntry } | null>(null);
   const { scanFolder } = useFolderManagement();
   

@@ -4,7 +4,7 @@ import { SidebarSettings } from "./Settings/SidebarSettings";
 import { SessionSettings } from "./Settings/SessionSettings";
 import { t } from "../../i18n";
 import { useShallow } from "zustand/react/shallow";
-import { Save, RotateCcw, AlertTriangle, Monitor, Cpu, History } from "lucide-react";
+import { Save, AlertTriangle, Monitor, Cpu, History } from "lucide-react";
 
 type SettingsCategory = 'appearance' | 'behavior';
 
@@ -165,7 +165,7 @@ export const SettingsPanel = memo(() => {
       )}
 
       <div className="px-6 py-3 border-t border-gray-50 bg-gray-50/30 flex items-center justify-between text-[8px] font-black text-gray-300 uppercase tracking-[0.4em]">
-        <span>Oxide Core Runtime v0.1.0-alpha</span>
+        <span>Oxide Core Runtime v1.1.0 (BETA)</span>
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-green-400" /> SECURE_SESSION</span>
           <span className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-blue-400" /> AUTO_SYNC_OFF</span>

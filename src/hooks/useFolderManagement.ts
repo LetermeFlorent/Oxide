@@ -6,11 +6,9 @@ import { monitoredInvoke } from "../utils/performance";
 import { useShallow } from "zustand/react/shallow";
 
 export function useFolderManagement() {
-  const { addProject, addProjects, replaceProject, activeProjectId } = useStore(useShallow(s => ({
-    addProject: s.addProject,
+  const { addProjects, replaceProject } = useStore(useShallow(s => ({
     addProjects: s.addProjects,
-    replaceProject: s.replaceProject,
-    activeProjectId: s.activeProjectId
+    replaceProject: s.replaceProject
   })));
 
   const scanFolder = useCallback(async (id: string, path: string) => {

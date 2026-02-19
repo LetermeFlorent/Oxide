@@ -53,4 +53,5 @@ export interface WorkspaceState {
   toggleGroup: (id: string) => void; moveToGroup: (itemId: string, groupId: string | null) => void;
   deleteGroup: (id: string) => void; toggleFolder: (path: string) => void;
   setFolderExpanded: (path: string, expanded: boolean) => void;
+  resetWorkspace: () => void;
 }
