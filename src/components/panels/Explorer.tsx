@@ -1,7 +1,6 @@
-import { useState, memo, useCallback, useEffect } from "react";
+import { useState, memo, useCallback } from "react";
 import { useStore } from "../../store/useStore";
 import { FileEntry } from "../../store/types";
-import { hasTasks } from "../../utils/mdUtils";
 import { TreeItemContent } from "./Explorer/TreeItemContent";
 import { useFolderManagement } from "../../hooks/useFolderManagement";
 import { FileContextMenu } from "./Explorer/FileContextMenu";
@@ -44,7 +43,6 @@ export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry,
   }, [entry.path]));
 
   const isPdf = entry.name.toLowerCase().endsWith('.pdf');
-  const isMd = entry.name.toLowerCase().endsWith('.md');
 
   const handleAction = useCallback(async (e: any) => {
     e.stopPropagation();
