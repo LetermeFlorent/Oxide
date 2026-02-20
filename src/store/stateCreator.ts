@@ -31,6 +31,7 @@ export const stateCreator: StateCreator<WorkspaceState, [["zustand/persist", unk
   setLastDeleted: (d: any) => set({ lastDeleted: d }),
   setExplorerModal: (m: any) => set({ explorerModal: m }),
   setConfirmModal: (m: any) => set({ confirmModal: m }),
+  setPromptModal: (m: any) => set({ promptModal: m }),
   
   // Tree & Sync
   updateProjectTree: (id: string, t: any, i: any) => set(TreeActions.updateProjectTree(id, t, i) as any),

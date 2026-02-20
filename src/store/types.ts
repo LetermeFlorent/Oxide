@@ -27,9 +27,11 @@ export interface WorkspaceState {
   lastDeleted: { entry: FileEntry, projectId: string, parentPath: string, content?: string } | null;
   explorerModal: { show: boolean, type: 'file' | 'folder', target: FileEntry | null } | null;
   confirmModal: { show: boolean, title: string, message: string, onConfirm: () => void, kind?: 'danger' | 'warning' | 'info' } | null;
+  promptModal: { show: boolean, title: string, label: string, defaultValue: string, onConfirm: (val: string) => void } | null;
   setHydrated: (val: boolean) => void;
   setExplorerModal: (modal: { show: boolean, type: 'file' | 'folder', target: FileEntry | null } | null) => void;
   setConfirmModal: (modal: { show: boolean, title: string, message: string, onConfirm: () => void, kind?: 'danger' | 'warning' | 'info' } | null) => void;
+  setPromptModal: (modal: { show: boolean, title: string, label: string, defaultValue: string, onConfirm: (val: string) => void } | null) => void;
   setLastDeleted: (data: { entry: FileEntry, projectId: string, parentPath: string, content?: string } | null) => void;
   addProject: (path: string, name: string, tree: FileEntry[]) => void;
   addProjects: (items: { path: string, name: string, tree: FileEntry[] }[]) => void;

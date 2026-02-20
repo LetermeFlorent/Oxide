@@ -19,6 +19,7 @@ export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry,
   const setLastDeleted = useStore(s => s.setLastDeleted);
   const setExplorerModal = useStore(s => s.setExplorerModal);
   const setConfirmModal = useStore(s => s.setConfirmModal);
+  const setPromptModal = useStore(s => s.setPromptModal);
   
   const isOpen = useStore(useCallback(s => !!s.expandedFolders[entry.path], [entry.path]));
   const isSelected = useStore(useCallback(s => {
@@ -60,23 +61,30 @@ export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry,
   }, [entry]);
 
   const onRename = useCallback(async (target: FileEntry) => {
-    const newName = window.prompt(`Rename ${target.isFolder ? 'folder' : 'file'} "${target.name}" to:`, target.name);
-    if (!newName || newName.trim() === target.name || !activeProjectId) return;
-    const cleanName = newName.trim();
-    try {
-      const newPath = await monitoredInvoke<string>("rename_entry", { path: target.path, new_name: cleanName });
-      const lastSlash = target.path.lastIndexOf('/');
-      const parentPath = lastSlash === -1 ? "" : target.path.substring(0, lastSlash);
-      applyFilePatch(activeProjectId, { 
-        parent_path: parentPath || target.path, 
-        removed: [target.path], 
-        added: [{ ...target, name: cleanName, path: newPath }] 
-      });
-    } catch (err) {
-      console.error("Rename failed:", err);
-      alert("Rename failed: " + err);
-    }
-  }, [activeProjectId, applyFilePatch]);
+    setPromptModal({
+      show: true,
+      title: "Rename",
+      label: `Rename ${target.isFolder ? 'folder' : 'file'} "${target.name}" to:`,
+      defaultValue: target.name,
+      onConfirm: async (newName) => {
+        if (!newName || newName.trim() === target.name || !activeProjectId) return;
+        const cleanName = newName.trim();
+        try {
+          const newPath = await monitoredInvoke<string>("rename_entry", { path: target.path, new_name: cleanName });
+          const lastSlash = target.path.lastIndexOf('/');
+          const parentPath = lastSlash === -1 ? "" : target.path.substring(0, lastSlash);
+          applyFilePatch(activeProjectId, { 
+            parent_path: parentPath || target.path, 
+            removed: [target.path], 
+            added: [{ ...target, name: cleanName, path: newPath }] 
+          });
+        } catch (err) {
+          console.error("Rename failed:", err);
+          alert("Rename failed: " + err);
+        }
+      }
+    });
+  }, [activeProjectId, applyFilePatch, setPromptModal]);
 
   const onCreateFile = useCallback((target: FileEntry) => setExplorerModal({ show: true, type: 'file', target }), [setExplorerModal]);
   const onCreateFolder = useCallback((target: FileEntry) => setExplorerModal({ show: true, type: 'folder', target }), [setExplorerModal]);

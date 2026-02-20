@@ -8,6 +8,7 @@ import { MainLayout } from "./components/layout/MainLayout";
 import { useEffect, useRef } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { ConfirmModal } from "./components/ui/ConfirmModal";
+import { PromptModal } from "./components/ui/PromptModal";
 
 export default function App() {
   const { appReady, hydrated } = useAppInitialization();
@@ -17,6 +18,9 @@ export default function App() {
   
   const confirmModal = useStore(s => s.confirmModal);
   const setConfirmModal = useStore(s => s.setConfirmModal);
+
+  const promptModal = useStore(s => s.promptModal);
+  const setPromptModal = useStore(s => s.setPromptModal);
 
   const state = useStore(useShallow(s => ({
     activeProjectId: s.activeProjectId,
@@ -69,6 +73,17 @@ export default function App() {
         kind={confirmModal?.kind}
         onHide={() => setConfirmModal(null)} 
         onConfirm={confirmModal?.onConfirm || (() => {})} 
+      />
+      <PromptModal 
+        show={!!promptModal?.show} 
+        title={promptModal?.title || ""} 
+        label={promptModal?.label || ""} 
+        defaultValue={promptModal?.defaultValue || ""} 
+        onHide={() => setPromptModal(null)} 
+        onConfirm={(val) => {
+          if (promptModal?.onConfirm) promptModal.onConfirm(val);
+          setPromptModal(null);
+        }} 
       />
     </div>
   );

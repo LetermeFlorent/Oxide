@@ -7,5 +7,5 @@ export const initialState: Partial<WorkspaceState> = {
   restoreTerminalOverviews: true, startOnOverview: true, restoreActiveTab: true,
   compactMode: false, verticalTabs: false, viewMode: 'preview',
   terminalOverviews: [], expandedFolders: {}, hydrated: false,
-  lastDeleted: null, explorerModal: null, confirmModal: null,
+  lastDeleted: null, explorerModal: null, confirmModal: null, promptModal: null,
 };
