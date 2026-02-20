@@ -13,6 +13,18 @@ pub fn write_to_pty(state: tauri::State<'_, AppState>, id: String, data: String)
 }
 
 #[tauri::command]
+pub fn write_to_all_ptys(state: tauri::State<'_, AppState>, ids: Vec<String>, data: String) -> Result<(), String> {
+    let mut sessions = state.sessions.lock().unwrap();
+    for id in ids {
+        if let Some(session) = sessions.get_mut(&id) {
+            let _ = session.writer.write_all(data.as_bytes());
+            let _ = session.writer.flush();
+        }
+    }
+    Ok(())
+}
+
+#[tauri::command]
 pub fn set_pty_visibility(state: tauri::State<'_, AppState>, id: String, visible: bool) -> Result<(), String> {
     if let Some(session) = state.sessions.lock().unwrap().get(&id) {
         *session.is_visible.lock().unwrap() = visible;

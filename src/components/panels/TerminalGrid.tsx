@@ -20,7 +20,7 @@ import { makeSelectOverviewById } from "../../store/selectors";
 import { Terminal } from "./Terminal";
 import { memo, useMemo, useState } from "react";
 import { Zap, Send, X } from "lucide-react";
-import { invoke } from "@tauri-apps/api/core";
+import { monitoredInvoke } from "../../utils/performance";
 
 /**
  * TerminalGrid Component
@@ -63,7 +63,7 @@ export const TerminalGrid = memo(({ overviewId }: { overviewId: string }) => {
     if (!masterCmd.trim() || pIds.length === 0) return;
     // Generate PTY IDs from project paths (matches BashTerminal logic)
     const ids = pIds.map(id => `bash-${id.replace(/[^a-zA-Z0-9]/g, '-')}`);
-    invoke("write_to_all_ptys", { ids, data: masterCmd + "\n" });
+    monitoredInvoke("write_to_all_ptys", { ids, data: masterCmd + "\n" });
     setMasterCmd("");
   };
 

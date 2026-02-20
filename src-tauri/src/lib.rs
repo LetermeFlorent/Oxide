@@ -48,7 +48,7 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
-            spawn_pty::spawn_pty, pty_commands::write_to_pty, pty_commands::resize_pty,
+            spawn_pty::spawn_pty, pty_commands::write_to_pty, pty_commands::write_to_all_ptys, pty_commands::resize_pty,
             pty_commands::close_pty, pty_commands::set_pty_visibility,
             fs::scan_project, fs::scan_project_streamed, fs::index_images, search::search_in_projects, watcher::watch_project,
             watcher::watch_folder, watcher::unwatch_folder,
