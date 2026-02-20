@@ -1,25 +1,33 @@
-use rusqlite::params;
-use crate::fs::FilePatch;
-use crate::state::AppState;
 use crate::db::get_children_from_db;
+use crate::fs::FilePatch;
 use crate::scan_dir::scan_dir;
+use crate::state::AppState;
+use rusqlite::params;
 use std::sync::{Arc, Mutex};
 
-pub fn calculate_diff(db: Arc<Mutex<rusqlite::Connection>>, project_id: &str, parent_path: &str) -> Result<FilePatch, String> {
+pub fn calculate_diff(
+    db: Arc<Mutex<rusqlite::Connection>>,
+    project_id: &str,
+    parent_path: &str,
+) -> Result<FilePatch, String> {
     let mut images = Vec::new();
     let disk_nodes = scan_dir(parent_path, &mut images, false, 0);
     let db_nodes = get_children_from_db(db.clone(), parent_path).map_err(|e| e.to_string())?;
-    
+
     let mut added = Vec::new();
     let mut removed = Vec::new();
-    
+
     for disk in &disk_nodes {
-        if !db_nodes.iter().any(|db| db.path == disk.path) { added.push(disk.clone()); }
+        if !db_nodes.iter().any(|db| db.path == disk.path) {
+            added.push(disk.clone());
+        }
     }
     for db_node in &db_nodes {
-        if !disk_nodes.iter().any(|disk| disk.path == db_node.path) { removed.push(db_node.path.clone()); }
+        if !disk_nodes.iter().any(|disk| disk.path == db_node.path) {
+            removed.push(db_node.path.clone());
+        }
     }
-    
+
     if !added.is_empty() || !removed.is_empty() {
         let conn = db.lock().unwrap();
         for node in &added {
@@ -30,11 +38,20 @@ pub fn calculate_diff(db: Arc<Mutex<rusqlite::Connection>>, project_id: &str, pa
             let _ = conn.execute("DELETE FROM files WHERE path = ?", params![path]);
         }
     }
-    
-    Ok(FilePatch { project_id: project_id.to_string(), parent_path: parent_path.to_string(), added, removed })
+
+    Ok(FilePatch {
+        project_id: project_id.to_string(),
+        parent_path: parent_path.to_string(),
+        added,
+        removed,
+    })
 }
 
 #[tauri::command]
-pub async fn sync_dir(state: tauri::State<'_, AppState>, project_id: String, path: String) -> Result<FilePatch, String> {
+pub async fn sync_dir(
+    state: tauri::State<'_, AppState>,
+    project_id: String,
+    path: String,
+) -> Result<FilePatch, String> {
     calculate_diff(state.db.clone(), &project_id, &path)
 }

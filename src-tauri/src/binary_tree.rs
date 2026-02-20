@@ -20,24 +20,26 @@ pub async fn scan_project_binary(path: String, recursive: Option<bool>) -> Resul
         let mut images = Vec::new();
         let tree = scan_dir::scan_dir(&path, &mut images, rec, 0);
         Ok(serialize_tree_binary(&tree, &images))
-    }).await.map_err(|e| e.to_string())?
+    })
+    .await
+    .map_err(|e| e.to_string())?
 }
 
 pub fn serialize_tree_binary(tree: &[FileNode], images: &[FileNode]) -> Vec<u8> {
     let mut buffer = Vec::with_capacity((tree.len() + images.len()) * 128);
-    
+
     // 1. Tree Section
     buffer.extend_from_slice(&(tree.len() as u32).to_le_bytes());
     for node in tree {
         serialize_node(node, &mut buffer);
     }
-    
+
     // 2. Images Section
     buffer.extend_from_slice(&(images.len() as u32).to_le_bytes());
     for node in images {
         serialize_node(node, &mut buffer);
     }
-    
+
     buffer
 }
 

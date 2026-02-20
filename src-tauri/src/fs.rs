@@ -1,8 +1,8 @@
-use serde::{Deserialize, Serialize};
 use crate::scan_dir::{scan_dir, scan_dir_streaming};
-use tauri::AppHandle;
-use bincode::{Encode, Decode};
+use bincode::{Decode, Encode};
+use serde::{Deserialize, Serialize};
 use std::fs;
+use tauri::AppHandle;
 
 #[derive(Debug, Serialize, Deserialize, Clone, Encode, Decode)]
 pub struct FilePatch {
@@ -14,11 +14,11 @@ pub struct FilePatch {
 
 #[derive(Debug, Serialize, Deserialize, Clone, Encode, Decode)]
 pub struct FileNode {
-  pub name: String,
-  pub path: String,
-  #[serde(rename = "isFolder")]
-  pub is_folder: bool,
-  pub children: Option<Vec<FileNode>>,
+    pub name: String,
+    pub path: String,
+    #[serde(rename = "isFolder")]
+    pub is_folder: bool,
+    pub children: Option<Vec<FileNode>>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Encode, Decode)]
@@ -36,7 +36,7 @@ pub async fn log_to_file(message: String) -> Result<(), String> {
         .append(true)
         .open("oxide_debug.log")
         .map_err(|e| e.to_string())?;
-    
+
     let timestamp = chrono::Local::now().format("%Y-%m-%d %H:%M:%S");
     writeln!(file, "[{}] {}", timestamp, message).map_err(|e| e.to_string())?;
     Ok(())
@@ -84,14 +84,20 @@ pub async fn delete_entry(path: String) -> Result<(), String> {
 }
 
 #[tauri::command]
-pub async fn scan_project_streamed(app: AppHandle, path: String, recursive: Option<bool>) -> Result<(), String> {
+pub async fn scan_project_streamed(
+    app: AppHandle,
+    path: String,
+    recursive: Option<bool>,
+) -> Result<(), String> {
     let rec = recursive.unwrap_or(false);
     let path_clone = path.clone();
     tauri::async_runtime::spawn_blocking(move || {
         let mut images = Vec::new();
         let _ = scan_dir_streaming(&app, &path_clone, &path_clone, &mut images, rec, 0);
         Ok(())
-    }).await.map_err(|e| e.to_string())?
+    })
+    .await
+    .map_err(|e| e.to_string())?
 }
 
 #[tauri::command]
@@ -101,7 +107,9 @@ pub async fn index_images(path: String) -> Result<Vec<FileNode>, String> {
         // We call scan_dir with recursive=true but discard the tree
         let _ = scan_dir(&path, &mut images, true, 0);
         Ok(images)
-    }).await.map_err(|e| e.to_string())?
+    })
+    .await
+    .map_err(|e| e.to_string())?
 }
 
 #[tauri::command]
@@ -111,5 +119,7 @@ pub async fn scan_project(path: String, recursive: Option<bool>) -> Result<ScanR
         let mut images = Vec::new();
         let tree = scan_dir(&path, &mut images, rec, 0);
         Ok(ScanResult { tree, images })
-    }).await.map_err(|e| e.to_string())?
+    })
+    .await
+    .map_err(|e| e.to_string())?
 }

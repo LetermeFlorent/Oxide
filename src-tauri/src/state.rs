@@ -1,17 +1,19 @@
+use crate::pty::PtySession;
+use notify::Watcher;
+use portable_pty::NativePtySystem;
+use rusqlite::Connection;
+use sled::Db;
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
-use portable_pty::NativePtySystem;
-use notify::Watcher;
-use crate::pty::PtySession;
-use sled::Db;
-use rusqlite::Connection;
+
+pub type WatcherMap = HashMap<String, (Box<dyn Watcher + Send>, Vec<String>)>;
 
 pub struct AppState {
-  pub sessions: Arc<Mutex<HashMap<String, PtySession>>>,
-  pub pty_system: NativePtySystem,
-  pub watchers: Arc<Mutex<HashMap<String, (Box<dyn Watcher + Send>, Vec<String>)>>>,
-  pub lsm_db: Arc<Mutex<Option<Db>>>,
-  pub db: Arc<Mutex<Connection>>,
+    pub sessions: Arc<Mutex<HashMap<String, PtySession>>>,
+    pub pty_system: NativePtySystem,
+    pub watchers: Arc<Mutex<WatcherMap>>,
+    pub lsm_db: Arc<Mutex<Option<Db>>>,
+    pub db: Arc<Mutex<Connection>>,
 }
 
 impl AppState {
