@@ -16,10 +16,11 @@
  */
 
 import { useStore } from "../../store/useStore";
+import { makeSelectOverviewById } from "../../store/selectors";
 import { Terminal } from "./Terminal";
-import { memo, useMemo, useState, useCallback } from "react";
+import { memo, useMemo, useState } from "react";
 import { Zap, Send, X } from "lucide-react";
-import { invoke } from "@tauri-apps/api/core";
+import { monitoredInvoke } from "../../utils/performance";
 
 /**
  * TerminalGrid Component
@@ -34,18 +35,15 @@ import { invoke } from "@tauri-apps/api/core";
 export const TerminalGrid = memo(({ overviewId }: { overviewId: string }) => {
   const compactMode = useStore(s => s.compactMode);
   
-  // Get project IDs for this overview using atomic selector
-  const projectIdsString = useStore(useCallback(s => 
-    s.terminalOverviews.find(o => o.id === overviewId)?.projectIds.join(',') || ''
-  , [overviewId]));
+  // Get overview using memoized selector factory
+  const overviewSelector = useMemo(() => makeSelectOverviewById(overviewId), [overviewId]);
+  const overview = useStore(overviewSelector);
   
-  // Get overview name for the header
-  const overviewName = useStore(useCallback(s => 
-    s.terminalOverviews.find(o => o.id === overviewId)?.name || ''
-  , [overviewId]));
+  const projectIdsString = overview?.projectIds.join(',') || '';
+  const overviewName = overview?.name || '';
 
   const [masterCmd, setMasterCmd] = useState("");
-  const pIds = useMemo(() => projectIdsString.split(',').filter(Boolean), [projectIdsString]);
+  const pIds = useMemo(() => projectIdsString.split(',').filter(id => id && id.trim() !== ""), [projectIdsString]);
 
   /**
    * Remove a project from this terminal overview
@@ -65,7 +63,7 @@ export const TerminalGrid = memo(({ overviewId }: { overviewId: string }) => {
     if (!masterCmd.trim() || pIds.length === 0) return;
     // Generate PTY IDs from project paths (matches BashTerminal logic)
     const ids = pIds.map(id => `bash-${id.replace(/[^a-zA-Z0-9]/g, '-')}`);
-    invoke("write_to_all_ptys", { ids, data: masterCmd + "\n" });
+    monitoredInvoke("write_to_all_ptys", { ids, data: masterCmd + "\n" });
     setMasterCmd("");
   };
 
@@ -96,7 +94,7 @@ export const TerminalGrid = memo(({ overviewId }: { overviewId: string }) => {
           <Zap size={14} className="text-orange-500 fill-orange-500" />
           <span className="text-[9px] font-black text-gray-800 uppercase tracking-[0.2em]">{overviewName}</span>
         </div>
-        <form onSubmit={handleBroadcast} className="flex-1 flex items-center bg-white border border-gray-200 rounded-lg px-3 h-7 focus-within:border-indigo-400 transition-all">
+        <form onSubmit={handleBroadcast} className="flex-1 flex items-center bg-white border border-gray-200 rounded-lg px-3 h-7 focus-within:border-gray-600 transition-all">
           <input type="text" value={masterCmd} onChange={e => setMasterCmd(e.target.value)} placeholder={`Broadcast to ${n} terminals...`} className="flex-1 bg-transparent border-none outline-none text-[10px] font-bold text-gray-700" />
           <button type="submit" className="p-1 hover:bg-gray-100 rounded text-gray-400"><Send size={12} /></button>
         </form>
@@ -104,7 +102,11 @@ export const TerminalGrid = memo(({ overviewId }: { overviewId: string }) => {
 
       <div className={`flex-1 grid min-h-0 overflow-auto scrollbar-modern ${compactMode ? 'gap-0 p-0' : 'gap-2 p-2 bg-gray-100/30'}`} style={{ gridTemplateColumns: `repeat(${cols}, minmax(min(400px, 100%), 1fr))`, gridAutoRows: rows > 1 ? `calc(${100 / rows}% - ${(rows - 1) * 8 / rows}px)` : '1fr' }}>
         {pIds.map((id) => (
-          <div key={id} className={`group/item bg-white flex flex-col min-w-0 min-h-0 overflow-hidden relative ${compactMode ? 'border-r border-b border-gray-100' : 'rounded-lg border border-gray-100 shadow-sm'}`}>
+          <div 
+            key={id} 
+            style={{ contentVisibility: 'auto', containIntrinsicSize: '1px 300px' }}
+            className={`group/item bg-white flex flex-col min-w-0 min-h-0 overflow-hidden relative ${compactMode ? 'border-r border-b border-gray-100' : 'rounded-lg border border-gray-100 shadow-sm'}`}
+          >
             <button 
               onClick={() => handleRemoveProject(id)}
               className="absolute top-1 right-1 z-50 p-1 bg-white/80 backdrop-blur border border-gray-100 rounded-md text-gray-400 hover:text-red-500 hover:scale-110 opacity-0 group-hover/item:opacity-100 transition-all shadow-sm"

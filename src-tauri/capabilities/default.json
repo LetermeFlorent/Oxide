@@ -7,6 +7,8 @@
     "core:default",
     "opener:default",
     "dialog:allow-open",
+    "dialog:allow-ask",
+    "dialog:allow-confirm",
     "shell:allow-execute",
     "shell:allow-spawn",
     {
@@ -40,6 +42,26 @@
     },
     {
       "identifier": "fs:allow-stat",
+      "allow": [{ "path": "**" }]
+    },
+    {
+      "identifier": "fs:allow-write-text-file",
+      "allow": [{ "path": "**" }]
+    },
+    {
+      "identifier": "fs:allow-mkdir",
+      "allow": [{ "path": "**" }]
+    },
+    {
+      "identifier": "fs:allow-remove",
+      "allow": [{ "path": "**" }]
+    },
+    {
+      "identifier": "fs:allow-rename",
+      "allow": [{ "path": "**" }]
+    },
+    {
+      "identifier": "fs:allow-exists",
       "allow": [{ "path": "**" }]
     },
     "core:window:allow-close",

@@ -5,7 +5,7 @@
   --explorer-w: 10%;
   --terminal-w: 65%;
   --split-h: 65%;
-  --indigo-oxide: #4f46e5;
+  --indigo-oxide: #000000;
 }
 
 html, body, #root {
@@ -24,8 +24,8 @@ html, body, #root {
   @apply prose prose-sm prose-indigo max-w-none;
 }
 
-.prose-oxide code { @apply bg-indigo-50 text-indigo-600 px-1 py-0.5 rounded font-mono text-[0.9em] before:content-none after:content-none; }
-.prose-oxide blockquote { @apply border-l-4 border-indigo-500 bg-indigo-50/30 py-1 px-4 italic; }
+.prose-oxide code { @apply bg-gray-50 text-black px-1 py-0.5 rounded font-mono text-[0.9em] before:content-none after:content-none; }
+.prose-oxide blockquote { @apply border-l-4 border-black bg-gray-50/30 py-1 px-4 italic; }
 
 .resizing-active * { cursor: col-resize !important; user-select: none !important; }
 .resizing-active-v * { cursor: row-resize !important; user-select: none !important; }

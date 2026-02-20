@@ -1,0 +1,42 @@
+{
+  "sidebar": {
+    "gpu_mode": "Mode GPU",
+    "search_placeholder": "Recherche globale...",
+    "indexing": "Indexation...",
+    "images": "Images",
+    "more_images": "+ {{count}} images supplémentaires"
+  },
+  "diagnostics": {
+    "title": "Diagnostics",
+    "no_issues": "Aucun problème trouvé"
+  },
+  "settings": {
+    "title": "Préférences",
+    "save": "Enregistrer et Fermer",
+    "display": "Affichage Latéral",
+    "session": "Session & Fichiers",
+    "compact": "Mode Compact",
+    "vertical": "Onglets Verticaux",
+    "percentage": "Score de Progrès",
+    "gauge": "Jauge Visuelle",
+    "reopen": "Réouvrir Fichiers",
+    "followed": "Restaurer Suivi",
+    "groups": "Réouvrir Groupes",
+    "overviews": "Réouvrir Overviews",
+    "active_tab": "Restaurer Onglet Actif",
+    "always_overview": "Toujours sur l'Overview",
+    "version": "Oxide v1.1.0 (BETA)"
+  },
+  "common": {
+    "error": "Erreur",
+    "loading": "Chargement..."
+  },
+  "tabs": {
+    "confirm_delete_group": "Voulez-vous vraiment supprimer ce groupe ? Les éléments à l'intérieur seront replacés dans la liste principale."
+  },
+  "explorer": {
+    "confirm_delete": "Voulez-vous vraiment supprimer le {{type}} \"{{name}}\" ? Cette action est irréversible.",
+    "file": "fichier",
+    "folder": "dossier"
+  }
+}

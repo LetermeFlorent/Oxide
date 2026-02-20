@@ -11,7 +11,7 @@
  * @module utils/mdUtils
  */
 
-import { FileEntry } from "../store/useStore";
+import { FileEntry } from "../store/types";
 
 /**
  * Calculates task completion percentage from markdown content

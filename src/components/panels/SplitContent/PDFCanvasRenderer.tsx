@@ -108,7 +108,7 @@ export const PDFCanvasRenderer = memo(({ url }: PDFCanvasRendererProps) => {
       </p>
       <button
         onClick={() => window.location.reload()}
-        className="mt-2 px-6 py-2 bg-indigo-500 text-white rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all active:scale-95"
+        className="mt-2 px-6 py-2 bg-black text-white rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all active:scale-95"
       >
         Restart Interface
       </button>
@@ -117,7 +117,7 @@ export const PDFCanvasRenderer = memo(({ url }: PDFCanvasRendererProps) => {
 
   if (loading) return (
     <div className="flex flex-col items-center gap-4 p-20">
-      <div className="w-10 h-10 border-4 border-indigo-100 border-t-indigo-500 rounded-full animate-spin" />
+      <div className="w-10 h-10 border-4 border-gray-100 border-t-black rounded-full animate-spin" />
       <div className="text-gray-400 font-black text-[10px] uppercase tracking-[0.2em] animate-pulse">
         Initializing PDF engine...
       </div>

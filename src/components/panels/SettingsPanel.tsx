@@ -1,208 +1,176 @@
-/**
- * @file SettingsPanel.tsx
- * @description Application settings modal with toggle switches for various features
- * Provides a centralized interface for customizing IDE behavior and appearance
- * 
- * Features:
- * - Sidebar display options (compact mode, vertical tabs)
- * - Progress tracking toggles (percentage, visual gauge)
- * - Session persistence settings
- * - Animated toggle switches with smooth transitions
- * - Auto-save functionality (changes apply immediately)
- * 
- * @component SettingsPanel
- * @example
- * <SettingsPanel />
- */
-
-import { Settings, Percent, BarChart, X, Layout, FileText, Bookmark, Library, Terminal, Columns } from "lucide-react";
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 import { useStore } from "../../store/useStore";
-import { motion, AnimatePresence } from "framer-motion";
+import { SidebarSettings } from "./Settings/SidebarSettings";
+import { SessionSettings } from "./Settings/SessionSettings";
+import { t } from "../../i18n";
+import { useShallow } from "zustand/react/shallow";
+import { Save, AlertTriangle, Monitor, Cpu, History } from "lucide-react";
 
-/**
- * SettingsPanel Component
- * 
- * Modal panel for managing application settings and preferences.
- * All changes are automatically persisted to the store.
- * 
- * @returns {JSX.Element} The settings modal interface
- */
+type SettingsCategory = 'appearance' | 'behavior';
+
 export const SettingsPanel = memo(() => {
-  const showSettings = useStore(s => s.showSettings);
-  const toggleSettings = useStore(s => s.toggleSettings);
-  const showProgressPercentage = useStore(s => s.showProgressPercentage);
-  const showProgressBar = useStore(s => s.showProgressBar);
-  const reopenLastFiles = useStore(s => s.reopenLastFiles);
-  const restoreFollowedFiles = useStore(s => s.restoreFollowedFiles);
-  const restoreGroups = useStore(s => s.restoreGroups);
-  const restoreTerminalOverviews = useStore(s => s.restoreTerminalOverviews);
-  const startOnOverview = useStore(s => s.startOnOverview);
-  const restoreActiveTab = useStore(s => s.restoreActiveTab);
-  const compactMode = useStore(s => s.compactMode);
-  const verticalTabs = useStore(s => s.verticalTabs);
-  const setSetting = useStore(s => s.setSetting);
+  const { toggleSettings, setSetting, ...globalState } = useStore(useShallow(s => ({
+    toggleSettings: s.toggleSettings, setSetting: s.setSetting,
+    compactMode: s.compactMode, verticalTabs: s.verticalTabs,
+    showProgressPercentage: s.showProgressPercentage, showProgressBar: s.showProgressBar,
+    reopenLastFiles: s.reopenLastFiles, restoreFollowedFiles: s.restoreFollowedFiles,
+    restoreGroups: s.restoreGroups, restoreTerminalOverviews: s.restoreTerminalOverviews,
+    restoreActiveTab: s.restoreActiveTab, startOnOverview: s.startOnOverview
+  })));
+
+  const [localState, setLocalState] = useState(globalState);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<SettingsCategory>('appearance');
+
+  useEffect(() => {
+    setLocalState(globalState);
+  }, []);
+
+  const updateSetting = (key: string, value: boolean) => {
+    setLocalState(prev => {
+      const next = { ...prev, [key]: value };
+      if (key === 'reopenLastFiles' && !value) { 
+        next.restoreFollowedFiles = false; 
+        next.restoreActiveTab = false; 
+      }
+      if (key === 'restoreActiveTab' && value && !next.reopenLastFiles) {
+        next.reopenLastFiles = true;
+      }
+      return next;
+    });
+  };
+
+  const handleSave = () => {
+    Object.entries(localState).forEach(([k, v]) => {
+      if ((globalState as any)[k] !== v) {
+        setSetting(k as any, v as boolean);
+      }
+    });
+    toggleSettings(false);
+  };
+
+  const navItems = [
+    { id: 'appearance', label: 'Appearance', icon: Monitor, desc: 'Customize the UI and layout' },
+    { id: 'behavior', label: 'Behavior', icon: Cpu, desc: 'Control session and file handling' }
+  ];
 
   return (
-    <AnimatePresence>
-      {showSettings && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => toggleSettings(false)}
-            className="absolute inset-0 bg-black/5 backdrop-blur-sm"
-          />
-          
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.98, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: 10 }}
-            className="relative w-full max-w-md bg-white border border-gray-200/60 rounded-xl shadow-2xl overflow-hidden"
+    <div className="flex-1 flex flex-col bg-white overflow-hidden">
+      <div className="p-6 border-b border-gray-50 flex items-center justify-between shrink-0 bg-white z-10">
+        <div className="flex items-center gap-4">
+          <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+            <Monitor size={16} className="text-white" />
+          </div>
+          <div>
+            <h2 className="text-[12px] font-black uppercase tracking-[0.2em] text-gray-800 leading-none mb-1">{t('settings.title')}</h2>
+            <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest italic">User Preferences & Core Engine Config</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <button onClick={() => toggleSettings(false)} className="px-4 py-2 text-gray-400 hover:text-black text-[9px] font-black uppercase transition-colors tracking-widest">Discard</button>
+          <button 
+            onClick={handleSave} 
+            className="flex items-center gap-2 px-6 py-2.5 bg-black text-white text-[9px] font-black uppercase rounded-xl hover:bg-gray-800 transition-all shadow-xl shadow-black/10 active:scale-95 tracking-[0.1em]"
           >
-            <div className="h-10 px-4 flex items-center justify-between border-b border-gray-100 bg-white">
-              <div className="flex items-center gap-2">
-                <Settings size={14} className="text-indigo-600" />
-                <span className="text-[10px] font-black uppercase tracking-tighter text-gray-400">Settings</span>
-              </div>
-              <button 
-                onClick={() => toggleSettings(false)} 
-                className="p-1 hover:bg-gray-100 rounded text-gray-400 transition-colors"
+            <Save size={12} />
+            {t('settings.save')}
+          </button>
+        </div>
+      </div>
+
+      <div className="flex-1 flex overflow-hidden">
+        {/* Navigation Sidebar */}
+        <div className="w-64 border-r border-gray-50 bg-gray-50/50 flex flex-col p-4 shrink-0">
+          <div className="space-y-1">
+            {navItems.map(item => (
+              <button
+                key={item.id}
+                onClick={() => setActiveCategory(item.id as SettingsCategory)}
+                className={`w-full flex items-start gap-3 p-3 rounded-xl transition-all text-left ${activeCategory === item.id ? 'bg-white shadow-sm border border-gray-100' : 'hover:bg-white/50 opacity-60 hover:opacity-100'}`}
               >
-                <X size={14} />
+                <div className={`mt-0.5 p-1.5 rounded-lg ${activeCategory === item.id ? 'bg-black text-white' : 'bg-gray-200 text-gray-500'}`}>
+                  <item.icon size={14} />
+                </div>
+                <div className="min-w-0">
+                  <div className={`text-[9px] font-black uppercase tracking-widest ${activeCategory === item.id ? 'text-black' : 'text-gray-500'}`}>{item.label}</div>
+                  <div className="text-[8px] font-medium text-gray-400 truncate mt-0.5">{item.desc}</div>
+                </div>
+              </button>
+            ))}
+          </div>
+          
+          <div className="mt-auto pt-4 border-t border-gray-100">
+            <button 
+              onClick={() => setShowResetConfirm(true)}
+              className="w-full flex items-center gap-2 p-3 text-red-400 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all"
+            >
+              <History size={14} />
+              <span className="text-[9px] font-black uppercase tracking-widest">Reset Core</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Content Area */}
+        <div className="flex-1 overflow-y-auto scrollbar-modern p-12 bg-white">
+          <div className="w-full">
+            {activeCategory === 'appearance' && (
+              <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                <div className="mb-8">
+                  <h3 className="text-[14px] font-black uppercase tracking-[0.2em] text-gray-800 mb-2">Display & Layout</h3>
+                  <p className="text-[10px] text-gray-400 font-medium">Fine-tune the visual experience and workspace organization.</p>
+                </div>
+                <SidebarSettings state={localState} setSetting={updateSetting} />
+              </div>
+            )}
+            
+            {activeCategory === 'behavior' && (
+              <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                <div className="mb-8">
+                  <h3 className="text-[14px] font-black uppercase tracking-[0.2em] text-gray-800 mb-2">Engine Behavior</h3>
+                  <p className="text-[10px] text-gray-400 font-medium">Configure session persistence and automated task handling.</p>
+                </div>
+                <SessionSettings state={localState} setSetting={updateSetting} />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {showResetConfirm && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/20 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-3xl shadow-2xl p-8 space-y-6">
+            <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <AlertTriangle size={32} className="text-red-500" />
+            </div>
+            <div className="text-center">
+              <h4 className="text-[12px] font-black uppercase tracking-[0.2em] text-gray-800 mb-2">Initialize Factory Reset?</h4>
+              <p className="text-[10px] text-gray-400 font-medium leading-relaxed">This will purge all local project data, groups, and overviews. This protocol is irreversible.</p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <button 
+                onClick={() => { useStore.getState().resetWorkspace(); window.location.reload(); }}
+                className="w-full py-4 bg-red-500 text-white hover:bg-red-600 text-[10px] font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-red-500/20 active:scale-95"
+              >
+                Execute Factory Reset
+              </button>
+              <button 
+                onClick={() => setShowResetConfirm(false)}
+                className="w-full py-4 bg-gray-50 text-gray-500 hover:bg-gray-100 text-[10px] font-black uppercase tracking-widest rounded-2xl transition-all"
+              >
+                Abort Protocol
               </button>
             </div>
-
-            <div className="p-6 space-y-6 max-h-[80vh] overflow-y-auto scrollbar-modern">
-              <section>
-                <div className="flex items-center gap-2 mb-4">
-                  <Layout size={12} className="text-gray-400" />
-                  <h3 className="text-[9px] font-black uppercase tracking-widest text-gray-400">Sidebar Display</h3>
-                </div>
-                
-                <div className="space-y-2">
-                  <ToggleItem 
-                    icon={Layout} 
-                    label="Compact Mode" 
-                    active={compactMode} 
-                    onClick={() => setSetting('compactMode', !compactMode)} 
-                  />
-                  <ToggleItem 
-                    icon={Columns} 
-                    label="Vertical Tabs" 
-                    active={verticalTabs} 
-                    onClick={() => setSetting('verticalTabs', !verticalTabs)} 
-                  />
-                  <ToggleItem 
-                    icon={Percent} 
-                    label="Progress Score" 
-                    active={showProgressPercentage} 
-                    onClick={() => setSetting('showProgressPercentage', !showProgressPercentage)} 
-                  />
-                  <ToggleItem 
-                    icon={BarChart} 
-                    label="Visual Gauge" 
-                    active={showProgressBar} 
-                    onClick={() => setSetting('showProgressBar', !showProgressBar)} 
-                  />
-                </div>
-              </section>
-
-              <section>
-                <div className="flex items-center gap-2 mb-4">
-                  <FileText size={12} className="text-gray-400" />
-                  <h3 className="text-[9px] font-black uppercase tracking-widest text-gray-400">Session & Files</h3>
-                </div>
-                
-                <div className="space-y-2">
-                  <ToggleItem 
-                    icon={FileText} 
-                    label="Reopen Files" 
-                    active={reopenLastFiles} 
-                    onClick={() => setSetting('reopenLastFiles', !reopenLastFiles)} 
-                  />
-                  <ToggleItem 
-                    icon={Bookmark} 
-                    label="Restore Followed" 
-                    active={restoreFollowedFiles} 
-                    onClick={() => setSetting('restoreFollowedFiles', !restoreFollowedFiles)} 
-                  />
-                  <ToggleItem 
-                    icon={Library} 
-                    label="Reopen Groups" 
-                    active={restoreGroups} 
-                    onClick={() => setSetting('restoreGroups', !restoreGroups)} 
-                  />
-                  <ToggleItem 
-                    icon={Terminal} 
-                    label="Reopen Overviews" 
-                    active={restoreTerminalOverviews} 
-                    onClick={() => setSetting('restoreTerminalOverviews', !restoreTerminalOverviews)} 
-                  />
-                  <ToggleItem 
-                    icon={Bookmark} 
-                    label="Restore Active Tab" 
-                    active={restoreActiveTab} 
-                    onClick={() => setSetting('restoreActiveTab', !restoreActiveTab)} 
-                  />
-                  <ToggleItem 
-                    icon={Layout} 
-                    label="Always on Overview" 
-                    active={startOnOverview} 
-                    onClick={() => setSetting('startOnOverview', !startOnOverview)} 
-                  />
-                </div>
-              </section>
-
-              <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
-                <span className="text-[8px] font-black text-gray-300 uppercase tracking-widest">Oxide v0.1.0</span>
-                <span className="text-[8px] font-medium text-gray-400 italic">Changes saved automatically</span>
-              </div>
-            </div>
-          </motion.div>
+          </div>
         </div>
       )}
-    </AnimatePresence>
+
+      <div className="px-6 py-3 border-t border-gray-50 bg-gray-50/30 flex items-center justify-between text-[8px] font-black text-gray-300 uppercase tracking-[0.4em]">
+        <span>Oxide Core Runtime v1.1.0 (BETA)</span>
+        <div className="flex items-center gap-4">
+          <span className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-green-400" /> SECURE_SESSION</span>
+          <span className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-blue-400" /> AUTO_SYNC_OFF</span>
+        </div>
+      </div>
+    </div>
   );
 });
-
-/**
- * ToggleItem Component
- * 
- * Individual toggle switch component for settings items.
- * Features animated sliding indicator and hover effects.
- * 
- * @param {Object} props - Component props
- * @param {React.ComponentType} props.icon - Lucide icon component to display
- * @param {string} props.label - Display label for the setting
- * @param {boolean} props.active - Current toggle state
- * @param {() => void} props.onClick - Callback when toggle is clicked
- * @returns {JSX.Element} The toggle switch interface
- */
-const ToggleItem = ({ icon: Icon, label, active, onClick }: any) => (
-  <div 
-    onClick={onClick}
-    className="flex items-center justify-between p-3 bg-white border border-gray-100 rounded-xl cursor-pointer hover:bg-gray-50 transition-all group"
-  >
-    <div className="flex items-center gap-3">
-      <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
-        active ? 'bg-indigo-50 text-indigo-600' : 'bg-gray-50 text-gray-400'
-      }`}>
-        <Icon size={14} />
-      </div>
-      <span className="text-[10px] font-bold text-gray-600 uppercase tracking-tight">
-        {label}
-      </span>
-    </div>
-    <div className={`w-8 h-4 rounded-full relative transition-all ${active ? 'bg-indigo-600' : 'bg-gray-200'}`}>
-      <motion.div 
-        animate={{ x: active ? 18 : 2 }}
-        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-        className="absolute top-1 w-2 h-2 bg-white rounded-full shadow-sm"
-      />
-    </div>
-  </div>
-);
-
-SettingsPanel.displayName = 'SettingsPanel';

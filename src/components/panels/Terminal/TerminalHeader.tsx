@@ -45,11 +45,11 @@ export const TerminalHeader = memo(({ projectId }: TerminalHeaderProps) => {
         <Tab
           active={project.terminalTab === 'bash'}
           onClick={() => updateActive({ terminalTab: 'bash' })}
-          icon={TerminalIcon} label="Bash" activeClass="text-indigo-600"
+          icon={TerminalIcon} label="Bash" activeClass="text-black"
         />
       </div>
       <div className="flex items-center gap-2 max-w-[70%]">
-        <span className="text-[8px] font-black uppercase text-indigo-400 tracking-tighter truncate opacity-60">Path:</span>
+        <span className="text-[8px] font-black uppercase text-gray-600 tracking-tighter truncate opacity-60">Path:</span>
         <span className="text-[9px] font-mono text-gray-500 truncate" title={project.id}>{project.id}</span>
       </div>
     </div>

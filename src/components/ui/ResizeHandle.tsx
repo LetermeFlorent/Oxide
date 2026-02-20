@@ -52,7 +52,7 @@ export const ResizeHandle = ({ onResize, vertical = false }: ResizeHandleProps) 
     <div
       onMouseDown={handleMouseDown}
       className={`${vertical ? 'h-1.5 w-full cursor-row-resize' : 'w-1.5 h-full cursor-col-resize'}
-      bg-transparent hover:bg-indigo-400/30 transition-colors z-50 shrink-0`}
+      bg-transparent hover:bg-gray-600/30 transition-colors z-50 shrink-0`}
     />
   );
 };

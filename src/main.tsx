@@ -16,6 +16,22 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./App.css";
 import React from "react";
+import { invoke } from "@tauri-apps/api/core";
+
+// --- LOG REDIRECTION FOR AUTOMATED DEBUGGING ---
+const originalLog = console.log;
+const originalError = console.error;
+const originalWarn = console.warn;
+
+const remoteLog = (level: string, ...args: any[]) => {
+  const message = args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ');
+  invoke('log_to_file', { message: `[${level.toUpperCase()}] ${message}` }).catch(() => {});
+};
+
+console.log = (...args) => { originalLog(...args); remoteLog('log', ...args); };
+console.error = (...args) => { originalError(...args); remoteLog('error', ...args); };
+console.warn = (...args) => { originalWarn(...args); remoteLog('warn', ...args); };
+// -----------------------------------------------
 
 console.log("[Main] Starting React application...");
 

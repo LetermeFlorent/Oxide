@@ -62,7 +62,7 @@ export function AppLoader({ show, message = "Loading..." }: AppLoaderProps) {
           <div className="loader-spin" style={{
             width: '32px',
             height: '32px',
-            border: '2px solid #4f46e5',
+            border: '2px solid #000000',
             borderTopColor: 'transparent',
             borderRadius: '50%'
           }} />
