@@ -27,8 +27,15 @@ pub fn spawn_pty(
             pixel_height: 0,
         })
         .map_err(|e| e.to_string())?;
+
+    #[cfg(target_os = "windows")]
+    let mut cmd = CommandBuilder::new("cmd.exe");
+    #[cfg(not(target_os = "windows"))]
     let mut cmd = CommandBuilder::new("bash");
+
+    #[cfg(not(target_os = "windows"))]
     cmd.env("TERM", "xterm-256color");
+
     if let Some(path) = cwd {
         if std::path::Path::new(&path).exists() {
             cmd.cwd(path);

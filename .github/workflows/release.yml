@@ -1,8 +1,11 @@
 name: Release
 on:
-  push:
-    tags:
-      - '*' # Trigger on any tag
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name (e.g., v1.1.0-beta)'
+        required: true
+        type: string
 
 jobs:
   release:
@@ -10,8 +13,8 @@ jobs:
       contents: write
     strategy:
       fail-fast: false
-      matrix:
-        platform: [macos-latest, ubuntu-22.04, windows-latest]
+    matrix:
+      platform: [macos-latest, ubuntu-22.04, windows-latest]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -44,8 +47,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: ${{ github.ref_name }} # Uses the pushed tag name directly
-          releaseName: "Oxide ${{ github.ref_name }}"
-          releaseBody: "See CHANGELOG.md for details."
-          releaseDraft: true
-          prerelease: false
+          tagName: ${{ inputs.tag_name }}
+          releaseName: "Oxide ${{ inputs.tag_name }}"
+          releaseBody: |
+            ### Release ${{ inputs.tag_name }}
+            
+            Key changes in this version:
+            - **Native Terminal Fixes**: Full `cmd.exe` support for Windows.
+            - **Stability**: Fixed PTY handling and start-up validation.
+            - **GitHub Architecture**: Aligned with O.A.S Core (Trunk-Based Development).
+            - **Version Synchronization**: 1.1.0-beta release ready.
+          releaseDraft: false
+          prerelease: ${{ contains(inputs.tag_name, 'beta') || contains(inputs.tag_name, 'alpha') }}
