@@ -55,6 +55,19 @@ export default function App() {
     }
   }, [appReady, state.activeProjectId, onFile]);
 
+  // Validate activeProjectId
+  useEffect(() => {
+    if (appReady && state.activeProjectId && state.activeProjectId !== 'settings') {
+      const isValidProject = state.projects.some(p => p.id === state.activeProjectId);
+      const isValidOverview = useStore.getState().terminalOverviews.some(o => o.id === state.activeProjectId);
+      
+      if (!isValidProject && !isValidOverview) {
+        console.warn(`[App] Invalid activeProjectId '${state.activeProjectId}', resetting to null`);
+        useStore.setState({ activeProjectId: null });
+      }
+    }
+  }, [appReady, state.activeProjectId, state.projects]);
+
   if (!hydrated) return null;
 
   const hasTabs = useStore(s => s.projects.length > 0 || s.terminalOverviews.length > 0 || s.showSettings);
