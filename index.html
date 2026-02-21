@@ -1,20 +1,25 @@
+<!--
+ * Project: Oxide Website
+ * Responsibility: SEO Optimized Main HTML Entry Point
+ * License: O.A.S - MS-RSL (Microsoft Reference Source License)
+ * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
+-->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oxide - High Performance Workspace</title>
-    <style>
-        body { background: #0f172a; color: #f8fafc; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 3rem; border-radius: 24px; }
-        h1 { font-size: 3rem; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        p { color: #94a3b8; font-size: 1.25rem; }
-    </style>
-</head>
-<body>
-    <div class="glass">
-        <h1>Oxide</h1>
-        <p>The next-generation developer workspace built with Tauri v2 and React 19.</p>
-    </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oxide | High-End Terminal-Oriented IDE</title>
+    <meta name="description" content="Oxide is a lightweight, high-performance IDE built with Tauri and React, designed for engineers who demand speed, stability, and terminal mastery." />
+    <meta name="keywords" content="Oxide, IDE, Terminal, Tauri, Rust, React, Developer Tools, Lightweight IDE, Performance" />
+    <meta property="og:title" content="Oxide | High-End Terminal-Oriented IDE" />
+    <meta property="og:description" content="Native terminal power meets modern engineering. Efficiency in every pixel." />
+    <meta property="og:image" content="/screenshot.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body class="bg-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
