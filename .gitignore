@@ -1,0 +1,5 @@
+app/src-tauri/target/
+app/node_modules/
+website/node_modules/
+dist/
+.DS_Store
