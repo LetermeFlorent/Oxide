@@ -7,4 +7,5 @@ pub struct PtySession {
     pub master: Box<dyn MasterPty + Send>,
     pub child: Box<dyn Child + Send>,
     pub is_visible: Arc<Mutex<bool>>,
+    pub buffer: Arc<Mutex<Vec<u8>>>,
 }

@@ -83,24 +83,46 @@ export function useTerminal(projectId: string, ptyId: string) {
 
     term.onData(data => { invoke("write_to_pty", { id: ptyId, data }); setStatus(projectId, 'working'); });
 
-    const start = () => {
+    const start = async () => {
       if (!isMounted || spawnedRef.current === ptyId) return;
       spawnedRef.current = ptyId;
-      document.fonts.ready.then(async () => {
-        if (!isMounted || !ref.current) return;
-        await new Promise(r => setTimeout(r, 600)); fit.fit();
-        try {
-          const isNew = await invoke<boolean>("spawn_pty", { id: ptyId, cwd: projectId, rows: term.rows || 24, cols: term.cols || 80 });
-          if (!isMounted) return; ptySpawned.current = true;
-          if (isNew) setTimeout(() => invoke("write_to_pty", { id: ptyId, data: "export PS1='> '; clear\n" }).catch(() => {}), 100);
-          setTimeout(() => { if (isMounted) { handleResize(); term.focus(); } }, 350);
-        } catch (err) {}
-      });
+      
+      await document.fonts.ready;
+      if (!isMounted || !ref.current) return;
+      fit.fit();
+      
+      try {
+        // Ensure visibility is false during initial fetch
+        await invoke("set_pty_visibility", { id: ptyId, visible: false });
+        
+        await invoke<boolean>("spawn_pty", { id: ptyId, cwd: projectId, rows: term.rows || 24, cols: term.cols || 80 });
+        if (!isMounted) return; ptySpawned.current = true;
+        
+        // Fetch buffer to restore state
+        const buffer = await invoke<string>("get_pty_buffer", { id: ptyId });
+        if (isMounted && buffer) {
+          term.write(buffer);
+        }
+        
+        if (isMounted) {
+          handleResize();
+          term.focus();
+          // Now enable live data
+          await invoke("set_pty_visibility", { id: ptyId, visible: true });
+        }
+      } catch (err) {
+        console.error("Failed to start terminal:", err);
+      }
     };
 
     intersectionObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) start();
-      invoke("set_pty_visibility", { id: ptyId, visible: entries[0].isIntersecting }).catch(() => {});
+      if (entries[0].isIntersecting) {
+        start();
+        invoke("set_pty_visibility", { id: ptyId, visible: true }).catch(() => {});
+      } else {
+        // Stop receiving data when not visible to save bandwidth/CPU
+        invoke("set_pty_visibility", { id: ptyId, visible: false }).catch(() => {});
+      }
     }, { threshold: 0.1 });
     intersectionObserver.observe(ref.current);
 
