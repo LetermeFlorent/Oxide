@@ -1,43 +1,20 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Oxide</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oxide - High Performance Workspace</title>
     <style>
-      html, body { margin: 0; padding: 0; background-color: #ffffff; height: 100vh; width: 100vw; overflow: hidden; }
-      #initial-loader { position: fixed; inset: 0; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #ffffff; font-family: system-ui, sans-serif; transition: opacity 0.4s ease-out; }
-      .progress-container { width: 320px; height: 4px; background: #f1f5f9; border-radius: 10px; overflow: hidden; margin-top: 32px; position: relative; }
-      .progress-bar { position: absolute; left: 0; top: 0; height: 100%; background: #000000; width: 0%; border-radius: 10px; transition: width 0.4s cubic-bezier(0.1, 0.5, 0.1, 1); }
-      .percentage { margin-top: 16px; font-size: 11px; font-weight: 900; color: #94a3b8; font-variant-numeric: tabular-nums; }
-      .title { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5em; color: #000000; }
+        body { background: #0f172a; color: #f8fafc; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 3rem; border-radius: 24px; }
+        h1 { font-size: 3rem; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p { color: #94a3b8; font-size: 1.25rem; }
     </style>
-  </head>
-  <body>
-    <div id="initial-loader">
-      <div class="title">Oxide</div>
-      <div class="progress-container"><div id="loader-bar" class="progress-bar"></div></div>
-      <div id="loader-pct" class="percentage">0%</div>
+</head>
+<body>
+    <div class="glass">
+        <h1>Oxide</h1>
+        <p>The next-generation developer workspace built with Tauri v2 and React 19.</p>
     </div>
-    <script>
-      // Native Bootstrapper: Move bar instantly
-      (function() {
-        var progress = 0;
-        var bar = document.getElementById('loader-bar');
-        var pct = document.getElementById('loader-pct');
-        window.bootProgress = 0;
-        var int = setInterval(function() {
-          if (window.bootProgress < 90) {
-            window.bootProgress += (90 - window.bootProgress) * 0.05;
-            if (bar) bar.style.width = window.bootProgress + '%';
-            if (pct) pct.innerText = Math.round(window.bootProgress) + '%';
-          }
-          if (window.bootProgress >= 100) clearInterval(int);
-        }, 100);
-      })();
-    </script>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+</body>
 </html>
