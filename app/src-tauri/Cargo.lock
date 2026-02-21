@@ -3110,11 +3110,10 @@ dependencies = [
 
 [[package]]
 name = "oxide"
-version = "1.1.1-beta"
+version = "1.1.2-beta"
 dependencies = [
  "bincode",
  "chrono",
- "libc",
  "memmap2",
  "notify",
  "portable-pty",

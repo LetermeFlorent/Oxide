@@ -62,14 +62,6 @@ pub fn spawn_pty(
     let app_clone = app.clone();
     let id_clone = id.clone();
     thread::spawn(move || {
-        // Set higher priority for the terminal reader thread on Linux
-        #[cfg(target_os = "linux")]
-        unsafe {
-            let tid = libc::gettid();
-            // Niceness -10 is higher priority than default 0
-            libc::setpriority(libc::PRIO_PROCESS, tid as u32, -10);
-        }
-
         let mut buffer = [0u8; 8192];
         while let Ok(n) = reader.read(&mut buffer) {
             if n == 0 {
