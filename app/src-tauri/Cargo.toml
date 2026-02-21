@@ -36,3 +36,6 @@ chrono = "0.4"
 wasmtime = "41.0.3"
 wasmtime-wasi = "41.0.3"
 
+[target.'cfg(target_os = "linux")'.dependencies]
+libc = "0.2"
+
