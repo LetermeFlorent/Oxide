@@ -4,7 +4,6 @@
  * License: O.A.S - MS-RSL (Microsoft Reference Source License)
  * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
  */
-import React from "react";
 import { Pencil, Settings2, Plus, Library, X, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 
