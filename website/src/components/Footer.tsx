@@ -1,6 +1,6 @@
 /**
  * Project: Oxide Website
- * Responsibility: Apple-style Minimalist Footer
+ * Responsibility: Footer with Terminal-Oriented IDE focus
  * License: O.A.S - MS-RSL (Microsoft Reference Source License)
  * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
  */
@@ -12,16 +12,16 @@ export const Footer: React.FC = () => (
       <div className="flex flex-col md:flex-row justify-between gap-12 pb-12 border-b border-black/10 text-black/40 font-bold text-xs uppercase tracking-widest">
         <div className="space-y-4">
           <span className="text-black font-black italic">Oxide Beta Framework</span>
-          <p className="max-w-xs leading-relaxed text-[10px]">Professional workspace for engineers. Open source excellence.</p>
+          <p className="max-w-xs leading-relaxed text-[10px]">
+            A small, terminal-oriented IDE for engineers. Licensed under O.A.S - MS-RSL.
+          </p>
         </div>
-        <div className="flex gap-16">
-          <div className="flex flex-col gap-3"><a href="#" className="hover:text-black">GitHub</a><a href="#" className="hover:text-black">Docs</a></div>
-          <div className="flex flex-col gap-3"><a href="#" className="hover:text-black">Benchmarks</a><a href="#" className="hover:text-black">Security</a></div>
+        <div className="flex gap-16 items-center">
+          <a href="https://github.com/LetermeFlorent/Oxide" className="hover:text-black transition-colors text-[10px]">GitHub Repository</a>
         </div>
       </div>
-      <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-bold text-black/30 tracking-widest uppercase">
-        <span>Copyright © 2026 LetermeFlorent.</span>
-        <div className="flex gap-8 italic"><a href="#">Privacy Policy</a><a href="#">Terms</a></div>
+      <div className="pt-8 text-[10px] font-bold text-black/20 tracking-[0.2em] uppercase text-center md:text-left">
+        O.A.S Optimization & Quality • All Rights Reserved
       </div>
     </div>
   </footer>
