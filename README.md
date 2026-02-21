@@ -1,73 +1,102 @@
-# <img src="public/tauri.svg" width="32" height="32" /> Oxide
+<div align="center">
 
-<p align="center">
-  <img src="screenshot.png" alt="Oxide Workspace" width="100%" style="border-radius: 12px; shadow: 0 10px 30px rgba(0,0,0,0.1);" />
-</p>
+<img src="public/tauri.svg" width="80" height="80" alt="Oxide Logo" />
 
-<p align="center">
-  <a href="https://github.com/LetermeFlorent/Oxide/releases">
-    <img src="https://img.shields.io/github/v/release/LetermeFlorent/Oxide?style=for-the-badge&color=black" alt="Release" />
-  </a>
-  <a href="https://github.com/LetermeFlorent/Oxide/actions">
-    <img src="https://img.shields.io/github/actions/workflow/status/LetermeFlorent/Oxide/release.yml?style=for-the-badge&color=black" alt="Build Status" />
-  </a>
-</p>
+# Oxide
+### A High-Performance, Elegant Workspace for Modern Developers
+
+[![Version](https://img.shields.io/github/v/release/LetermeFlorent/Oxide?style=for-the-badge&color=6366f1)](https://github.com/LetermeFlorent/Oxide/releases)
+[![Tauri](https://img.shields.io/badge/Tauri-v2-black?style=for-the-badge&logo=tauri&logoColor=white)](https://tauri.app/)
+[![React](https://img.shields.io/badge/React-19-black?style=for-the-badge&logo=react)](https://react.dev/)
+[![Tailwind](https://img.shields.io/badge/Tailwind-v4-black?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+
+<br />
+
+<img src="screenshot.png" alt="Oxide Workspace" width="100%" style="border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.3);" />
+
+<br />
+
+## 🌟 Overview
+
+**Oxide** is a next-generation developer environment designed for speed and beauty.  
+Built with **Tauri v2** and **React 19**, it combines the flexibility of modern web technologies with the raw performance of **Rust**. 
+
+It features a stunning **Glassmorphism** interface and a real **PTY-based terminal**,  
+providing a seamless multi-project experience in a single, lightweight application.
+
+<br />
+
+## 🚀 Key Features
+
+**Native Terminal (PTY)**  
+Real Bash/Shell execution via Rust backend for maximum throughput.
+
+**Glassmorphism UI**  
+A modern, translucent interface with fluid Framer Motion animations.
+
+**Multi-Project Support**  
+Manage multiple workspaces simultaneously with persistent state.
+
+**Integrated Viewers**  
+High-performance rendering for Code (Monaco), Markdown, PDF, and Images.
+
+**Smart Persistence**  
+Optimized state management via Zustand and local file system synchronization.
+
+<br />
+
+## 🛠️ Tech Stack
+
+**Frontend:** React 19, Vite, TypeScript, Tailwind CSS v4  
+**Backend:** Rust, Tauri v2 (PTY Management, File System)  
+**Libraries:** Lucide Icons, Framer Motion, Monaco Editor, Xterm.js, Zustand
+
+<br />
 
 ---
 
-## ⚙️ How it Works
+## 💻 Installation Guide
 
-**Oxide** is a high-performance developer workspace that bridges the gap between web flexibility and native power.
+Follow these steps to set up Oxide on your local machine.
 
-- **Hybrid Core**: The application uses **Tauri v2** to run a **React 19** frontend inside a native **Rust** container. This ensures minimal resource usage compared to traditional Electron apps.
-- **Native Terminal (PTY)**: Unlike simple terminal emulators, Oxide uses a real PTY (Pseudo-Terminal) system in Rust. It spawns native processes (`bash` on Unix, `cmd.exe` on Windows) and streams the output directly to an Xterm.js frontend for maximum performance.
-- **Smart Workspace**: Your project state, opened tabs, and terminal layout are managed by **Zustand** and automatically persisted on disk via a Rust backend using high-speed storage (LSM Sled).
-- **Intelligent Rendering**: Oxide automatically detects file types to provide the best viewing experience, including **Monaco** for code, high-performance **PDF** rendering, and **Markdown** with live preview.
-- **Task Automation**: If a `task.md` file is present in your project, Oxide tracks your progress automatically and displays it as a visual thermometer in the sidebar.
-
----
-
-## 💻 Installation
-
-To run or build Oxide from source, follow these steps.
+</div>
 
 ### 1. Prerequisites
-Ensure you have the following installed on your system:
-- **Rust**: [Official Installation](https://www.rust-lang.org/tools/install)
-- **Node.js**: Version 20 or higher
-- **Tauri Dependencies**: Follow the [Tauri Setup Guide](https://tauri.app/v1/guides/getting-started/prerequisites) for your specific OS (Linux, macOS, or Windows).
+Ensure you have the following installed:
+- **Rust Toolchain**: [rust-lang.org](https://www.rust-lang.org/tools/install)
+- **Node.js**: v20 or higher
+- **System Dependencies**: Please refer to the [Tauri Setup Guide](https://tauri.app/v2/guides/getting-started/prerequisites) for your OS (Linux, macOS, or Windows).
 
-### 2. Setup
+### 2. Setup & Installation
 ```bash
 # Clone the repository
 git clone https://github.com/LetermeFlorent/Oxide.git
 
-# Go to project folder
+# Navigate to the project directory
 cd Oxide
 
-# Install frontend and backend dependencies
+# Install dependencies
 npm install
 ```
 
-### 3. Run Development Mode
-This will launch the application with hot-reload for both React and Rust.
+### 3. Development
+Launch the application in development mode with hot-reloading:
 ```bash
 npm run tauri dev
 ```
 
 ### 4. Build for Production
-To create a native installer for your platform:
+Generate a native installer for your platform:
 ```bash
 npm run tauri build
 ```
 
+<div align="center">
+
+<br />
+
 ---
 
-## 🗺️ Current Status
+Built with ❤️ by [LetermeFlorent](https://github.com/LetermeFlorent)
 
-- [x] **Cross-Platform PTY Support** (Windows/Linux/macOS)
-- [x] **Glassmorphism UI**
-- [x] **Integrated Markdown & PDF Engine**
-- [x] **Automated Project Persistence**
-- [ ] **Themes Engine (Light/Dark Mode)** (Planned)
-- [ ] **Advanced File Tree Virtualization** (In Progress)
+</div>
