@@ -56,6 +56,6 @@ jobs:
             - **Native Terminal Fixes**: Full `cmd.exe` support for Windows.
             - **Stability**: Fixed PTY handling and start-up validation.
             - **GitHub Architecture**: Aligned with O.A.S Core (Trunk-Based Development).
-            - **Version Synchronization**: 1.1.0-beta release ready.
+            - **Version Synchronization**: 1.1.1-beta release ready.
           releaseDraft: false
           prerelease: ${{ contains(inputs.tag_name, 'beta') || contains(inputs.tag_name, 'alpha') }}
