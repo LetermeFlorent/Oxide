@@ -6,7 +6,7 @@
  */
 import React from "react";
 import { ChevronRight, ChevronDown } from "lucide-react";
-import { TabItem } from "./ProjectTabs/TabItem";
+import { TabItem } from "./TabItem";
 
 export const GroupItem = ({ group, gp, go, active, compactMode, verticalTabs, s }: any) => (
   <div className={`flex transition-all ${verticalTabs ? 'flex-col w-full' : 'items-center h-full'} ${compactMode ? 'bg-gray-100/80 border-r border-gray-200' : 'bg-gray-100 border border-gray-200/50 p-1 rounded-xl self-center gap-1 shadow-sm'}`}>
