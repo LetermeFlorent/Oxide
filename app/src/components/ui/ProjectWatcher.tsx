@@ -18,12 +18,16 @@ const Watcher = memo(({ id }: { id: string }) => {
     return !p || !p.tree || p.tree.length === 0 || p.isLoading;
   });
   const refreshTimer = useRef<any>(null);
+  const pendingPaths = useRef<Set<string>>(new Set());
+  const isRefreshing = useRef<Record<string, boolean>>({});
 
   useEffect(() => {
     const refresh = async (path?: string) => {
+      const targetPath = path || id;
+      if (isRefreshing.current[targetPath]) return;
+      isRefreshing.current[targetPath] = true;
+
       try {
-        const targetPath = path || id;
-        
         if (!path || path === id) {
           // 1. START FAST STREAMED SCAN FOR ROOT
           await invoke("scan_project_streamed", { path: id, recursive: false });
@@ -72,6 +76,8 @@ const Watcher = memo(({ id }: { id: string }) => {
         }
       } catch (e) {
         console.error("[Watcher] Sync error:", e);
+      } finally {
+        delete isRefreshing.current[targetPath];
       }
     };
 
@@ -92,11 +98,41 @@ const Watcher = memo(({ id }: { id: string }) => {
     invoke("watch_project", { id, path: id }).catch(() => {});
     const unlistenFs = listen<string[]>(`fs-change-${id}`, (event) => {
       const paths = event.payload || [];
-      if (paths.length === 0) { refresh(); return; }
+      if (paths.length === 0) { 
+        refresh(); 
+        return; 
+      }
+      
+      // Accumulate all paths
+      paths.forEach(p => pendingPaths.current.add(p));
       
       // DEBOUNCE + THROTTLE : Handle high-frequency events correctly
       clearTimeout(refreshTimer.current);
       
+      const processPending = async () => {
+        const currentPaths = Array.from(pendingPaths.current);
+        pendingPaths.current.clear();
+        
+        const dirs = new Set<string>();
+        currentPaths.forEach(p => {
+          const parent = p.split(/[\\/]/).slice(0, -1).join('/') || id;
+          dirs.add(parent);
+        });
+        
+        // LIMIT CONCURRENCY: If too many directories changed (> 8), 
+        // it's likely a big change, so just refresh the root or a smaller subset.
+        if (dirs.size > 8) {
+           console.log("[Watcher] Too many changes, refreshing root instead of individual folders:", dirs.size);
+           refresh();
+           return;
+        }
+
+        // Sequential refresh to avoid hammering DB lock
+        for (const d of Array.from(dirs)) {
+          await refresh(d);
+        }
+      };
+
       const now = Date.now();
       const last = (window as any)[`last_refresh_${id}`] || 0;
       const elapsed = now - last;
@@ -104,26 +140,16 @@ const Watcher = memo(({ id }: { id: string }) => {
       // If we haven't refreshed in 2 seconds, force it now
       if (elapsed > 2000) {
         (window as any)[`last_refresh_${id}`] = now;
-        const dirs = new Set<string>();
-        paths.forEach(p => {
-          const parent = p.split(/[\\/]/).slice(0, -1).join('/') || id;
-          dirs.add(parent);
-        });
-        dirs.forEach(d => refresh(d));
+        processPending();
       } else {
         // Otherwise wait a bit (Adaptive)
         let delay = 300;
-        if (paths.length > 500) delay = 1000;
-        if (paths.length > 2000) delay = 3000;
+        if (pendingPaths.current.size > 100) delay = 800;
+        if (pendingPaths.current.size > 1000) delay = 2000;
         
         refreshTimer.current = setTimeout(() => {
           (window as any)[`last_refresh_${id}`] = Date.now();
-          const dirs = new Set<string>();
-          paths.forEach(p => {
-            const parent = p.split(/[\\/]/).slice(0, -1).join('/') || id;
-            dirs.add(parent);
-          });
-          dirs.forEach(d => refresh(d));
+          processPending();
         }, delay);
       }
     });
