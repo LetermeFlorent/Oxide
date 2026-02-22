@@ -4,25 +4,6 @@
  * License: O.A.S - MS-RSL (Microsoft Reference Source License)
  * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
  */
-import React from "react";
-import { Download, ChevronRight, Box, Monitor, Terminal, Apple, Package } from "lucide-react";
-import { Release } from "./ReleaseSelector.types";
-
-const getAssetIcon = (name: string) => {
-  const ext = name.toLowerCase();
-  if (ext.endsWith(".exe") || ext.endsWith(".msi")) return <Monitor size={16} />;
-  if (ext.endsWith(".dmg")) return <Apple size={16} />;
-  if (ext.endsWith(".deb") || ext.endsWith(".rpm") || ext.endsWith(".appimage")) return <Package size={16} />;
-  return <Terminal size={16} />;
-};
-
-const getAssetLabel = (name: string) => {
-  const parts = name.split(".");
-  const ext = parts.pop()?.toLowerCase() || "";
-  if (ext === "appimage") return "AppImage";
-  return ext.toUpperCase();
-};
-
 import React, { useMemo } from "react";
 import { Download, ChevronRight, Box, Monitor, Terminal, Apple, Package, Star } from "lucide-react";
 import { Release } from "./ReleaseSelector.types";
@@ -104,11 +85,7 @@ export const ReleaseItem: React.FC<{ release: Release }> = ({ release }) => {
             <a
               key={asset.name}
               href={asset.browser_download_url}
-              className={`flex items-center gap-3 px-5 py-3 rounded-2xl text-[12px] font-bold transition-all duration-300 group shadow-sm hover:shadow-xl hover:-translate-y-1 relative ${
-                recommended 
-                  ? "bg-black text-white ring-4 ring-black/5" 
-                  : "bg-[#f5f5f7] text-black hover:bg-black hover:text-white"
-              }`}
+              className={}
               title={asset.name}
             >
               {recommended && (
@@ -116,14 +93,14 @@ export const ReleaseItem: React.FC<{ release: Release }> = ({ release }) => {
                   <Star size={10} fill="currentColor" />
                 </div>
               )}
-              <span className={`transition-opacity ${recommended ? "opacity-100" : "opacity-40 group-hover:opacity-100"}`}>
+              <span className={}>
                 {getAssetIcon(asset.name)}
               </span>
               <div className="flex flex-col items-start leading-none">
                 <span className="tracking-tight">{getAssetLabel(asset.name)}</span>
                 {recommended && <span className="text-[8px] opacity-60 mt-1 uppercase">Recommended</span>}
               </div>
-              <Download size={14} className={`${recommended ? "opacity-100" : "opacity-20 group-hover:opacity-100"} transition-all`} />
+              <Download size={14} className={} />
             </a>
           );
         })}
