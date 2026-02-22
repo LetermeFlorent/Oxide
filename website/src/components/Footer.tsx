@@ -11,7 +11,7 @@ export const Footer: React.FC = () => (
     <div className="max-w-screen-xl mx-auto">
       <div className="flex flex-col md:flex-row justify-between gap-12 pb-12 border-b border-black/10 text-black/40 font-bold text-xs uppercase tracking-widest">
         <div className="space-y-4">
-          <span className="text-black font-black italic">Oxide Beta Framework</span>
+          <span className="text-black font-black italic">Oxide Beta</span>
           <p className="max-w-xs leading-relaxed text-[10px]">
             A small, terminal-oriented IDE for engineers. Licensed under O.A.S - MS-RSL.
           </p>
