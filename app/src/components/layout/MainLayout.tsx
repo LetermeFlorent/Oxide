@@ -54,8 +54,26 @@ export function MainLayout({ onOpen, onOpenFolder, onFile }: any) {
           <div className="flex-1 flex flex-row overflow-hidden relative">
             {showPreview && !isTerminalOverview && <ContentViewer content={activeProject?.fileContent || ''} fileName={activeProject?.selectedFile?.name} fileUrl={activeProject?.fileUrl} />}
             {showPreview && !isTerminalOverview && <DraggableHandle onMouseDown={startTerm} />}
-            <div key={activeProjectId} style={{ width: (showPreview && !isTerminalOverview) ? 'var(--terminal-w)' : '100%' }} className={`h-full shrink-0 min-w-0 flex relative ${compactMode && showPreview && !isTerminalOverview ? 'border-l border-gray-200' : ''}`}>
-              {isTerminalOverview ? <TerminalGrid overviewId={activeProjectId} /> : <BashTerminal projectId={activeProjectId} />}
+            <div style={{ width: (showPreview && !isTerminalOverview) ? 'var(--terminal-w)' : '100%' }} className={`h-full shrink-0 min-w-0 flex relative ${compactMode && showPreview && !isTerminalOverview ? 'border-l border-gray-200' : ''}`}>
+              {/* Individual project terminals */}
+              {projects.filter(p => p.id).map(p => (
+                <div 
+                  key={p.id} 
+                  className={`flex-1 flex flex-col min-w-0 ${activeProjectId === p.id && !isTerminalOverview ? '' : 'hidden'}`}
+                >
+                  <BashTerminal projectId={p.id} />
+                </div>
+              ))}
+              
+              {/* Terminal Overview grids */}
+              {terminalOverviews.filter(ov => ov.id).map(ov => (
+                <div 
+                  key={ov.id} 
+                  className={`flex-1 flex flex-col min-w-0 ${activeProjectId === ov.id ? '' : 'hidden'}`}
+                >
+                  <TerminalGrid overviewId={ov.id} />
+                </div>
+              ))}
             </div>
           </div>
         )}
