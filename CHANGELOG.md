@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.2-beta] - 2026-02-21
+## [1.1.2] - 2026-02-21
 
 ### Fixed
 - **Terminal Performance:** Removed artificial delays during terminal initialization for instant startup.
