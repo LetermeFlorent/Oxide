@@ -75,9 +75,17 @@ export const ReleaseItem: React.FC<{ release: Release }> = ({ release }) => {
           <div>
             <div className="flex items-center gap-3">
               <h3 className="text-xl font-black tracking-tight text-[#1d1d1f]">{release.name || release.tag_name}</h3>
-              <span className="px-2 py-0.5 rounded-full bg-black/5 text-[9px] font-black uppercase tracking-tighter text-black/40">Latest Build</span>
             </div>
-            <p className="text-[10px] font-black uppercase text-black/20 tracking-widest mt-1">{new Date(release.published_at).toLocaleDateString()}</p>
+            <p className="text-[10px] font-black uppercase text-black/20 tracking-widest mt-1">
+              {new Date(release.published_at).toLocaleString('fr-FR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+              })}
+            </p>
           </div>
         </div>
         <a

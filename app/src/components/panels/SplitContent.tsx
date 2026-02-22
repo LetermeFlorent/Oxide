@@ -76,7 +76,7 @@ export const SplitContent = memo(({ content, viewMode, isMd, isPdf, fileUrl, fil
   // Display binary files (images and PDFs) with zoom support
   if (fileUrl) {
     return (
-      <div className={`flex-1 flex flex-col bg-white overflow-hidden border border-gray-100 ${compactMode ? '' : 'rounded-xl'}`}>
+      <div className="flex-1 flex flex-col overflow-hidden">
         <ZoomableContainer>
           <div className="relative flex flex-col items-center justify-center min-h-full">
             {isPdf ? (
@@ -96,7 +96,7 @@ export const SplitContent = memo(({ content, viewMode, isMd, isPdf, fileUrl, fil
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Markdown preview pane - shown in preview or split mode */}
       {(isMd && (viewMode === 'preview' || isSplit)) && (
-        <div style={isSplit ? { height: 'var(--split-h)' } : { flex: 1 }} className={`flex flex-col bg-white overflow-hidden ${compactMode ? '' : 'rounded-xl'}`}>
+        <div style={isSplit ? { height: 'var(--split-h)' } : { flex: 1 }} className="flex flex-col overflow-hidden">
           {isSplit && <PaneHeader icon={Monitor} label="PREVIEW" />}
           <MarkdownView content={content} />
         </div>
@@ -105,7 +105,7 @@ export const SplitContent = memo(({ content, viewMode, isMd, isPdf, fileUrl, fil
       {isSplit && <DraggableHandle vertical onMouseDown={startH} />}
       {/* Code editor pane - shown in code or split mode */}
       {(!isMd || viewMode === 'code' || isSplit) && (
-        <div className={`flex-1 flex flex-col bg-white overflow-hidden ${compactMode ? '' : 'rounded-xl'}`}>
+        <div className="flex-1 flex flex-col overflow-hidden">
           {isSplit && <PaneHeader icon={FileCode} label="CODE" />}
           <Suspense fallback={<LoadingFallback />}>
             <CodeEditor content={content} language={language} />

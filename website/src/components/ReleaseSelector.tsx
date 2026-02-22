@@ -17,7 +17,16 @@ export const ReleaseSelector: React.FC = () => {
   useEffect(() => {
     fetch("https://api.github.com/repos/LetermeFlorent/Oxide/releases")
       .then(res => res.json())
-      .then(data => { if (Array.isArray(data)) setReleases(data); setLoading(false); })
+      .then(data => { 
+        if (Array.isArray(data)) {
+          // Sort releases by date descending (newest first)
+          const sorted = [...data].sort((a, b) => 
+            new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
+          );
+          setReleases(sorted); 
+        }
+        setLoading(false); 
+      })
       .catch(() => setLoading(false));
   }, []);
 
