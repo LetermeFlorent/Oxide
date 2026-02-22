@@ -153,7 +153,7 @@ export const Sidebar = memo(({ onFileClick }: { onFileClick: (f: any) => void })
           )}
           {visibleItems.map(({ entry, level, index }) => (
             <div key={`${activeProject.id}-${entry.path}-${index}`} style={{ position: 'absolute', top: index * ITEM_HEIGHT, height: ITEM_HEIGHT, width: '100%' }}>
-              <TreeItem entry={entry} onClick={onFileClick} level={level} />
+              <TreeItem entry={entry} onClick={onFileClick} level={level} projectId={activeProject.id} />
             </div>
           ))}
         </div>

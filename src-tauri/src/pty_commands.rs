@@ -74,3 +74,17 @@ pub fn close_pty(state: tauri::State<'_, AppState>, id: String) -> Result<(), St
     }
     Ok(())
 }
+
+#[tauri::command]
+pub fn get_pty_buffer(
+    state: tauri::State<'_, AppState>,
+    id: String,
+) -> Result<String, String> {
+    let sessions = state.sessions.lock().unwrap();
+    if let Some(session) = sessions.get(&id) {
+        let buffer = session.buffer.lock().unwrap();
+        Ok(String::from_utf8_lossy(&buffer).to_string())
+    } else {
+        Err("No session found".into())
+    }
+}

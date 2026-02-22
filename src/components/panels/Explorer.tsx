@@ -9,11 +9,13 @@ import { monitoredInvoke } from "../../utils/performance";
 
 import { t } from "../../i18n";
 
-export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry, onClick: (e: FileEntry) => void, level?: number }) => {
+export const TreeItem = memo(({ entry, onClick, level = 0, projectId }: { entry: FileEntry, onClick: (e: FileEntry) => void, level?: number, projectId?: string }) => {
   const [menu, setMenu] = useState<{ x: number, y: number, entry: FileEntry } | null>(null);
   const { scanFolder } = useFolderManagement();
   
   const activeProjectId = useStore(s => s.activeProjectId);
+  const targetProjectId = projectId || activeProjectId;
+  
   const toggleFolder = useStore(s => s.toggleFolder);
   const applyFilePatch = useStore(s => s.applyFilePatch);
   const setLastDeleted = useStore(s => s.setLastDeleted);
@@ -23,7 +25,7 @@ export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry,
   
   const isOpen = useStore(useCallback(s => !!s.expandedFolders[entry.path], [entry.path]));
   const isSelected = useStore(useCallback(s => {
-    const proj = s.projects.find(p => p.id === s.activeProjectId);
+    const proj = s.projects.find(p => p.id === targetProjectId);
     if (!proj?.selectedFile) return false;
     
     // Normalize path separators and remove trailing slash
@@ -33,26 +35,26 @@ export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry,
     
     if (!entry.name && selected) console.log("[Explorer] Empty-named file matched selected:", norm2);
     return selected;
-  }, [entry.path, entry.name]));
+  }, [entry.path, entry.name, targetProjectId]));
 
   const isFollowing = useStore(useCallback(s => {
-    const proj = s.projects.find(p => p.id === s.activeProjectId);
+    const proj = s.projects.find(p => p.id === targetProjectId);
     if (!proj?.followedFilePath) return false;
     const norm1 = proj.followedFilePath.replace(/\\/g, '/').replace(/\/$/, '');
     const norm2 = entry.path.replace(/\\/g, '/').replace(/\/$/, '');
     return norm1 === norm2;
-  }, [entry.path]));
+  }, [entry.path, targetProjectId]));
 
   const isPdf = entry.name.toLowerCase().endsWith('.pdf');
 
   const handleAction = useCallback(async (e: any) => {
     e.stopPropagation();
     if (entry.isFolder) {
-      if (!isOpen && activeProjectId && (!entry.children?.length)) await scanFolder(activeProjectId, entry.path);
+      if (!isOpen && targetProjectId && (!entry.children?.length)) await scanFolder(targetProjectId, entry.path);
       toggleFolder(entry.path);
     }
     onClick(entry);
-  }, [entry, onClick, toggleFolder, isOpen, activeProjectId, scanFolder]);
+  }, [entry, onClick, toggleFolder, isOpen, targetProjectId, scanFolder]);
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -67,13 +69,13 @@ export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry,
       label: `Rename ${target.isFolder ? 'folder' : 'file'} "${target.name}" to:`,
       defaultValue: target.name,
       onConfirm: async (newName) => {
-        if (!newName || newName.trim() === target.name || !activeProjectId) return;
+        if (!newName || newName.trim() === target.name || !targetProjectId) return;
         const cleanName = newName.trim();
         try {
           const newPath = await monitoredInvoke<string>("rename_entry", { path: target.path, new_name: cleanName });
           const lastSlash = target.path.lastIndexOf('/');
           const parentPath = lastSlash === -1 ? "" : target.path.substring(0, lastSlash);
-          applyFilePatch(activeProjectId, { 
+          applyFilePatch(targetProjectId, { 
             parent_path: parentPath || target.path, 
             removed: [target.path], 
             added: [{ ...target, name: cleanName, path: newPath }] 
@@ -84,7 +86,7 @@ export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry,
         }
       }
     });
-  }, [activeProjectId, applyFilePatch, setPromptModal]);
+  }, [targetProjectId, applyFilePatch, setPromptModal]);
 
   const onCreateFile = useCallback((target: FileEntry) => setExplorerModal({ show: true, type: 'file', target }), [setExplorerModal]);
   const onCreateFolder = useCallback((target: FileEntry) => setExplorerModal({ show: true, type: 'folder', target }), [setExplorerModal]);
@@ -99,7 +101,7 @@ export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry,
       message,
       kind: 'danger',
       onConfirm: async () => {
-        if (!activeProjectId) return;
+        if (!targetProjectId) return;
         try {
           const lastSlash = target.path.lastIndexOf('/');
           const parentPath = lastSlash === -1 ? "" : target.path.substring(0, lastSlash);
@@ -108,10 +110,10 @@ export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry,
           if (!target.isFolder) {
             try { content = await monitoredInvoke<string>("read_text_file", { path: target.path }); } catch {}
           }
-          setLastDeleted({ entry: target, projectId: activeProjectId, parentPath: parentPath || target.path, content });
+          setLastDeleted({ entry: target, projectId: targetProjectId, parentPath: parentPath || target.path, content });
           
           await monitoredInvoke("delete_entry", { path: target.path });
-          applyFilePatch(activeProjectId, { 
+          applyFilePatch(targetProjectId, { 
             parent_path: parentPath || target.path, 
             removed: [target.path], 
             added: [] 
@@ -122,7 +124,7 @@ export const TreeItem = memo(({ entry, onClick, level = 0 }: { entry: FileEntry,
         }
       }
     });
-  }, [activeProjectId, applyFilePatch, setLastDeleted, setConfirmModal]);
+  }, [targetProjectId, applyFilePatch, setLastDeleted, setConfirmModal]);
 
   const onReveal = useCallback(async (target: FileEntry) => {
     try {

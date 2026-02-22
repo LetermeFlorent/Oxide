@@ -54,6 +54,7 @@ pub fn run() {
             pty_commands::resize_pty,
             pty_commands::close_pty,
             pty_commands::set_pty_visibility,
+            pty_commands::get_pty_buffer,
             fs::scan_project,
             fs::scan_project_streamed,
             fs::index_images,

@@ -1,4 +1,10 @@
-import { Pencil, Settings2, Plus, Library, X } from "lucide-react";
+/**
+ * Project: Oxide App
+ * Responsibility: Context Menu for Tabs and Groups
+ * License: O.A.S - MS-RSL (Microsoft Reference Source License)
+ * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
+ */
+import { Pencil, Settings2, Plus, Library, X, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export const TabContextMenu = ({ menu, onHide, onRename, onConfigure, onCreateGroup, onMoveToGroup, groups, projects, terminalOverviews }: any) => {
@@ -30,5 +36,3 @@ export const TabContextMenu = ({ menu, onHide, onRename, onConfigure, onCreateGr
     </div>
   );
 };
-
-import { Trash2 } from "lucide-react";

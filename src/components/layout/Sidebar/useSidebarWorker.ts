@@ -20,15 +20,15 @@ export function useSidebarWorker(activeProject: any, expandedFolders: any, searc
   }, []);
 
   useEffect(() => {
-    if (!activeProject?.tree || searchQuery.trim()) { setExpandedCount(0); return; }
-    worker.postMessage({ type: 'COUNT_EXPANDED', nodes: activeProject.tree, expandedFolders });
+    if (!activeProject?.tree) { setExpandedCount(0); return; }
+    worker.postMessage({ type: 'COUNT_EXPANDED', nodes: activeProject.tree, expandedFolders, searchQuery });
   }, [activeProject?.tree, expandedFolders, searchQuery]);
 
   useEffect(() => {
-    if (searchQuery.trim() || activeProject?.isLoading || !activeProject?.tree) { setVisibleItems([]); return; }
+    if (activeProject?.isLoading || !activeProject?.tree) { setVisibleItems([]); return; }
     const start = Math.max(0, Math.floor(scrollTop / ITEM_HEIGHT) - 5);
     const end = Math.min(expandedCount, Math.ceil((scrollTop + containerHeight) / ITEM_HEIGHT) + 5);
-    worker.postMessage({ type: 'GET_VISIBLE_TREE', nodes: activeProject.tree, expandedFolders, startIndex: start, endIndex: end });
+    worker.postMessage({ type: 'GET_VISIBLE_TREE', nodes: activeProject.tree, expandedFolders, startIndex: start, endIndex: end, searchQuery });
   }, [activeProject?.tree, expandedCount, expandedFolders, scrollTop, containerHeight, searchQuery, activeProject?.isLoading]);
 
   return { scrollRef, scrollTop, setScrollTop, containerHeight, setContainerHeight, expandedCount, visibleItems };

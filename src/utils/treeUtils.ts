@@ -28,25 +28,62 @@ export interface FlatEntry {
  * Merges a new tree branch into an existing tree while preserving children.
  * If a folder in the new tree has empty children but the old one has some,
  * we keep the old children to avoid "disappearing" subfolders.
+ * 
+ * Updated to support merging (union) for flat lists, which is critical for
+ * chunked streaming of the root directory.
  */
 export const mergeTrees = (oldNodes: FileEntry[], newNodes: FileEntry[]): FileEntry[] => {
   if (!oldNodes.length) return newNodes;
-  return newNodes.map(newNode => {
-    const oldNode = oldNodes.find(o => o.path === newNode.path);
-    if (newNode.isFolder) {
-      // If the new scan says empty children, but we had children loaded, keep them
-      const hasNoNewChildren = !newNode.children || newNode.children.length === 0;
-      const hadChildren = oldNode && oldNode.children && oldNode.children.length > 0;
-      if (hasNoNewChildren && hadChildren) {
-        return { ...newNode, children: oldNode.children };
+  
+  // Map of existing nodes for fast lookup
+  const oldMap = new Map(oldNodes.map(node => [node.path, node]));
+  const result: FileEntry[] = [];
+  
+  // Track which old nodes we've seen in the new scan
+  const seenOldPaths = new Set<string>();
+
+  // Process all new nodes
+  for (const newNode of newNodes) {
+    const oldNode = oldMap.get(newNode.path);
+    if (oldNode) {
+      seenOldPaths.add(newNode.path);
+      if (newNode.isFolder) {
+        // If the new scan says empty children, but we had children loaded, keep them
+        const hasNoNewChildren = !newNode.children || newNode.children.length === 0;
+        const hadChildren = oldNode.children && oldNode.children.length > 0;
+        
+        let mergedChildren = newNode.children;
+        if (hasNoNewChildren && hadChildren) {
+          mergedChildren = oldNode.children;
+        } else if (newNode.children && oldNode.children) {
+          mergedChildren = mergeTrees(oldNode.children, newNode.children);
+        }
+        
+        result.push({ ...newNode, children: mergedChildren });
+      } else {
+        result.push(newNode);
       }
-      // If the new scan HAS children, merge them recursively with old ones
-      if (newNode.children && oldNode && oldNode.children) {
-        return { ...newNode, children: mergeTrees(oldNode.children, newNode.children) };
-      }
+    } else {
+      result.push(newNode);
     }
-    return newNode;
+  }
+
+  // Critical: Keep old nodes that were NOT in the new scan (for chunking/streaming)
+  for (const oldNode of oldNodes) {
+    if (!seenOldPaths.has(oldNode.path)) {
+      // Avoid duplicates if multiple chunks have same items (unlikely but safe)
+      const isDuplicate = newNodes.some(n => n.path === oldNode.path);
+      if (!isDuplicate) result.push(oldNode);
+    }
+  }
+
+  // Sort them: folders first, then alphabetically
+  result.sort((a, b) => {
+    if (a.isFolder === b.isFolder) return a.name.localeCompare(b.name);
+    return a.isFolder ? -1 : 1;
   });
+
+  return result;
 };
 
 /**
