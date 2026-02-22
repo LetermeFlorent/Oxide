@@ -38,12 +38,12 @@ export const ReleaseItem: React.FC<{ release: Release }> = ({ release }) => (
       </div>
     </div>
 
-    <div className="flex-1 flex gap-2 overflow-x-auto pb-1 no-scrollbar justify-center">
+    <div className="flex-1 min-w-0 flex gap-2 overflow-x-auto pb-1 no-scrollbar items-center">
       {release.assets.map((asset) => (
         <a
           key={asset.name}
           href={asset.browser_download_url}
-          className="flex items-center gap-2.5 px-5 py-2.5 bg-[#f5f5f7] hover:bg-black hover:text-white rounded-2xl text-[12px] font-bold transition-all duration-300 group shadow-sm hover:shadow-xl hover:-translate-y-1"
+          className="flex-none flex items-center gap-2.5 px-4 py-2 bg-[#f5f5f7] hover:bg-black hover:text-white rounded-xl text-[12px] font-bold transition-all duration-300 group shadow-sm hover:shadow-xl hover:-translate-y-0.5"
           title={asset.name}
         >
           <span className="opacity-40 group-hover:opacity-100 transition-opacity">
