@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.12] - 2026-02-22
+
+### Fixed
+- Fixed folder expansion in Explorer when an Overview or Group view is active.
+- Fixed root directory display for large projects by improving the tree merging logic (resolved missing files during chunked streaming).
+
+### Added
+- Real-time search in the Explorer with automatic folder expansion for results.
+
+### Changed
+- Optimized the File Tree Web Worker to support live filtering and faster visible range calculation.
+
 ## [1.1.7] - 2026-02-22
 
 ### Fixed

@@ -30,7 +30,7 @@ function parseSubNode(buffer: Uint8Array, view: DataView, state: ParserState): F
 }
 
 self.onmessage = (e: MessageEvent) => {
-  const { type, nodes, expandedFolders, startIndex, endIndex, binaryData } = e.data;
+  const { type, nodes, expandedFolders, startIndex, endIndex, binaryData, searchQuery } = e.data;
 
   if (type === 'PARSE_BINARY') {
     const view = new DataView(binaryData.buffer, binaryData.byteOffset, binaryData.byteLength);
@@ -48,9 +48,48 @@ self.onmessage = (e: MessageEvent) => {
     return;
   }
 
+  // Optimize: filter nodes if there's a search query
+  let finalNodes = nodes;
+  if (searchQuery && searchQuery.trim() !== "") {
+    const q = searchQuery.toLowerCase();
+    const filterNodes = (items: FileEntry[]): FileEntry[] => {
+      const results: FileEntry[] = [];
+      for (const item of items) {
+        let matchedChildren: FileEntry[] | null = null;
+        if (item.isFolder && item.children) {
+          matchedChildren = filterNodes(item.children);
+        }
+        
+        const nameMatches = item.name.toLowerCase().includes(q);
+        if (nameMatches || (matchedChildren && matchedChildren.length > 0)) {
+          results.push({ ...item, children: matchedChildren });
+        }
+      }
+      return results;
+    };
+    finalNodes = filterNodes(nodes || []);
+    // Auto-expand all folders when searching
+    if (type === 'GET_VISIBLE_TREE' || type === 'COUNT_EXPANDED') {
+      const allExpanded: Record<string, boolean> = {};
+      const collectFolders = (items: FileEntry[]) => {
+        for (const it of items) {
+          if (it.isFolder) { allExpanded[it.path] = true; if (it.children) collectFolders(it.children); }
+        }
+      };
+      collectFolders(finalNodes);
+      
+      if (type === 'COUNT_EXPANDED') {
+        self.postMessage({ type: 'COUNT_EXPANDED_RESULT', count: countExpandedNodes(finalNodes, allExpanded) });
+      } else {
+        self.postMessage({ type: 'GET_VISIBLE_TREE_RESULT', visibleItems: getVisibleFlatTree(finalNodes, allExpanded, startIndex, endIndex) });
+      }
+      return;
+    }
+  }
+
   if (type === 'COUNT_EXPANDED') {
-    self.postMessage({ type: 'COUNT_EXPANDED_RESULT', count: countExpandedNodes(nodes, expandedFolders) });
+    self.postMessage({ type: 'COUNT_EXPANDED_RESULT', count: countExpandedNodes(finalNodes, expandedFolders) });
   } else if (type === 'GET_VISIBLE_TREE') {
-    self.postMessage({ type: 'GET_VISIBLE_TREE_RESULT', visibleItems: getVisibleFlatTree(nodes, expandedFolders, startIndex, endIndex) });
+    self.postMessage({ type: 'GET_VISIBLE_TREE_RESULT', visibleItems: getVisibleFlatTree(finalNodes, expandedFolders, startIndex, endIndex) });
   }
 };
