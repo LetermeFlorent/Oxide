@@ -85,26 +85,22 @@ export const ReleaseItem: React.FC<{ release: Release }> = ({ release }) => {
             <a
               key={asset.name}
               href={asset.browser_download_url}
-              className={`flex items-center gap-3 px-5 py-3 rounded-2xl text-[12px] font-bold transition-all duration-300 group shadow-sm hover:shadow-xl hover:-translate-y-1 relative ${
-                recommended 
-                  ? "bg-black text-white ring-4 ring-black/5" 
-                  : "bg-[#f5f5f7] text-black hover:bg-black hover:text-white"
-              }`}
+              className={`flex items-center gap-3 px-5 py-3 rounded-2xl text-[12px] font-bold transition-all duration-300 group shadow-sm hover:shadow-xl hover:-translate-y-1 relative bg-[#f5f5f7] text-black hover:bg-black hover:text-white`}
               title={asset.name}
             >
               {recommended && (
-                <div className="absolute -top-2 -right-2 bg-[#0071e3] text-white p-1 rounded-full shadow-lg animate-pulse">
+                <div className="absolute -top-2 -right-2 bg-[#0071e3] text-white p-1 rounded-full shadow-lg z-10">
                   <Star size={10} fill="currentColor" />
                 </div>
               )}
-              <span className={`transition-opacity ${recommended ? "opacity-100" : "opacity-40 group-hover:opacity-100"}`}>
+              <span className="opacity-40 group-hover:opacity-100 transition-opacity">
                 {getAssetIcon(asset.name)}
               </span>
               <div className="flex flex-col items-start leading-none">
                 <span className="tracking-tight">{getAssetLabel(asset.name)}</span>
-                {recommended && <span className="text-[8px] opacity-60 mt-1 uppercase">Recommended</span>}
+                {recommended && <span className="text-[8px] opacity-60 mt-1 uppercase text-[#0071e3] group-hover:text-white">Recommended</span>}
               </div>
-              <Download size={14} className={`${recommended ? "opacity-100" : "opacity-20 group-hover:opacity-100"} transition-all`} />
+              <Download size={14} className="opacity-20 group-hover:opacity-100 transition-all" />
             </a>
           );
         })}
