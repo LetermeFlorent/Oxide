@@ -4,25 +4,6 @@
  * License: O.A.S - MS-RSL (Microsoft Reference Source License)
  * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
  */
-import React from "react";
-import { Download, ChevronRight, Box, Monitor, Terminal, Apple, Package } from "lucide-react";
-import { Release } from "./ReleaseSelector.types";
-
-const getAssetIcon = (name: string) => {
-  const ext = name.toLowerCase();
-  if (ext.endsWith(".exe") || ext.endsWith(".msi")) return <Monitor size={16} />;
-  if (ext.endsWith(".dmg")) return <Apple size={16} />;
-  if (ext.endsWith(".deb") || ext.endsWith(".rpm") || ext.endsWith(".appimage")) return <Package size={16} />;
-  return <Terminal size={16} />;
-};
-
-const getAssetLabel = (name: string) => {
-  const parts = name.split(".");
-  const ext = parts.pop()?.toLowerCase() || "";
-  if (ext === "appimage") return "AppImage";
-  return ext.toUpperCase();
-};
-
 import React, { useMemo } from "react";
 import { Download, ChevronRight, Box, Monitor, Terminal, Apple, Package, Star } from "lucide-react";
 import { Release } from "./ReleaseSelector.types";
