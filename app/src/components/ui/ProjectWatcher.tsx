@@ -91,24 +91,41 @@ const Watcher = memo(({ id }: { id: string }) => {
 
     invoke("watch_project", { id, path: id }).catch(() => {});
     const unlistenFs = listen<string[]>(`fs-change-${id}`, (event) => {
-      clearTimeout(refreshTimer.current);
       const paths = event.payload || [];
+      if (paths.length === 0) { refresh(); return; }
       
-      // ADAPTIVE THROTTLING: If many files change (e.g. npm install), slow down the refresh
-      let delay = 500;
-      if (paths.length > 500) delay = 2000;
-      if (paths.length > 2000) delay = 5000;
+      // DEBOUNCE + THROTTLE : Handle high-frequency events correctly
+      clearTimeout(refreshTimer.current);
       
-      refreshTimer.current = setTimeout(() => {
-        if (paths.length === 0) { refresh(); return; }
-        
+      const now = Date.now();
+      const last = (window as any)[`last_refresh_${id}`] || 0;
+      const elapsed = now - last;
+      
+      // If we haven't refreshed in 2 seconds, force it now
+      if (elapsed > 2000) {
+        (window as any)[`last_refresh_${id}`] = now;
         const dirs = new Set<string>();
         paths.forEach(p => {
           const parent = p.split(/[\\/]/).slice(0, -1).join('/') || id;
           dirs.add(parent);
         });
         dirs.forEach(d => refresh(d));
-      }, delay);
+      } else {
+        // Otherwise wait a bit (Adaptive)
+        let delay = 300;
+        if (paths.length > 500) delay = 1000;
+        if (paths.length > 2000) delay = 3000;
+        
+        refreshTimer.current = setTimeout(() => {
+          (window as any)[`last_refresh_${id}`] = Date.now();
+          const dirs = new Set<string>();
+          paths.forEach(p => {
+            const parent = p.split(/[\\/]/).slice(0, -1).join('/') || id;
+            dirs.add(parent);
+          });
+          dirs.forEach(d => refresh(d));
+        }, delay);
+      }
     });
     
     return () => {

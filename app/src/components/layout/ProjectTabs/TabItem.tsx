@@ -17,8 +17,6 @@ export const TabItem = memo(({ id, type, active, compactMode, onClick, onClose, 
   const status = (item as any).status;
   const isLoading = (item as any).isLoading;
 
-  const isLoadingOrWorking = isLoading || status === 'working';
-
   return (
     <div 
       onClick={() => renamingId !== id && onClick(id)}
@@ -31,16 +29,13 @@ export const TabItem = memo(({ id, type, active, compactMode, onClick, onClose, 
     >
       <div className="relative z-10 flex items-center gap-2 flex-1 min-w-0 pr-6">
         <div className="relative shrink-0 flex items-center justify-center w-4 h-4">
-          {isLoadingOrWorking ? (
+          {isLoading ? (
             <Loader2 size={12} className={`${active ? 'text-black' : 'text-gray-400'} animate-spin`} />
           ) : (
             <Icon size={12} className={active ? 'text-black' : 'text-gray-300'} />
           )}
           {status === 'intervene' && !isLoading && (
             <span className="absolute -top-0.5 -right-0.5 h-1.5 w-1.5 rounded-full bg-orange-500 animate-pulse" />
-          )}
-          {status === 'working' && !isLoading && (
-            <span className="absolute -top-0.5 -right-0.5 h-1.5 w-1.5 rounded-full bg-black animate-pulse" />
           )}
         </div>
         {renamingId === id ? (

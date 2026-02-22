@@ -88,7 +88,50 @@ export function useTerminal(projectId: string, ptyId: string, isOverview: boolea
     });
     resizeObserver.observe(ref.current);
 
-    const unlistenData = listen(`pty-data-${ptyId}`, (e: any) => { if (isMounted) term.write(e.payload); });
+    const checkGemini = (text: string) => {
+      if (!text) return null;
+      // OPTIMIZATION: Only check the last 10k chars to avoid memory corruption on huge buffers
+      const analysisText = text.length > 10000 ? text.substring(text.length - 10000) : text;
+      const lower = analysisText.toLowerCase();
+      
+      const startIdx = Math.max(
+        lower.lastIndexOf('gemini >'),
+        lower.lastIndexOf('type your message'),
+        lower.lastIndexOf('gemini.md files'),
+        lower.lastIndexOf('gemini code assist')
+      );
+      const endIdx = Math.max(
+        lower.lastIndexOf('bye!'),
+        lower.lastIndexOf('exiting gemini'),
+        lower.lastIndexOf('goodbye'),
+        lower.lastIndexOf('powering down'),
+        lower.lastIndexOf('interaction summary'),
+        lower.lastIndexOf('wall time')
+      );
+
+      if (startIdx !== -1 && startIdx > endIdx) return true;
+      if (endIdx !== -1 && endIdx >= startIdx) return false;
+      return null; // No change
+    };
+
+    const unlistenData = listen(`pty-data-${ptyId}`, (e: any) => { 
+      if (!isMounted) return;
+      const data = e.payload || "";
+      term.write(data);
+      
+      const res = checkGemini(data);
+      if (res !== null) {
+        const p = useStore.getState().projects.find(px => px.id === projectId);
+        if (p && p.isGeminiActive !== res) {
+          useStore.getState().updateProject(projectId, { isGeminiActive: res });
+        }
+      }
+
+      // AUTO-RETRY ON HIGH DEMAND
+      if (data.toLowerCase().includes('keep trying')) {
+         invoke("write_to_pty", { id: ptyId, data: "1\n" }).catch(() => {});
+      }
+    });
     const unlistenStatus = listen(`pty-status-${ptyId}`, (e: any) => {
       if (!isMounted || isOverview) return;
       if (e.payload === 'working' || e.payload === 'busy') {
@@ -125,6 +168,8 @@ export function useTerminal(projectId: string, ptyId: string, isOverview: boolea
         const buffer = await invoke<string>("get_pty_buffer", { id: ptyId });
         if (isMounted && buffer) {
           term.write(buffer);
+          const res = checkGemini(buffer);
+          if (res !== null) useStore.getState().updateProject(projectId, { isGeminiActive: res });
         }
         
         if (isMounted) {

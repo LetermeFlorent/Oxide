@@ -58,7 +58,7 @@ export function MainLayout({ onOpen, onOpenFolder, onFile }: any) {
               {/* Individual project terminals */}
               {projects.filter(p => p.id).map(p => (
                 <div 
-                  key={p.id} 
+                  key={`terminal-pj-${p.id}`} 
                   className={`flex-1 flex flex-col min-w-0 ${activeProjectId === p.id && !isTerminalOverview ? '' : 'hidden'}`}
                 >
                   <BashTerminal projectId={p.id} />
@@ -68,7 +68,7 @@ export function MainLayout({ onOpen, onOpenFolder, onFile }: any) {
               {/* Terminal Overview grids */}
               {terminalOverviews.filter(ov => ov.id).map(ov => (
                 <div 
-                  key={ov.id} 
+                  key={`terminal-ov-${ov.id}`} 
                   className={`flex-1 flex flex-col min-w-0 ${activeProjectId === ov.id ? '' : 'hidden'}`}
                 >
                   <TerminalGrid overviewId={ov.id} />

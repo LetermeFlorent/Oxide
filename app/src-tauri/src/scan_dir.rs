@@ -27,7 +27,7 @@ pub fn scan_dir_streaming(
             let path_str = path.to_string_lossy().to_string();
 
             if is_dir
-                && (name == "node_modules" || name == ".git" || name == "target" || name == "dist")
+                && (name == "node_modules" || name == ".git" || name == "target" || name == "dist" || name == "build")
             {
                 let node = FileNode {
                     name,

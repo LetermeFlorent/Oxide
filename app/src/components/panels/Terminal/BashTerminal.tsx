@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react";
+import { memo, useMemo, useCallback } from "react";
 import "xterm/css/xterm.css";
 import { useTerminal } from "./useTerminal";
 import { Terminal as TerminalIcon } from "lucide-react";
@@ -19,15 +19,31 @@ export const BashTerminal = memo(({ projectId, suffix = "" }: { projectId: strin
   const { ref } = useTerminal(projectId, ptyId, isOverview);
   const compactMode = useStore(s => s.compactMode);
 
+  // Use a targeted selector for Gemini status
+  const isGeminiActive = useStore(useCallback(s => {
+    const p = s.projects.find(px => px.id === projectId);
+    return p?.isGeminiActive || false;
+  }, [projectId]));
+
   return (
     <div className={`flex-1 flex flex-col bg-white overflow-hidden border border-gray-100 min-w-0 ${compactMode ? '' : 'rounded-xl shadow-sm'}`}>
       {/* Terminal Header Bar */}
       <div className="h-8 px-3 flex items-center justify-between shrink-0 border-b border-gray-50 bg-white">
-        <div className="flex items-center gap-2">
-          <TerminalIcon size={12} className="text-gray-600" />
-          <span className="text-[9px] font-black uppercase tracking-widest text-gray-800">Terminal</span>
+        <div className="flex items-center gap-2 overflow-hidden flex-1">
+          <TerminalIcon size={12} className="text-gray-600 shrink-0" />
+          <span className="text-[9px] font-black uppercase tracking-widest text-gray-800 shrink-0">Terminal</span>
           <span className="text-[9px] font-black text-gray-500 uppercase truncate tracking-widest ml-2">{projectId}</span>
         </div>
+        
+        {isGeminiActive && (
+          <div className="ml-4 px-2 py-0.5 bg-blue-600 rounded-md text-blue-50 flex items-center gap-1.5 shadow-[0_0_15px_rgba(37,99,235,0.4)] animate-in fade-in slide-in-from-right-4 duration-500 border border-blue-400/30">
+            <span className="text-[8px] font-black tracking-[0.2em] uppercase">Gemini</span>
+            <span className="flex h-1.5 w-1.5 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-100 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-100"></span>
+            </span>
+          </div>
+        )}
       </div>
       
       {/* Terminal Area */}

@@ -97,12 +97,16 @@ export const Sidebar = memo(({ onFileClick }: { onFileClick: (f: any) => void })
   const handleReindex = useCallback(async () => {
     if (!activeProject || isIndexing) return;
     setIsIndexing(true);
+    const updateProject = useStore.getState().updateProject;
+    updateProject(activeProject.id, { isLoading: true });
+    
     try {
       const res = await monitoredInvoke<any>("scan_project", { path: activeProject.id, recursive: true });
       updateProjectTree(activeProject.id, res.tree);
       await monitoredInvoke("index_project_lsm", { path: activeProject.id });
     } catch (e) {
       console.error("[Sidebar] Reindex error:", e);
+      updateProject(activeProject.id, { isLoading: false });
     } finally {
       setIsIndexing(false);
     }

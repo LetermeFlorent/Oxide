@@ -12,6 +12,7 @@ export interface ProjectSession {
   selectedFile: FileEntry | null; followedFilePath: string | null;
   taskProgress: number | null; fileContent: string; fileUrl: string | null;
   tree: FileEntry[]; imageFiles?: FileEntry[]; isLoading?: boolean; groupId?: string;
+  isGeminiActive?: boolean;
 }
 export interface TerminalOverview {
   id: string; name: string; projectIds: string[]; groupId?: string;
