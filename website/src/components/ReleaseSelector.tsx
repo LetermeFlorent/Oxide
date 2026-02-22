@@ -32,7 +32,7 @@ export const ReleaseSelector: React.FC = () => {
   );
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-screen-md mx-auto flex flex-col gap-6">
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-screen-lg mx-auto flex flex-col gap-4">
       {releases.map((rel) => <ReleaseItem key={rel.tag_name} release={rel} />)}
     </motion.div>
   );
