@@ -41,6 +41,14 @@ jobs:
       - name: install frontend dependencies
         run: cd app && npm install
 
+      - name: get tag message
+        id: tag_message
+        run: |
+          git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+          echo "message<<EOF" >> $GITHUB_OUTPUT
+          git tag -l --format='%(contents:body)' ${{ github.ref_name }} >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,8 +56,6 @@ jobs:
           projectPath: app
           tagName: ${{ github.ref_name }}
           releaseName: "Oxide ${{ github.ref_name }}"
-          releaseBody: |
-            ### Release ${{ github.ref_name }}
-            - **Automated O.A.S Build**: Version synchronization active.
+          releaseBody: ${{ steps.tag_message.outputs.message }}
           releaseDraft: false
           prerelease: ${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') }}
