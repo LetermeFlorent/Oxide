@@ -28,7 +28,7 @@ import { BashTerminal } from "./Terminal/BashTerminal";
  * @param {string} props.projectId - The project ID (path) to associate with this terminal
  * @returns {JSX.Element} The terminal interface with header and shell
  */
-export const Terminal = memo(({ projectId }: { projectId: string }) => {
+export const Terminal = memo(({ projectId, suffix = "" }: { projectId: string, suffix?: string }) => {
   const compactMode = useStore(s => s.compactMode);
   // ATOMIC: Check if project exists without subscribing to entire list
   // This prevents unnecessary re-renders when other projects change
@@ -47,7 +47,7 @@ export const Terminal = memo(({ projectId }: { projectId: string }) => {
   return (
     <div className={`flex-1 flex flex-col bg-slate-50 overflow-hidden h-full ${compactMode ? '' : 'rounded-xl'}`}>
       <div className="flex-1 flex flex-col min-h-0 relative">
-        <BashTerminal projectId={projectId} />
+        <BashTerminal projectId={projectId} suffix={suffix} />
       </div>
     </div>
   );

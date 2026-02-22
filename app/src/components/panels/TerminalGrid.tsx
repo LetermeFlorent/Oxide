@@ -61,8 +61,8 @@ export const TerminalGrid = memo(({ overviewId }: { overviewId: string }) => {
   const handleBroadcast = (e: React.FormEvent) => {
     e.preventDefault();
     if (!masterCmd.trim() || pIds.length === 0) return;
-    // Generate PTY IDs from project paths (matches BashTerminal logic)
-    const ids = pIds.map(id => `bash-${id.replace(/[^a-zA-Z0-9]/g, '-')}`);
+    // Generate PTY IDs with the overview suffix to target grid-specific terminals
+    const ids = pIds.map(id => `bash-${id.replace(/[^a-zA-Z0-9]/g, '-')}-overview-${overviewId}`);
     monitoredInvoke("write_to_all_ptys", { ids, data: masterCmd + "\n" });
     setMasterCmd("");
   };
@@ -114,7 +114,7 @@ export const TerminalGrid = memo(({ overviewId }: { overviewId: string }) => {
             >
               <X size={12} strokeWidth={3} />
             </button>
-            <Terminal projectId={id} />
+            <Terminal projectId={id} suffix={`-overview-${overviewId}`} />
           </div>
         ))}
       </div>

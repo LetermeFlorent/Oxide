@@ -13,9 +13,10 @@ import { useStore } from "../../../store/useStore";
  * @param {string} props.projectId - Unique identifier for the project
  * @returns {JSX.Element} The terminal interface
  */
-export const BashTerminal = memo(({ projectId }: { projectId: string }) => {
-  const ptyId = useMemo(() => `bash-${projectId.replace(/[^a-zA-Z0-9]/g, '-')}`, [projectId]);
-  const { ref } = useTerminal(projectId, ptyId);
+export const BashTerminal = memo(({ projectId, suffix = "" }: { projectId: string, suffix?: string }) => {
+  const ptyId = useMemo(() => `bash-${projectId.replace(/[^a-zA-Z0-9]/g, '-')}${suffix}`, [projectId, suffix]);
+  const isOverview = !!suffix;
+  const { ref } = useTerminal(projectId, ptyId, isOverview);
   const compactMode = useStore(s => s.compactMode);
 
   return (
@@ -25,21 +26,23 @@ export const BashTerminal = memo(({ projectId }: { projectId: string }) => {
         <div className="flex items-center gap-2">
           <TerminalIcon size={12} className="text-gray-600" />
           <span className="text-[9px] font-black uppercase tracking-widest text-gray-800">Terminal</span>
-        </div>
-        <div className="flex items-center gap-2 max-w-[70%]">
-          <span className="text-[8px] font-bold text-gray-300 uppercase truncate tracking-widest">{projectId}</span>
+          <span className="text-[9px] font-black text-gray-500 uppercase truncate tracking-widest ml-2">{projectId}</span>
         </div>
       </div>
       
       {/* Terminal Area */}
       <div 
-        className="flex-1 relative group overflow-hidden cursor-text bg-white"
-        onClick={() => {
+        className="flex-1 relative group overflow-hidden cursor-text bg-white outline-none"
+        tabIndex={-1}
+        onClick={(e) => {
+          e.stopPropagation();
           const termElement = ref.current?.querySelector('.xterm-helper-textarea') as HTMLTextAreaElement;
-          termElement?.focus();
+          if (termElement) {
+            termElement.focus();
+          }
         }}
       >
-        <div ref={ref} className="w-full h-full p-4 bg-white [&_.xterm-viewport]:scrollbar-modern-thin" />
+        <div ref={ref} className="w-full h-full p-4 bg-white [&_.xterm-viewport]:scrollbar-modern-thin pointer-events-auto" />
       </div>
     </div>
   );

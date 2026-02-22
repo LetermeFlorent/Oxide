@@ -6,11 +6,28 @@ import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { useStore } from "../../../store/useStore";
 
-export function useTerminal(projectId: string, ptyId: string) {
+export function useTerminal(projectId: string, ptyId: string, isOverview: boolean = false) {
   const ref = useRef<HTMLDivElement>(null);
+  const termRef = useRef<XTerm | null>(null);
   const spawnedRef = useRef<string | null>(null);
   const activityTimeout = useRef<any>(null);
   const setStatus = useStore(s => s.setProjectStatus);
+  
+  const isActive = useStore(s => {
+    if (s.activeProjectId === projectId && !isOverview) return true;
+    const overview = s.terminalOverviews.find(o => o.id === s.activeProjectId);
+    return !!overview?.projectIds.includes(projectId);
+  });
+
+  // Sync PTY visibility with reactive isActive state
+  useEffect(() => {
+    if (isActive) {
+      invoke("set_pty_visibility", { id: ptyId, visible: true }).catch(() => {});
+      if (termRef.current) termRef.current.focus();
+    } else {
+      invoke("set_pty_visibility", { id: ptyId, visible: false }).catch(() => {});
+    }
+  }, [isActive, ptyId]);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -18,7 +35,6 @@ export function useTerminal(projectId: string, ptyId: string) {
     const ptySpawned = { current: false };
     let resizeObserver: ResizeObserver | null = null;
     let resizeTimeout: any;
-    let intersectionObserver: IntersectionObserver | null = null;
 
     const term = new XTerm({
       cursorBlink: true, fontSize: 15, convertEol: true, scrollback: 5000,
@@ -40,6 +56,7 @@ export function useTerminal(projectId: string, ptyId: string) {
         white: '#cbd5e1'
       },
     });
+    termRef.current = term;
     const fit = new FitAddon(); term.loadAddon(fit);
     try { term.loadAddon(new WebglAddon()); } catch (e) {}
     term.open(ref.current);
@@ -66,14 +83,14 @@ export function useTerminal(projectId: string, ptyId: string) {
 
     resizeObserver = new ResizeObserver(() => {
       if (ref.current?.offsetWidth && ref.current?.offsetHeight) {
-        clearTimeout(resizeTimeout); resizeTimeout = setTimeout(handleResize, 150); // Increased debounce
+        clearTimeout(resizeTimeout); resizeTimeout = setTimeout(handleResize, 150);
       }
     });
     resizeObserver.observe(ref.current);
 
     const unlistenData = listen(`pty-data-${ptyId}`, (e: any) => { if (isMounted) term.write(e.payload); });
     const unlistenStatus = listen(`pty-status-${ptyId}`, (e: any) => {
-      if (!isMounted) return;
+      if (!isMounted || isOverview) return;
       if (e.payload === 'working' || e.payload === 'busy') {
         setStatus(projectId, 'working');
         if (activityTimeout.current) clearTimeout(activityTimeout.current);
@@ -81,7 +98,10 @@ export function useTerminal(projectId: string, ptyId: string) {
       } else setStatus(projectId, e.payload === 'intervene' ? 'intervene' : 'idle');
     });
 
-    term.onData(data => { invoke("write_to_pty", { id: ptyId, data }); setStatus(projectId, 'working'); });
+    term.onData(data => { 
+      invoke("write_to_pty", { id: ptyId, data }); 
+      if (!isOverview) setStatus(projectId, 'working'); 
+    });
 
     const start = async () => {
       if (!isMounted || spawnedRef.current === ptyId) return;
@@ -92,13 +112,16 @@ export function useTerminal(projectId: string, ptyId: string) {
       fit.fit();
       
       try {
-        // Ensure visibility is false during initial fetch
         await invoke("set_pty_visibility", { id: ptyId, visible: false });
-        
-        await invoke<boolean>("spawn_pty", { id: ptyId, cwd: projectId, rows: term.rows || 24, cols: term.cols || 80 });
+        const isNew = await invoke<boolean>("spawn_pty", { id: ptyId, cwd: projectId, rows: term.rows || 24, cols: term.cols || 80 });
         if (!isMounted) return; ptySpawned.current = true;
         
-        // Fetch buffer to restore state
+        if (isNew) {
+          setTimeout(() => {
+            invoke("write_to_pty", { id: ptyId, data: "export PS1='> ' \nclear\n" }).catch(() => {});
+          }, 300);
+        }
+
         const buffer = await invoke<string>("get_pty_buffer", { id: ptyId });
         if (isMounted && buffer) {
           term.write(buffer);
@@ -106,35 +129,26 @@ export function useTerminal(projectId: string, ptyId: string) {
         
         if (isMounted) {
           handleResize();
-          term.focus();
-          // Now enable live data
-          await invoke("set_pty_visibility", { id: ptyId, visible: true });
+          if (isActive) {
+            term.focus();
+            await invoke("set_pty_visibility", { id: ptyId, visible: true });
+          }
         }
       } catch (err) {
         console.error("Failed to start terminal:", err);
       }
     };
 
-    intersectionObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        start();
-        invoke("set_pty_visibility", { id: ptyId, visible: true }).catch(() => {});
-      } else {
-        // Stop receiving data when not visible to save bandwidth/CPU
-        invoke("set_pty_visibility", { id: ptyId, visible: false }).catch(() => {});
-      }
-    }, { threshold: 0.1 });
-    intersectionObserver.observe(ref.current);
+    start();
 
     return () => { 
-      isMounted = false; spawnedRef.current = null; term.dispose();
+      isMounted = false; spawnedRef.current = null; term.dispose(); termRef.current = null;
       unlistenData.then(f => f()); unlistenStatus.then(f => f()); 
       if (resizeObserver) resizeObserver.disconnect();
-      if (intersectionObserver) intersectionObserver.disconnect();
       if (ref.current) ref.current.removeEventListener('keydown', handleKeyDown);
       clearTimeout(resizeTimeout); if (activityTimeout.current) clearTimeout(activityTimeout.current);
     };
-  }, [projectId, ptyId, setStatus]);
+  }, [projectId, ptyId, setStatus, isOverview]);
 
   return { ref };
 }
