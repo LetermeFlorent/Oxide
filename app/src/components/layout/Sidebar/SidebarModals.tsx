@@ -1,43 +1,31 @@
-
 import { memo } from "react";
 import { FileContextMenu } from "../../panels/Explorer/components/FileContextMenu";
 import { ExplorerModal } from "../../panels/Explorer/ExplorerModal";
 import { revealItemInDir } from "@tauri-apps/plugin-opener";
 import { t } from "../../../i18n";
 
-interface SidebarModalsProps {
-  bgMenu: { x: number, y: number } | null;
-  activeProject: { name: string, id: string };
-  explorerModal: any;
-  setBgMenu: (menu: any) => void;
-  setExplorerModal: (modal: any) => void;
-  onCreateFile: () => void;
-  onCreateFolder: () => void;
-  onConfirm: (name: string) => void;
-}
-
-export const SidebarModals = memo(({ 
-  bgMenu, activeProject, explorerModal, setBgMenu, setExplorerModal, 
-  onCreateFile, onCreateFolder, onConfirm 
-}: SidebarModalsProps) => (
+export const SidebarModals = memo(({ m, setM, p, h, a }: any) => (
   <>
-    {bgMenu && (
+    {m && (
       <FileContextMenu 
-        menu={{ ...bgMenu, entry: { name: activeProject.name, path: activeProject.id, isFolder: true } }} 
-        onHide={() => setBgMenu(null)} 
-        onRename={null} onDelete={null} 
-        onReveal={() => revealItemInDir(activeProject.id)}
-        onCreateFile={onCreateFile}
-        onCreateFolder={onCreateFolder}
+        menu={m} 
+        onHide={() => setM(null)} 
+        onRename={h.onRename} 
+        onDelete={h.onDelete} 
+        onReveal={h.onReveal}
+        onCreateFile={h.onCreateFile}
+        onCreateFolder={h.onCreateFolder}
       />
     )}
-    <ExplorerModal 
-      show={!!explorerModal?.show} 
-      type={explorerModal?.type || 'file'} 
-      onHide={() => { setExplorerModal(null); setBgMenu(null); }} 
-      onConfirm={onConfirm}
-      title={!explorerModal?.target ? (explorerModal?.type === 'file' ? t('explorer.new_root_file') : t('explorer.new_root_folder')) : undefined}
-    />
+    {a.explorerModal && (
+      <ExplorerModal 
+        show={true} 
+        type={a.explorerModal.type} 
+        onHide={() => a.setExplorerModal(null)} 
+        onConfirm={a.handleExplorerConfirm}
+        title={!a.explorerModal.target ? (a.explorerModal.type === 'file' ? t('explorer.new_root_file') : t('explorer.new_root_folder')) : undefined}
+      />
+    )}
   </>
 ));
 

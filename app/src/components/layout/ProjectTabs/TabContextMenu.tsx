@@ -20,7 +20,8 @@ export const TabContextMenu = ({ menu, onHide, onRename, onConfigure, onCreateGr
     ? terminalOverviews.find((o: any) => o.id === menu.itemId)
     : projects.find((p: any) => p.id === menu.itemId);
 
-  const handleClose = () => {
+  const handleClose = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (menu.type === 'overview') onCloseOverview(menu.itemId);
     else onCloseProject(menu.itemId);
     onHide();

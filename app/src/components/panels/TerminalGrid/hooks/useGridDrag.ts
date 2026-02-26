@@ -1,7 +1,7 @@
 
 import { useState, useCallback } from "react";
 
-export function useGridDrag(pIds: string[], setProjects: any, overviewId: string, containerRef: React.RefObject<HTMLDivElement>, cols: number, rows: number) {
+export function useGridDrag(pIds: string[], setProjects: (id: string, next: string[]) => void, overviewId: string, containerRef: React.RefObject<HTMLDivElement>, cols: number, rows: number) {
   const [localOrder, setLocalOrder] = useState<string[]>(pIds);
   const [draggingId, setDraggingId] = useState<string | null>(null);
 

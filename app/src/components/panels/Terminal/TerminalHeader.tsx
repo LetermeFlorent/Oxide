@@ -15,7 +15,7 @@ export const TerminalHeader = memo(({ projectId, onDragStart, onRemove }: { proj
   const activeId = p.activeTerminalId || sessions[0].id || 'bash';
 
   return (
-    <div onPointerDown={onDragStart} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}
+    <div onPointerDown={(e: React.PointerEvent) => onDragStart?.(e)} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}
       className={`h-8 px-3 flex items-center bg-gray-50/50 border-b border-gray-100 shrink-0 justify-between overflow-hidden group/header ${onDragStart ? 'cursor-grab active:cursor-grabbing' : ''}`}
     >
       <TerminalSessionsList sessions={sessions} activeId={activeId} projectId={projectId} switchSession={switchSession} closeSession={closeSession} addSession={addSession} />

@@ -32,7 +32,7 @@ export const TabItem = memo(({ id, type, active, compactMode, onClick, onClose, 
 
   return (
     <div 
-      onClick={() => renamingId !== id && onClick(id, mode)}
+      onClick={(e: React.MouseEvent) => renamingId !== id && onClick(id, mode)}
       onContextMenu={(e) => { e.preventDefault(); onContextMenu(e, id, type); }}
       className={`group relative flex items-center gap-2 px-3 transition-all cursor-pointer shrink-0 overflow-hidden select-none ${vertical ? 'w-full h-10 mb-0.5' : 'h-8 min-w-[140px] max-w-[200px] self-center'} ${
         active 

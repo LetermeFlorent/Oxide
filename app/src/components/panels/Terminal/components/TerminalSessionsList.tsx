@@ -13,6 +13,6 @@ export const TerminalSessionsList = ({ sessions, activeId, projectId, switchSess
         <div className="w-2" />
       </div>
     ))}
-    <button type="button" onClick={(e) => { e.stopPropagation(); addSession(projectId); }} className="p-1 rounded-md hover:bg-gray-200 text-gray-500 transition-colors ml-1 shrink-0" title="Add Terminal"><Plus size={10} /></button>
+        <button type="button" onClick={(e: React.MouseEvent) => { e.stopPropagation(); addSession(projectId); }} className="p-1 rounded-md hover:bg-gray-200 text-gray-500 transition-colors ml-1 shrink-0" title="Add Terminal"><Plus size={10} /></button>
   </div>
 );
