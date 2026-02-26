@@ -37,6 +37,7 @@ export const CloseTabsModal = ({ show, onHide, allTabs, selectedIds, onToggle, o
           </button>
         </div>
       </div>
+    </div>
     </ModalLayout>
   );
 };

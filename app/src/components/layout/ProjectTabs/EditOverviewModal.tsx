@@ -38,6 +38,7 @@ export const EditOverviewModal = ({ show, onHide, projects, selectedIds, onToggl
           </button>
         </div>
       </div>
+    </div>
     </ModalLayout>
   );
 };
