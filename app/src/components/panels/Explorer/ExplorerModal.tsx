@@ -11,8 +11,8 @@ export const ExplorerModal = memo(({ show, type, onHide, onConfirm, title }: any
   const color = type === 'file' ? 'bg-blue-50 text-blue-500' : 'bg-orange-50 text-orange-500';
 
   return (
-    <AnimatePresence><div className="fixed inset-0 z-[2000] flex items-center justify-center p-6 bg-black/10 backdrop-blur-sm">
-      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-xs bg-white border border-gray-100 rounded-[2rem] shadow-2xl p-6">
+    <AnimatePresence><div className="fixed inset-0 z-[2000] flex items-center justify-center p-6 bg-black/10 backdrop-blur-sm" onClick={onHide}>
+      <motion.div onClick={e => e.stopPropagation()} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-xs bg-white border border-gray-100 rounded-[2rem] shadow-2xl p-6">
         <div className="flex items-center gap-3 mb-5">
           <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${color}`}><Icon size={20} /></div>
           <div><h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-0.5">{type === 'file' ? t('explorer.file') : t('explorer.folder')}</h3><p className="text-[13px] font-bold text-gray-800 leading-none">{title || (type === 'file' ? t('explorer.new_file') : t('explorer.new_folder'))}</p></div>

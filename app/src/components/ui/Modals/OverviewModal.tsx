@@ -6,7 +6,7 @@ import { t } from "../../../i18n";
 import { Plus, Check } from "lucide-react";
 
 export const OverviewModal = memo(({ show, onHide, title, label, projects, selectedIds, onToggle, onConfirm, name = "", setName = null, onSelectAll = null }: any) => (
-  <ModalLayout show={show} z={10000}>
+  <ModalLayout show={show} onHide={onHide} z={10000}>
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-1">
         <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 leading-tight">{title}</h3>

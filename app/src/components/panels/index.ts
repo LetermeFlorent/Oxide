@@ -1,8 +1,9 @@
-
 export * from "./ContentViewer";
 export * from "./Explorer";
+export * from "./ExplorerPanel";
 export * from "./GPUExplorer";
-export * from "./SettingsPanel";
+export * from "./MarkdownPreview";
 export * from "./SplitContent";
 export * from "./Terminal";
 export * from "./TerminalGrid";
+export * from "./TerminalPanel";

@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import * as pdfjsLib from 'pdfjs-dist';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `/pdf.worker.min.mjs?v=${Date.now()}`;
@@ -8,6 +8,7 @@ export function usePDFLoader(url: string) {
   const [pdf, setPdf] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let mounted = true; setLoading(true); setError(null);
@@ -24,5 +25,5 @@ export function usePDFLoader(url: string) {
     return () => { mounted = false; };
   }, [url]);
 
-  return { pdf, error, loading };
+  return { pdf, error, loading, containerRef };
 }
