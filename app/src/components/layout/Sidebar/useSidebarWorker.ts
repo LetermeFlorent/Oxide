@@ -36,5 +36,5 @@ export function useSidebarWorker(ap: any, expanded: any, q: string) {
     worker.postMessage({ type: 'GET_VISIBLE_TREE', nodes: ap.tree, expandedFolders: expanded, startIndex: start, endIndex: end, searchQuery: q });
   }, [ap?.tree, count, expanded, scrollTop, h, q, ap?.isLoading]);
 
-  return { scrollRef, setScrollTop, expandedCount: count, visibleItems: visible };
+  return { scrollRef, setScrollTop, scrollTop, expandedCount: count, visibleItems: visible };
 }

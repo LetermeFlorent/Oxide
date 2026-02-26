@@ -7,6 +7,7 @@ import { SidebarList } from "./SidebarList";
 import { SidebarModals } from "./SidebarModals";
 import { useSidebarActions } from "./useSidebarActions";
 import { useSidebarWorker, ITEM_HEIGHT } from "./useSidebarWorker";
+import { useFileActions } from "../../panels/Explorer/useFileActions";
 
 export const Sidebar = memo(({ onFileClick }: { onFileClick: (f: any) => void }) => {
   const s = useStore();

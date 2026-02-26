@@ -1,5 +1,5 @@
 
-import { useState, memo, useCallback } from "react";
+import { useState, memo, useCallback, MouseEvent } from "react";
 import { useStore } from "../../store/useStore";
 import { FileEntry } from "../../store/types";
 import { TreeItemContent } from "./Explorer/components/TreeItemContent";
@@ -35,7 +35,7 @@ export const TreeItem = memo(({ entry, onClick, level = 0, projectId }: { entry:
     }
   }, [targetId, isFollowing, setFollowedFile]);
 
-  const handleAction = useCallback(async (e: any) => {
+  const handleAction = useCallback(async (e: MouseEvent) => {
     e.stopPropagation();
     if (entry.isFolder) {
       if (!isOpen && targetId && !entry.children?.length) await scanFolder(targetId, entry.path);
@@ -46,7 +46,17 @@ export const TreeItem = memo(({ entry, onClick, level = 0, projectId }: { entry:
 
   return (
     <>
-      <TreeItemContent entry={entry} isOpen={isOpen} isSelected={isSelected} isPdf={entry.name.toLowerCase().endsWith('.pdf')} isFollowing={isFollowing} level={level} handleAction={handleAction} handleContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); setMenu({ x: e.clientX, y: e.clientY, entry }); }} onDoubleClick={(e) => { e.stopPropagation(); onRename(entry); }} />
+      <TreeItemContent 
+        entry={entry} 
+        isOpen={isOpen} 
+        isSelected={isSelected} 
+        isPdf={entry.name.toLowerCase().endsWith('.pdf')} 
+        isFollowing={isFollowing} 
+        level={level} 
+        handleAction={handleAction} 
+        handleContextMenu={(e: MouseEvent) => { e.preventDefault(); e.stopPropagation(); setMenu({ x: e.clientX, y: e.clientY, entry }); }} 
+        onDoubleClick={(e: MouseEvent) => { e.stopPropagation(); onRename(entry); }} 
+      />
       {menu && <FileContextMenu menu={menu} onHide={() => setMenu(null)} onRename={() => onRename(menu.entry)} onDelete={() => onDelete(menu.entry)} onReveal={() => onReveal(menu.entry)} onCreateFile={() => onCreateFile(menu.entry)} onCreateFolder={() => onCreateFolder(menu.entry)} isFollowing={isFollowing} onToggleFollow={handleToggleFollow} />}
     </>
   );

@@ -3,7 +3,7 @@ import { memo, useMemo, useCallback } from "react";
 import { useTerminal } from "./useTerminal";
 import { Terminal as TerminalIcon } from "lucide-react";
 import { useStore } from "../../../store/useStore";
-import { GeminiIndicator } from "./GeminiIndicator";
+import { GeminiIndicator } from "./components/GeminiIndicator";
 import { PanelHeader } from "../../ui/PanelHeader";
 
 export const BashTerminal = memo(({ projectId, suffix = "" }: { projectId: string, suffix?: string }) => {

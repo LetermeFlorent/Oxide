@@ -4,8 +4,13 @@ import { safeKey } from "../../../utils/ui/keyUtils";
 
 export const CloseTabsModal = ({ show, onHide, allTabs, selectedIds, onToggle, onSelectAll, onConfirm }: any) => {
   return (
-    <ModalLayout show={show} onHide={onHide} title="Close Tabs" label="Selection">
-      <div className="flex flex-col gap-4">
+    <ModalLayout show={show} onHide={onHide}>
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 leading-tight">Close Tabs</h3>
+          <p className="text-2xl font-black text-black tracking-tight leading-none uppercase">Selection</p>
+        </div>
+        <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <button onClick={onSelectAll} className="text-[10px] font-bold text-gray-400 hover:text-black transition-all">
             {selectedIds.length === allTabs.length ? 'Deselect All' : 'Select All'}

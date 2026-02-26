@@ -6,8 +6,13 @@ export const EditOverviewModal = ({ show, onHide, projects, selectedIds, onToggl
   const toggleProject = (id: string) => onToggle(id);
 
   return (
-    <ModalLayout show={show} onHide={onHide} title="Configure Grid" label="Terminal Management">
-      <div className="flex flex-col gap-4">
+    <ModalLayout show={show} onHide={onHide}>
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 leading-tight">Configure Grid</h3>
+          <p className="text-2xl font-black text-black tracking-tight leading-none uppercase">Terminal Management</p>
+        </div>
+        <div className="flex flex-col gap-4">
         <div className="max-h-60 overflow-y-auto scrollbar-modern-thin space-y-1 p-1">
           {projects.filter((p: any) => p && p.id && p.id.trim() !== "").map((p: any, idx: number) => (
             <button key={safeKey('edit-ov', p.id, idx)} onClick={() => toggleProject(p.id)} className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all ${selectedIds.includes(p.id) ? 'bg-gray-50 border border-gray-100' : 'hover:bg-gray-50 border border-transparent'}`}>

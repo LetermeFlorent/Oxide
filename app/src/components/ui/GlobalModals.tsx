@@ -17,7 +17,7 @@ export const GlobalModals = memo(() => {
       <PromptModal 
         show={!!promptModal?.show} title={promptModal?.title || ""} label={promptModal?.label || ""} 
         defaultValue={promptModal?.defaultValue || ""} onHide={() => setPromptModal(null)} 
-        onConfirm={(val) => { if (promptModal?.onConfirm) promptModal.onConfirm(val); setPromptModal(null); }} 
+        onConfirm={(val: string) => { if (promptModal?.onConfirm) promptModal.onConfirm(val); setPromptModal(null); }} 
       />
     </>
   );
