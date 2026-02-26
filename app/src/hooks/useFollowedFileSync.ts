@@ -19,17 +19,14 @@ export function useFollowedFileSync() {
     projects.forEach(async (project) => {
       // If we have a followed file but NO progress (null), we need to calculate it
       if (project.followedFilePath && project.taskProgress === null) {
-        console.log(`[FollowedFileSync] Restoring progress for: ${project.followedFilePath}`);
         try {
           // Check if file exists and get content via Rust command
           const content = await monitoredInvoke<string>("read_text_file", { path: project.followedFilePath });
           const progress = calculateTaskProgress(content);
           
           updateProject(project.id, { taskProgress: progress });
-          console.log(`[FollowedFileSync] Progress restored: ${progress}%`);
         } catch (e) {
-          console.warn(`[FollowedFileSync] Could not restore progress for ${project.followedFilePath}:`, e);
-          // If file not found, maybe clear it? For now just log.
+          // Progress restoration failed
         }
       }
     });

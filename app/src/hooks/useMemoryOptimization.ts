@@ -18,7 +18,7 @@ export function useMemoryOptimization() {
             if (performance && (performance as any).memory) {
               const memory = (performance as any).memory;
               if (memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.8) {
-                console.warn("[Memory] Heap usage high, hinting GC...");
+                
               }
             }
           }

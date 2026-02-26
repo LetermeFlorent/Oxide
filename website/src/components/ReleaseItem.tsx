@@ -1,9 +1,3 @@
-/**
- * Project: Oxide Website
- * Responsibility: Modern Horizontal Release Row with Categorized Assets
- * License: O.A.S - MS-RSL (Microsoft Reference Source License)
- * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
- */
 import React, { useMemo } from "react";
 import { Download, ChevronRight, Box, Monitor, Terminal, Apple, Package, Star } from "lucide-react";
 import { Release } from "./ReleaseSelector.types";

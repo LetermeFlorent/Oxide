@@ -31,11 +31,7 @@ import { memo } from "react";
  * @returns {JSX.Element} The markdown preview interface
  */
 export const MarkdownPreview = memo(({ content, fileName }: { content: string, fileName?: string }) => (
-  <div className="flex-1 flex flex-col bg-white rounded-xl overflow-hidden">
-    <div className="h-8 px-3 flex items-center bg-gray-50/50 border-b border-gray-100">
-      <Monitor size={12} className="text-gray-400 mr-2" />
-      <span className="text-[9px] font-black uppercase text-gray-400 tracking-widest">Preview {fileName}</span>
-    </div>
+  <div className="flex-1 flex flex-col bg-white overflow-hidden">
     <div className="flex-1 p-6 overflow-auto scrollbar-modern selection:bg-gray-50">
       <div className="prose-custom max-w-2xl mx-auto">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>

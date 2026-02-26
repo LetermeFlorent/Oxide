@@ -1,8 +1,3 @@
-/**
- * Project: Oxide Website
- * Responsibility: Main TypeScript Configuration
- * License: O.A.S - MS-RSL
- */
 {
   "compilerOptions": {
     "target": "ESNext",

@@ -1,5 +1,6 @@
 {
   "sidebar": {
+    "explorer": "Explorer",
     "gpu_mode": "GPU Mode",
     "search_placeholder": "Global search...",
     "indexing": "Indexing...",
@@ -29,14 +30,57 @@
   },
   "common": {
     "error": "Error",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "select_all": "Select All",
+    "deselect_all": "Deselect All",
+    "create": "Create",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "name": "Name",
+    "rename": "Rename",
+    "rename_to": "Rename {{type}} \"{{name}}\" to:"
   },
   "tabs": {
-    "confirm_delete_group": "Are you sure you want to delete this group? The items inside will be moved back to the main list."
+    "confirm_delete_group": "Are you sure you want to delete this group? The items inside will be moved back to the main list.",
+    "new_group": "New Group"
   },
   "explorer": {
     "confirm_delete": "Are you sure you want to delete {{type}} \"{{name}}\"? This action cannot be undone.",
     "file": "file",
-    "folder": "folder"
+    "folder": "folder",
+    "new_file": "New File",
+    "new_folder": "New Folder",
+    "rename_failed": "Rename failed",
+    "delete_failed": "Delete failed",
+    "reveal_failed": "Reveal failed",
+    "delete_file": "Delete File",
+    "delete_folder": "Delete Folder",
+    "reindex": "Reindex Folder",
+    "back_to_root": "Back to root",
+    "new_root_file": "New Root File",
+    "new_root_folder": "New Root Folder",
+    "open_folder": "Open Folder",
+    "open_folders_first": "Open folders first",
+    "empty_project": "Empty project",
+    "file_placeholder": "filename.ts",
+    "folder_placeholder": "folder_name"
+  },
+  "overview": {
+    "title": "Terminal Overview",
+    "new": "New Overview",
+    "tab_name": "Tab Name",
+    "placeholder": "Ex: Backend Monitoring",
+    "projects_to_include": "Projects to Include",
+    "create": "Create Overview",
+    "remove": "Remove from Overview",
+    "default_name": "Overview Terminals",
+    "empty": "Empty Overview",
+    "empty_instruction": "Right-click on the tab to add terminals",
+    "broadcast_placeholder": "Broadcast to {{count}} terminals..."
+  },
+  "welcome": {
+    "title": "Welcome to Oxide",
+    "tagline": "The next-gen workspace",
+    "open_folder": "Open Folder"
   }
 }

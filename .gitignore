@@ -1,5 +1,22 @@
+# Rust / Tauri
 app/src-tauri/target/
+
+# Node.js
 app/node_modules/
 website/node_modules/
 dist/
+package-lock.json
+
+# Local Environment / Secrets
+.env
+.env.*
+*.log
+coverage/
+
+# OS Specific
 .DS_Store
+Thumbs.db
+
+# Gemini & Local Skills
+.gemini/
+oxide-skill/

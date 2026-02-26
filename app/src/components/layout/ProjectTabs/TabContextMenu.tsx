@@ -1,38 +1,51 @@
-/**
- * Project: Oxide App
- * Responsibility: Context Menu for Tabs and Groups
- * License: O.A.S - MS-RSL (Microsoft Reference Source License)
- * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
- */
-import { Pencil, Settings2, Plus, Library, X, Trash2 } from "lucide-react";
-import { motion } from "framer-motion";
+import { Trash2, Edit2, Plus, Library, Settings, XCircle } from "lucide-react";
+import { ContextMenuContainer, ContextMenuItem } from "../../ui/ContextMenu";
+import { t } from "../../../i18n";
+import { safeKey } from "../../../utils/ui/keyUtils";
 
-export const TabContextMenu = ({ menu, onHide, onRename, onConfigure, onCreateGroup, onMoveToGroup, groups, projects, terminalOverviews }: any) => {
+export const TabContextMenu = ({ menu, onHide, onRename, onConfigure, onCreateGroup, onMoveToGroup, onDeleteGroup, groups, projects, terminalOverviews, isViewMode, onCloseProject, onCloseOverview }: any) => {
   if (!menu) return null;
+
+  if (menu.type === 'group') {
+    return (
+      <ContextMenuContainer x={menu.x} y={menu.y} onHide={onHide}>
+        <ContextMenuItem icon={Edit2} label="Rename Group" onClick={() => { onRename(menu.groupId, 'group'); onHide(); }} />
+        <div className="my-1 border-t border-gray-100" />
+        <ContextMenuItem icon={Trash2} label="Delete Group" variant="danger" onClick={() => { onDeleteGroup(menu.groupId); onHide(); }} />
+      </ContextMenuContainer>
+    );
+  }
+
+  const currentItem = menu.type === 'overview' 
+    ? terminalOverviews.find((o: any) => o.id === menu.itemId)
+    : projects.find((p: any) => p.id === menu.itemId);
+
+  const handleClose = () => {
+    if (menu.type === 'overview') onCloseOverview(menu.itemId);
+    else onCloseProject(menu.itemId);
+    onHide();
+  };
+
   return (
-    <div className="fixed inset-0 z-[1000]" onClick={onHide} onContextMenu={(e) => { e.preventDefault(); onHide(); }}>
-      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} style={{ left: Math.min(menu.x, window.innerWidth - 180), top: menu.y }} className="absolute w-44 bg-white border border-gray-100 rounded-xl shadow-2xl p-1">
-        {menu.itemId && (
-          <>
-            <button className="w-full text-left flex items-center gap-2 px-3 py-2 text-[10px] font-bold text-gray-600 hover:bg-gray-50 rounded-lg" onClick={() => onRename(menu.itemId, menu.type)}><Pencil size={12}/> Rename</button>
-            {menu.type === 'overview' && (
-              <button className="w-full text-left flex items-center gap-2 px-3 py-2 text-[10px] font-bold text-black hover:bg-gray-50 rounded-lg" onClick={() => onConfigure(menu.itemId)}><Settings2 size={12}/> Configure Grid</button>
-            )}
-            <button className="w-full text-left flex items-center gap-2 px-3 py-2 text-[10px] font-bold text-gray-600 hover:bg-gray-50 rounded-lg" onClick={() => onCreateGroup(menu.itemId)}><Plus size={12}/> Create Group</button>
-            <div className="h-px bg-gray-50 my-1" />
-            <span className="text-[8px] font-black uppercase text-gray-300 px-3 py-1 block">Add to</span>
-            {groups.filter((g: any) => g && g.id && g.id.trim() !== "").map((g: any) => (
-              <button key={g.id} className="w-full text-left flex items-center gap-2 px-3 py-2 text-[10px] font-bold text-gray-600 hover:bg-gray-50 rounded-lg" onClick={() => onMoveToGroup(menu.itemId, g.id)}><Library size={12}/> {g.name}</button>
-            ))}
-            {(menu.type === 'overview' ? terminalOverviews.find((o: any) => o.id === menu.itemId)?.groupId : projects.find((p: any) => p.id === menu.itemId)?.groupId) && (
-              <button className="w-full text-left flex items-center gap-2 px-3 py-2 text-[10px] font-bold text-red-400 hover:bg-red-50 rounded-lg" onClick={() => onMoveToGroup(menu.itemId, null)}><X size={12}/> Remove from Group</button>
-            )}
-          </>
-        )}
-        {menu.groupId && (
-          <button className="w-full text-left flex items-center gap-2 px-3 py-2 text-[10px] font-bold text-red-500 hover:bg-red-50 rounded-lg" onClick={() => onMoveToGroup(null, null, menu.groupId)}><Trash2 size={12}/> Delete Group</button>
-        )}
-      </motion.div>
-    </div>
+    <ContextMenuContainer x={menu.x} y={menu.y} onHide={onHide}>
+      {!isViewMode && (
+        <>
+          <ContextMenuItem icon={Edit2} label={t('common.rename')} onClick={() => onRename(menu.itemId, menu.type)} />
+          {menu.type === 'overview' && (
+            <ContextMenuItem icon={Settings} label="Configure Grid" onClick={() => onConfigure(menu.itemId)} />
+          )}
+          <div className="my-1 border-t border-gray-100" />
+          <ContextMenuItem icon={Plus} label="New Group" onClick={() => onCreateGroup(menu.itemId)} />
+          {groups.filter((g: any) => g?.id?.trim()).map((g: any, idx: number) => (
+            <ContextMenuItem key={safeKey('ctx-group', g.id, idx)} icon={Library} label={g.name} onClick={() => onMoveToGroup(menu.itemId, g.id)} />
+          ))}
+          {currentItem?.groupId && (
+            <ContextMenuItem icon={XCircle} label="Remove from Group" onClick={() => onMoveToGroup(menu.itemId, null)} />
+          )}
+        </>
+      )}
+      <div className="my-1 border-t border-gray-100" />
+      <ContextMenuItem icon={Trash2} label="Close Tab" onClick={handleClose} variant="danger" />
+    </ContextMenuContainer>
   );
 };

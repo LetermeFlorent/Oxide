@@ -1,8 +1,3 @@
-/**
- * Project: Oxide Website
- * Responsibility: Node-specific TypeScript Configuration
- * License: O.A.S - MS-RSL
- */
 {
   "compilerOptions": {
     "composite": true,

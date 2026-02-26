@@ -1,9 +1,3 @@
-/**
- * Project: Oxide Website
- * Responsibility: Apple-style Sticky Navigation Component
- * License: O.A.S - MS-RSL (Microsoft Reference Source License)
- * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
- */
 import React from "react";
 import { Github } from "lucide-react";
 

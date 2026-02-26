@@ -3,33 +3,38 @@ import { treeWorker as worker } from "../../../utils/treeWorkerInstance";
 
 export const ITEM_HEIGHT = 28;
 
-export function useSidebarWorker(activeProject: any, expandedFolders: any, searchQuery: string) {
+export function useSidebarWorker(ap: any, expanded: any, q: string) {
   const [scrollTop, setScrollTop] = useState(0);
-  const [containerHeight, setContainerHeight] = useState(0);
-  const [expandedCount, setExpandedCount] = useState(0);
-  const [visibleItems, setVisibleItems] = useState<any[]>([]);
+  const [h, setH] = useState(0);
+  const [count, setCount] = useState(0);
+  const [visible, setVisible] = useState<any[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleMessage = (e: MessageEvent) => {
-      if (e.data.type === 'COUNT_EXPANDED_RESULT') setExpandedCount(e.data.count);
-      else if (e.data.type === 'GET_VISIBLE_TREE_RESULT') setVisibleItems(e.data.visibleItems);
+    const handle = (e: MessageEvent) => {
+      if (e.data.type === 'COUNT_EXPANDED_RESULT') setCount(e.data.count);
+      else if (e.data.type === 'GET_VISIBLE_TREE_RESULT') setVisible(e.data.visibleItems);
     };
-    worker.addEventListener('message', handleMessage);
-    return () => worker.removeEventListener('message', handleMessage);
+    worker.addEventListener('message', handle);
+    if (scrollRef.current) {
+      const obs = new ResizeObserver(entries => setH(entries[0].contentRect.height));
+      obs.observe(scrollRef.current);
+      return () => { worker.removeEventListener('message', handle); obs.disconnect(); };
+    }
+    return () => worker.removeEventListener('message', handle);
   }, []);
 
   useEffect(() => {
-    if (!activeProject?.tree) { setExpandedCount(0); return; }
-    worker.postMessage({ type: 'COUNT_EXPANDED', nodes: activeProject.tree, expandedFolders, searchQuery });
-  }, [activeProject?.tree, expandedFolders, searchQuery]);
+    if (!ap?.tree) { setCount(0); return; }
+    worker.postMessage({ type: 'COUNT_EXPANDED', nodes: ap.tree, expandedFolders: expanded, searchQuery: q });
+  }, [ap?.tree, expanded, q]);
 
   useEffect(() => {
-    if (activeProject?.isLoading || !activeProject?.tree) { setVisibleItems([]); return; }
+    if (ap?.isLoading || !ap?.tree) { setVisible([]); return; }
     const start = Math.max(0, Math.floor(scrollTop / ITEM_HEIGHT) - 5);
-    const end = Math.min(expandedCount, Math.ceil((scrollTop + containerHeight) / ITEM_HEIGHT) + 5);
-    worker.postMessage({ type: 'GET_VISIBLE_TREE', nodes: activeProject.tree, expandedFolders, startIndex: start, endIndex: end, searchQuery });
-  }, [activeProject?.tree, expandedCount, expandedFolders, scrollTop, containerHeight, searchQuery, activeProject?.isLoading]);
+    const end = Math.min(count, Math.ceil((scrollTop + h) / ITEM_HEIGHT) + 5);
+    worker.postMessage({ type: 'GET_VISIBLE_TREE', nodes: ap.tree, expandedFolders: expanded, startIndex: start, endIndex: end, searchQuery: q });
+  }, [ap?.tree, count, expanded, scrollTop, h, q, ap?.isLoading]);
 
-  return { scrollRef, scrollTop, setScrollTop, containerHeight, setContainerHeight, expandedCount, visibleItems };
+  return { scrollRef, setScrollTop, expandedCount: count, visibleItems: visible };
 }

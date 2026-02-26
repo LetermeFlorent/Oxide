@@ -1,21 +1,32 @@
 import { Library } from "lucide-react";
-import { motion } from "framer-motion";
+import { memo } from "react";
+import { ModalLayout } from "../../ui/Modals/index";
+import { ModalButton, ModalInput } from "../../ui/Modals/ModalElements";
 
-export const GroupModal = ({ show, onHide, newGroupName, setNewGroupName, onConfirm }: any) => {
-  if (!show) return null;
+export const GroupModal = memo(({ show, onHide, newGroupName, setNewGroupName, onConfirm }: any) => {
   return (
-    <div className="fixed inset-0 z-[500] flex items-center justify-center p-6 bg-black/20 backdrop-blur-md">
-      <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="w-full max-w-xs bg-white border border-gray-200 rounded-3xl shadow-2xl p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center"><Library size={16} className="text-black" /></div>
-          <h3 className="text-[11px] font-black uppercase tracking-widest text-gray-800">New Group</h3>
+    <ModalLayout show={show} z={5000}>
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-gray-50 text-gray-500">
+          <Library size={20} />
         </div>
-        <input autoFocus type="text" value={newGroupName} onChange={(e) => setNewGroupName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && onConfirm()} className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl text-[11px] font-bold text-gray-700 outline-none focus:border-black/50 transition-colors mb-4" />
-        <div className="flex gap-2">
-          <button onClick={onHide} className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-xl text-[9px] font-black uppercase transition-all">Cancel</button>
-          <button onClick={onConfirm} className="flex-1 py-3 bg-black hover:bg-black text-white rounded-xl text-[9px] font-black uppercase transition-all shadow-lg shadow-black/20">Create</button>
+        <div>
+          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-0.5">New Group</h3>
+          <p className="text-[13px] font-bold text-gray-800 leading-none">Categorize your items</p>
         </div>
-      </motion.div>
-    </div>
+      </div>
+      <ModalInput 
+        autoFocus 
+        value={newGroupName} 
+        onChange={setNewGroupName} 
+        onKeyDown={(e: any) => e.key === 'Enter' && onConfirm()} 
+      />
+      <div className="flex gap-2">
+        <ModalButton label="Cancel" onClick={onHide} variant="secondary" />
+        <ModalButton label="Create" disabled={!newGroupName.trim()} onClick={onConfirm} variant="primary" />
+      </div>
+    </ModalLayout>
   );
-};
+});
+
+GroupModal.displayName = 'GroupModal';

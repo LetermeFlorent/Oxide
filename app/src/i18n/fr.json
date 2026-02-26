@@ -1,5 +1,6 @@
 {
   "sidebar": {
+    "explorer": "Explorateur",
     "gpu_mode": "Mode GPU",
     "search_placeholder": "Recherche globale...",
     "indexing": "Indexation...",
@@ -29,14 +30,57 @@
   },
   "common": {
     "error": "Erreur",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "select_all": "Tout sélectionner",
+    "deselect_all": "Tout désélectionner",
+    "create": "Créer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "name": "Nom",
+    "rename": "Renommer",
+    "rename_to": "Renommer le {{type}} \"{{name}}\" en :"
   },
   "tabs": {
-    "confirm_delete_group": "Voulez-vous vraiment supprimer ce groupe ? Les éléments à l'intérieur seront replacés dans la liste principale."
+    "confirm_delete_group": "Voulez-vous vraiment supprimer ce groupe ? Les éléments à l'intérieur seront replacés dans la liste principale.",
+    "new_group": "Nouveau Groupe"
   },
   "explorer": {
     "confirm_delete": "Voulez-vous vraiment supprimer le {{type}} \"{{name}}\" ? Cette action est irréversible.",
     "file": "fichier",
-    "folder": "dossier"
+    "folder": "dossier",
+    "new_file": "Nouveau fichier",
+    "new_folder": "Nouveau dossier",
+    "rename_failed": "Échec du renommage",
+    "delete_failed": "Échec de la suppression",
+    "reveal_failed": "Échec de l'ouverture",
+    "delete_file": "Supprimer le fichier",
+    "delete_folder": "Supprimer le dossier",
+    "reindex": "Réindexer le dossier",
+    "back_to_root": "Retour à la racine",
+    "new_root_file": "Nouveau fichier racine",
+    "new_root_folder": "Nouveau dossier racine",
+    "open_folder": "Ouvrir un dossier",
+    "open_folders_first": "Ouvrez des dossiers d'abord",
+    "empty_project": "Projet vide",
+    "file_placeholder": "nom_fichier.ts",
+    "folder_placeholder": "nom_dossier"
+  },
+  "overview": {
+    "title": "Terminal Overview",
+    "new": "Nouvelle Overview",
+    "tab_name": "Nom de l'onglet",
+    "placeholder": "Ex: Monitoring Backend",
+    "projects_to_include": "Projets à inclure",
+    "create": "Créer l'Overview",
+    "remove": "Retirer de l'Overview",
+    "default_name": "Overview Terminaux",
+    "empty": "Overview Vide",
+    "empty_instruction": "Faites un clic droit sur l'onglet pour ajouter des terminaux",
+    "broadcast_placeholder": "Diffuser à {{count}} terminaux..."
+  },
+  "welcome": {
+    "title": "Bienvenue sur Oxide",
+    "tagline": "L'espace de travail next-gen",
+    "open_folder": "Ouvrir un dossier"
   }
 }

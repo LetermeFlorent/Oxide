@@ -1,0 +1,34 @@
+
+use crate::state::AppState;
+use crate::{db, pty};
+use std::sync::{Arc, Mutex};
+use tauri::{App, Manager, AppHandle};
+
+pub fn init(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    let dir = app.path().app_data_dir().unwrap();
+    std::fs::create_dir_all(&dir).unwrap();
+    let conn = db::init_db(&dir).expect("db fail");
+    let sled = sled::open(dir.join("oxide_lsm_v2")).expect("sled fail");
+    app.manage(AppState {
+        sessions: Arc::new(Mutex::new(std::collections::HashMap::new())),
+        pty_system: portable_pty::NativePtySystem::default(),
+        watchers: Arc::new(Mutex::new(std::collections::HashMap::new())),
+        lsm_db: Arc::new(Mutex::new(Some(sled))),
+        db: Arc::new(Mutex::new(conn)),
+    });
+    Ok(())
+}
+
+#[tauri::command]
+pub fn spawn_pty(app: AppHandle, id: String, cwd: Option<String>, rows: u16, cols: u16) -> Result<bool, String> {
+    let state = app.state::<AppState>();
+    if state.sessions.lock().unwrap().contains_key(&id) { return Ok(false); }
+    let (m, ch) = pty::spawner::create_pty(&state.pty_system, rows, cols, cwd)?;
+    let reader = m.try_clone_reader().map_err(|e| e.to_string())?;
+    let writer = m.take_writer().map_err(|e| e.to_string())?;
+    let vis = Arc::new(Mutex::new(false));
+    let buf = Arc::new(Mutex::new(Vec::with_capacity(8192)));
+    state.sessions.lock().unwrap().insert(id.clone(), pty::models::PtySession { writer, master: m, child: ch, is_visible: vis.clone(), buffer: buf.clone() });
+    pty::reader::spawn_reader(app, id, reader, vis, buf);
+    Ok(true)
+}

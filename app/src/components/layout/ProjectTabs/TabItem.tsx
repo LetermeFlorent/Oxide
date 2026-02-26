@@ -1,31 +1,44 @@
-import { X, Folder, Loader2, Terminal, Settings } from "lucide-react";
+import { X, Folder, Loader2, Terminal, Settings, Monitor, FileCode, Columns, Zap, ImageIcon } from "lucide-react";
 import { useStore } from "../../../store/useStore";
 import { memo, useCallback } from "react";
 
 const SETTINGS_TAB = { id: 'settings', name: 'Settings' };
 
-export const TabItem = memo(({ id, type, active, compactMode, onClick, onClose, onContextMenu, renamingId, tempName, setTempName, submitRename, vertical }: any) => {
+export const TabItem = memo(({ id, type, active, compactMode, onClick, onClose, onContextMenu, renamingId, tempName, setTempName, submitRename, vertical, mode }: any) => {
   const item = useStore(useCallback(s => 
     type === 'overview' ? s.terminalOverviews.find(o => o.id === id) : 
-    type === 'settings' ? SETTINGS_TAB :
-    s.projects.find(p => p.id === id)
+    type === 'project' ? s.projects.find(p => p.id === id) :
+    null
   , [id, type]));
 
-  if (!item) return null;
+  if (type !== 'settings' && type !== 'view-mode' && !item) return null;
 
-  const Icon = type === 'overview' ? Terminal : (type === 'settings' ? Settings : Folder);
-  const status = (item as any).status;
-  const isLoading = (item as any).isLoading;
+  const getIcon = () => {
+    if (type === 'overview') return Terminal;
+    if (type === 'settings') return Settings;
+    if (type === 'view-mode') {
+      if (mode === 'preview') return Monitor;
+      if (mode === 'code') return FileCode;
+      if (mode === 'split') return Columns;
+    }
+    return Folder;
+  };
+  const Icon = getIcon();
+  const status = item ? (item as any).status : null;
+  const isLoading = item ? (item as any).isLoading : false;
+  const displayName = type === 'settings' ? 'Settings' : 
+                    type === 'view-mode' ? id.replace('view-mode-', '').toUpperCase() : 
+                    item?.name;
 
   return (
     <div 
-      onClick={() => renamingId !== id && onClick(id)}
+      onClick={() => renamingId !== id && onClick(id, mode)}
       onContextMenu={(e) => { e.preventDefault(); onContextMenu(e, id, type); }}
-      className={`group relative flex items-center gap-2 px-3 transition-all cursor-pointer shrink-0 overflow-hidden select-none ${vertical ? 'w-full h-10' : 'h-8 min-w-[140px] max-w-[200px] self-center'} ${
+      className={`group relative flex items-center gap-2 px-3 transition-all cursor-pointer shrink-0 overflow-hidden select-none ${vertical ? 'w-full h-10 mb-0.5' : 'h-8 min-w-[140px] max-w-[200px] self-center'} ${
         active 
           ? (compactMode ? 'bg-white border-r border-gray-200 shadow-none' : 'bg-white border border-gray-100 shadow-sm rounded-lg') 
           : (compactMode ? 'bg-transparent text-gray-400 border-r border-gray-100' : 'bg-transparent text-gray-400 hover:bg-white/40 rounded-lg')
-      } ${vertical && active ? 'border-l-4 border-l-black !border-r-0 !rounded-none' : ''}`}
+      } ${vertical ? (active ? 'border-l-4 border-l-black !border-r-0 !rounded-none bg-gray-50/50' : 'border-l-4 border-l-transparent hover:bg-gray-50/30') : ''}`}
     >
       <div className="relative z-10 flex items-center gap-2 flex-1 min-w-0 pr-6">
         <div className="relative shrink-0 flex items-center justify-center w-4 h-4">
@@ -41,15 +54,17 @@ export const TabItem = memo(({ id, type, active, compactMode, onClick, onClose, 
         {renamingId === id ? (
           <input autoFocus value={tempName} onChange={(e) => setTempName(e.target.value)} onBlur={submitRename} onKeyDown={(e) => e.key === 'Enter' && submitRename()} onClick={(e) => e.stopPropagation()} className="bg-gray-100 border-none outline-none text-[9px] font-black uppercase w-full rounded px-1 text-gray-800" />
         ) : (
-          <span className={`text-[9px] font-black uppercase tracking-tight truncate ${active ? 'text-gray-800' : 'text-gray-400'}`}>{item.name}</span>
+          <span className={`text-[9px] font-black uppercase tracking-tight truncate ${active ? 'text-gray-800' : 'text-gray-400'}`}>{displayName}</span>
         )}
       </div>
-      <button 
-        onClick={(e) => { e.stopPropagation(); onClose(id); }} 
-        className={`absolute right-1 w-6 h-6 flex items-center justify-center hover:bg-gray-100 rounded-full text-gray-400 hover:text-red-500 transition-all z-20 ${active ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
-      >
-        <X size={10} />
-      </button>
+      {type !== 'view-mode' && type !== 'settings' && (
+        <button 
+          onClick={(e) => { e.stopPropagation(); onClose(id); }} 
+          className={`absolute right-1 w-6 h-6 flex items-center justify-center hover:bg-gray-100 rounded-full text-gray-400 hover:text-red-500 transition-all z-20 ${active ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
+        >
+          <X size={10} />
+        </button>
+      )}
     </div>
   );
 });

@@ -2,16 +2,19 @@ import { memo } from "react";
 import { motion } from "framer-motion";
 
 export const Tab = memo(({ active, onClick, icon: Icon, label }: any) => (
-  <motion.button 
-    whileHover={{ y: -1 }}
-    whileTap={{ scale: 0.95 }}
+  <motion.div 
+    layout
     onClick={onClick} 
-    className={`relative flex items-center gap-1.5 text-[9px] font-black tracking-widest transition-all duration-200 px-2 py-1 rounded-md ${active ? 'text-black bg-gray-50' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50/50'}`}
+    className={`group relative flex items-center gap-2 px-3 h-8 transition-all cursor-pointer shrink-0 overflow-hidden select-none ${
+      active 
+        ? 'bg-white border border-gray-100 shadow-sm rounded-lg text-black font-bold' 
+        : 'bg-transparent text-gray-400 hover:bg-white/40 rounded-lg'
+    }`}
   >
     <Icon size={12} className={active ? 'text-black' : 'text-gray-300'} /> 
-    <span>{label}</span>
+    <span className="text-[9px] font-black uppercase tracking-tight">{label}</span>
     {active && <motion.div layoutId="content-tab-active" className="absolute bottom-0 left-2 right-2 h-0.5 bg-black rounded-full" />}
-  </motion.button>
+  </motion.div>
 ));
 
 Tab.displayName = 'Tab';

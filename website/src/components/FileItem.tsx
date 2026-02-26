@@ -1,9 +1,3 @@
-/**
- * Project: Oxide Website
- * Responsibility: Individual File/Folder Row Component
- * License: O.A.S - MS-RSL (Microsoft Reference Source License)
- * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
- */
 import React from "react";
 import { Folder, File, ChevronRight } from "lucide-react";
 import { GitHubItem } from "./FileExplorer.types";

@@ -1,9 +1,3 @@
-/**
- * Project: Oxide Website
- * Responsibility: Bento Grid with Aligned Icons
- * License: O.A.S - MS-RSL (Microsoft Reference Source License)
- * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
- */
 import React from "react";
 import { Terminal, Layout, Zap, Cpu } from "lucide-react";
 

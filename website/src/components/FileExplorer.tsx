@@ -1,9 +1,3 @@
-/**
- * Project: Oxide Website
- * Responsibility: GitHub Repository File Browser Component
- * License: O.A.S - MS-RSL (Microsoft Reference Source License)
- * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
- */
 import React, { useEffect, useState } from "react";
 import { Github } from "lucide-react";
 import { motion } from "framer-motion";

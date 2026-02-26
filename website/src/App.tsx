@@ -1,9 +1,3 @@
-/**
- * Project: Oxide Website
- * Responsibility: Main Application Orchestrator
- * License: O.A.S - MS-RSL (Microsoft Reference Source License)
- * Copyright (c) 2026 O.A.S (Optimization & Quality). All rights reserved.
- */
 import React, { useState } from "react";
 import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";

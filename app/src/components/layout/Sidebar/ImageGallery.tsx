@@ -1,36 +1,34 @@
-import { memo, useState, useMemo } from "react";
-import { ImageIcon, ChevronDown, ChevronRight } from "lucide-react";
+import { memo, useMemo } from "react";
+import { Image, MoreHorizontal } from "lucide-react";
 import { ImageThumbnail } from "./ImageThumbnail";
-import { t } from "../../../i18n";
+import { useStore } from "../../../store/useStore";
+import { safeKey } from "../../../utils/ui/keyUtils";
 
-export const ImageGallery = memo(({ images, onFileClick }: any) => {
-  const [show, setShow] = useState(true);
-  const displayImages = useMemo(() => (images || []).slice(0, 50), [images]);
+export const ImageGallery = memo(({ projectId, images, onFileClick }: any) => {
+  const compactMode = useStore(s => s.compactMode);
+  const displayImages = useMemo(() => images.slice(0, 12), [images]);
+  const hasMore = images.length > 12;
 
-  if (!images?.length) return null;
+  if (images.length === 0) return null;
 
   return (
-    <div className="border-t border-gray-100 bg-white/50 backdrop-blur-sm shrink-0 max-h-[45%] flex flex-col">
-      <button onClick={() => setShow(!show)} className="w-full px-4 py-2 flex items-center justify-between hover:bg-gray-100/50 transition-colors">
-        <div className="flex items-center gap-2">
-          <ImageIcon size={14} className="text-orange-500" />
-          <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">{t('sidebar.images')} ({images.length})</span>
+    <div className={`flex flex-col gap-2 ${compactMode ? 'p-1 bg-gray-50/50' : 'p-3 bg-white border border-gray-100 shadow-sm rounded-2xl'}`}>
+      <div className="flex items-center justify-between px-1">
+        <div className="flex items-center gap-1.5 text-gray-400">
+          <Image size={10} strokeWidth={3} />
+          <span className="text-[9px] font-black uppercase tracking-widest italic">{images.length} Images</span>
         </div>
-        {show ? <ChevronDown size={12} className="text-gray-400" /> : <ChevronRight size={12} className="text-gray-400" />}
-      </button>
-      {show && (
-        <div className="flex-1 overflow-y-auto pb-2 scrollbar-modern-thin">
-          <div className="px-2 space-y-0.5">
-            {displayImages.map((img: any) => (
-              <div key={img.path} onClick={() => onFileClick(img)} className="flex items-center gap-2 p-1 hover:bg-orange-50 rounded-lg cursor-pointer group transition-all">
-                <ImageThumbnail path={img.path} />
-                <span className="text-[10px] font-bold text-gray-600 truncate flex-1 group-hover:text-orange-700">{img.name}</span>
-              </div>
-            ))}
-            {images.length > 50 && <p className="text-[8px] text-center text-gray-400 py-2 uppercase font-black opacity-50 tracking-tighter">{t('sidebar.more_images', { count: images.length - 50 })}</p>}
+        {hasMore && <MoreHorizontal size={10} className="text-gray-300" />}
+      </div>
+      <div className="grid grid-cols-4 gap-1.5">
+        {displayImages.map((img: any, idx: number) => (
+          <div key={safeKey('img', img.path, idx)} onClick={() => onFileClick(img)} className="aspect-square group relative rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-black transition-all">
+            <ImageThumbnail path={img.path} />
           </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   );
 });
+
+ImageGallery.displayName = 'ImageGallery';

@@ -22,9 +22,9 @@ export const toggleFolder = (path: string, activeProjectId: string | null, monit
   const nextState = !s.expandedFolders[path];
   if (activeProjectId) {
     if (nextState) {
-      monitoredInvoke("watch_folder", { id: activeProjectId, path }).catch(console.error);
+      monitoredInvoke("watch_folder", { id: activeProjectId, path }).catch(() => {});
     } else {
-      monitoredInvoke("unwatch_folder", { id: activeProjectId, path }).catch(console.error);
+      monitoredInvoke("unwatch_folder", { id: activeProjectId, path }).catch(() => {});
     }
   }
   return { expandedFolders: { ...s.expandedFolders, [path]: nextState } };
