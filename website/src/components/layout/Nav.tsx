@@ -39,6 +39,17 @@ export const Nav: React.FC<NavProps> = ({ view, setView }) => {
     }
   };
 
+  const handleOverviewClick = () => {
+    if (view !== "overview") {
+      setView("overview");
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 300);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
@@ -48,7 +59,7 @@ export const Nav: React.FC<NavProps> = ({ view, setView }) => {
       <nav className={`pointer-events-auto flex items-center gap-4 px-2 pl-6 py-2 rounded-full transition-all duration-500 ease-out border ${
         isScrolled ? "bg-white/80 backdrop-blur-xl border-black/5 shadow-lg shadow-black/5 scale-[0.98]" : "bg-transparent border-transparent scale-100"
       }`}>
-        <div className="flex items-center gap-2 cursor-pointer pr-4 border-r border-black/5" onClick={() => setView("overview")}>
+        <div className="flex items-center gap-2 cursor-pointer pr-4 border-r border-black/5" onClick={handleOverviewClick}>
           <span className="text-lg font-bold tracking-tight text-gray-900">
             Oxide
           </span>
@@ -56,7 +67,7 @@ export const Nav: React.FC<NavProps> = ({ view, setView }) => {
         </div>
 
         <div className="hidden md:flex items-center gap-1 text-sm font-medium">
-          <Button variant="ghost" size="sm" onClick={() => setView("overview")} className="text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-4 h-8 transition-colors">
+          <Button variant="ghost" size="sm" onClick={handleOverviewClick} className="text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-4 h-8 transition-colors">
             {t("nav.overview")}
           </Button>
           <a 
