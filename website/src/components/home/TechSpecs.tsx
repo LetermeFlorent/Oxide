@@ -19,7 +19,7 @@ const SpecRow = ({ label, value }: { label: string, value: string }) => (
 );
 
 export const TechSpecs: React.FC = () => (
-  <section id="tech" className="py-32 px-6 max-w-5xl mx-auto">
+  <section id="tech" className="pt-16 pb-32 px-6 max-w-5xl mx-auto">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
       <div className="sticky top-32">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-black/5 rounded-full text-xs font-mono mb-6 text-gray-700 border border-black/5 relative overflow-hidden group">

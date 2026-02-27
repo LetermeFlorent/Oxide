@@ -49,7 +49,7 @@ const Card: React.FC<{ title: string; description: string; icon: ReactNode; clas
 };
 
 export const BentoGrid: React.FC = () => (
-  <section id="features" className="py-32 px-6 max-w-7xl mx-auto relative">
+  <section id="features" className="pt-32 pb-16 px-6 max-w-7xl mx-auto relative">
     <div className="text-center mb-24 max-w-2xl mx-auto">
       <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-b from-gray-900 to-gray-500">
         {t("bento.future_title")}
