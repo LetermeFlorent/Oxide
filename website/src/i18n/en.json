@@ -5,7 +5,30 @@
     "performance": "Performance",
     "architecture": "Architecture",
     "download": "Download",
+    "guide": "User Guide",
     "back": "Back"
+  },
+  "guide": {
+    "title": "User Guide",
+    "subtitle": "Master every aspect of the Oxide environment.",
+    "sections": {
+      "sidebar": {
+        "title": "Sidebar & Explorer",
+        "desc": "Manage your project files with ease. Features real-time indexing status and a dedicated GPU Mode toggle for performance monitoring."
+      },
+      "terminal": {
+        "title": "Terminal Overview",
+        "desc": "The heart of Oxide. Use the 'Broadcast' feature to send commands to multiple terminals at once. Supports grid layouts and high-speed Rust execution."
+      },
+      "settings": {
+        "title": "Advanced Preferences",
+        "desc": "Customize your experience: Compact Mode for more space, Vertical Tabs for better organization, and 'Restore Session' to pick up exactly where you left off."
+      },
+      "features": {
+        "title": "Advanced Tools",
+        "desc": "Utilize the 'Surgical Watcher' for precise file tracking, 'Infinite Undo' for safe refactoring, and 'Power Shortcuts' for maximum efficiency."
+      }
+    }
   },
   "hero": {
     "title": "Oxide",

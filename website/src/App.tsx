@@ -3,13 +3,14 @@ import { Nav } from "./components/layout/Nav";
 import { Hero } from "./components/home/Hero";
 import { BentoGrid } from "./components/home/BentoGrid";
 import { TechSpecs } from "./components/home/TechSpecs";
+import { UserGuide } from "./components/home/UserGuide";
 import { Footer } from "./components/layout/Footer";
 import { ReleaseSelector } from "./components/download/ReleaseSelector";
 import { motion, AnimatePresence } from "framer-motion";
 import { t } from "./i18n";
 
 const App: React.FC = () => {
-  const [view, setView] = useState<"overview" | "download">("overview");
+  const [view, setView] = useState<"overview" | "download" | "guide">("overview");
 
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden selection:bg-blue-100 selection:text-blue-900">
@@ -19,25 +20,32 @@ const App: React.FC = () => {
       <Nav view={view} setView={setView} />
       
       <AnimatePresence mode="wait">
-        {view === "overview" ? (
+        {view === "overview" && (
           <motion.main 
             key="overview" 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="relative z-10"
           >
             <Hero onDownload={() => setView("download")} />
-            
             <BentoGrid />
             <TechSpecs />
           </motion.main>
-        ) : (
+        )}
+        
+        {view === "guide" && (
+          <motion.main 
+            key="guide" 
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+            className="relative z-10"
+          >
+            <UserGuide />
+          </motion.main>
+        )}
+
+        {view === "download" && (
           <motion.main 
             key="download" 
-            initial={{ opacity: 0, scale: 0.95 }} 
-            animate={{ opacity: 1, scale: 1 }} 
-            exit={{ opacity: 0, scale: 1.05 }} 
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05 }} 
             className="pt-40 pb-24 px-6 min-h-screen relative z-10"
           >
             <div className="max-w-4xl mx-auto text-center mb-16">

@@ -5,7 +5,30 @@
     "performance": "Performance",
     "architecture": "Architecture",
     "download": "Télécharger",
+    "guide": "Guide Utilisateur",
     "back": "Retour"
+  },
+  "guide": {
+    "title": "Guide Utilisateur",
+    "subtitle": "Maîtrisez chaque aspect de l'environnement Oxide.",
+    "sections": {
+      "sidebar": {
+        "title": "Sidebar & Explorer",
+        "desc": "Gérez vos fichiers avec aisance. Comprend l'état d'indexation en temps réel et un sélecteur de Mode GPU dédié au monitoring des performances."
+      },
+      "terminal": {
+        "title": "Aperçu Terminal",
+        "desc": "Le cœur d'Oxide. Utilisez la fonction 'Broadcast' pour envoyer des commandes à plusieurs terminaux à la fois. Supporte les grilles et l'exécution Rust haute vitesse."
+      },
+      "settings": {
+        "title": "Préférences Avancées",
+        "desc": "Personnalisez votre expérience : Mode Compact pour plus d'espace, Onglets Verticaux pour une meilleure organisation, et 'Restauration de Session' pour reprendre là où vous vous étiez arrêté."
+      },
+      "features": {
+        "title": "Outils Avancés",
+        "desc": "Utilisez le 'Surgical Watcher' pour un suivi précis des fichiers, 'Infinite Undo' pour un refactoring sûr, et 'Raccourcis de Puissance' pour une efficacité maximale."
+      }
+    }
   },
   "hero": {
     "title": "Oxide",
