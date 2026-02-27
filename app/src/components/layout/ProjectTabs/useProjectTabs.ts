@@ -28,18 +28,18 @@ export function useProjectTabs() {
   const allTabs = useMemo(() => {
     const tabsMap = new Map<string, any>();
 
-    // 1. Ajouter les Groupes
+    // 1. Add Groups
     s.groups.forEach(g => {
       tabsMap.set(g.id, { id: g.id, name: g.name, type: 'group' as const, data: g });
     });
 
-    // 2. Ajouter les Overviews (non groupées)
+    // 2. Add Overviews (not grouped)
     s.terminalOverviews.filter(o => !o.groupId).forEach(o => {
       const id = o.id?.trim();
       if (id) tabsMap.set(id, { id, name: o.name, type: 'overview' as const });
     });
 
-    // 3. Ajouter les Projets (non groupés)
+    // 3. Add Projects (not grouped)
     s.projects.filter(p => !p.groupId).forEach(p => {
       const id = p.id?.trim();
       if (id) tabsMap.set(id, { id, name: p.name, type: 'project' as const });

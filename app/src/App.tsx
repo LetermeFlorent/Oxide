@@ -40,7 +40,7 @@ export default function App() {
               
               if (project) {
                 state.replaceProject(project.id, project.name, project.tree);
-                // On restaure l'état complet du projet
+                // Restore complete project state
                 state.updateProject(project.id, { ...project });
               } else if (overview) {
                 const linkedProjects = (mainState.projects || []).filter((p: any) => 
@@ -49,11 +49,11 @@ export default function App() {
                 state.setProjects(linkedProjects);
                 state.setTerminalOverviews([overview]);
               } else if (pId.startsWith('/')) {
-                // Fallback ultime : on tente de re-scagner le dossier si c'est un chemin
+                // Ultimate fallback: attempt to re-scan if it's a valid path
                 state.replaceProject(pId, pName, []);
               }
             } else if (pId.startsWith('/')) {
-              // Si pas de mainState (rare), on force la création
+              // If no mainState exists (rare), force project creation
               state.replaceProject(pId, pName, []);
             }
           } catch (e) {
@@ -61,7 +61,7 @@ export default function App() {
           }
         }
         
-        // On force l'activation
+        // Force activation after state restoration
         setTimeout(() => switchProject(pId), 50);
       }
       if (vMode) setViewMode(vMode as any);

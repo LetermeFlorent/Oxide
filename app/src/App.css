@@ -72,5 +72,5 @@ html, body, #root {
 
 /* Optimize rendering */
 * {
-  /* Supprimé backface-visibility car gênait les terminaux */
+  /* Removed backface-visibility as it interfered with terminal rendering */
 }

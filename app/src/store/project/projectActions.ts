@@ -88,7 +88,7 @@ export const projectActions = (set: any) => ({
     const p = s.projects.find(px => px.id === projectId);
     if (!p) return s;
     
-    // Si pas de sessions (vieux projet en cache), on initialise avec la session par défaut
+    // If no sessions exist (old project in cache), initialize with the default session
     const sessions = p.terminalSessions && p.terminalSessions.length > 0 
       ? p.terminalSessions 
       : [{ id: p.activeTerminalId || 'bash', name: 'Bash' }];

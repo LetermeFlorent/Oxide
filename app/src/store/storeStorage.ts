@@ -19,8 +19,8 @@ export const storeStorage = createJSONStorage(() => ({
     
     if ((window as any)._st) clearTimeout((window as any)._st);
     (window as any)._st = setTimeout(() => {
-      // Pour les sessions détachées, on ne sauvegarde peut-être pas en BDD Rust
-      // ou alors avec une clé différente. Pour l'instant, on garde le localStorage.
+      // For detached sessions, we might not save to the Rust backend database,
+      // or we might use a different key. For now, we stick with localStorage.
       if (!sId) invoke("save_workspace", { stateJson: v }).catch(() => {});
       localStorage.setItem(key, v);
     }, 100);
