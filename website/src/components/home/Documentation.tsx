@@ -24,6 +24,17 @@ const OptionCard = ({ icon: Icon, label, desc }: any) => (
   </div>
 );
 
+const DocImage = ({ src, alt }: { src: string, alt: string }) => (
+  <div className="my-8 rounded-2xl border border-black/5 overflow-hidden shadow-2xl bg-white group relative">
+    <div className="h-6 bg-gray-50 border-b border-gray-100 flex items-center px-3 gap-1.5">
+      <div className="w-2 h-2 rounded-full bg-red-400/40" />
+      <div className="w-2 h-2 rounded-full bg-yellow-400/40" />
+      <div className="w-2 h-2 rounded-full bg-green-400/40" />
+    </div>
+    <img src={src} alt={alt} className="w-full h-auto" />
+  </div>
+);
+
 export const Documentation: React.FC = () => {
   const [activeSection, setActiveSection] = useState("explorer");
 
@@ -33,13 +44,11 @@ export const Documentation: React.FC = () => {
       title: t("guide.sections.explorer"), 
       icon: <Sidebar size={18} />,
       content: "Navigation chirurgicale et gestion d'actifs.",
+      image: "/workspace-empty.png",
       options: [
         { icon: Search, label: "Recherche Header", desc: "Filtrez vos fichiers instantanément avec une barre de recherche intégrée." },
-        { icon: RotateCw, label: "Réindexation", desc: "Forcez un scan complet du projet via le moteur Rust (PTY) pour synchroniser les changements." },
-        { icon: ImageIcon, label: "Galerie d'Images", desc: "Aperçu natif haute résolution et gestion des vignettes dans la sidebar." },
-        { icon: FileText, label: "Visualiseur PDF", desc: "Support natif pour consulter vos documentations PDF directement dans l'éditeur." },
-        { icon: Bookmark, label: "File Follow", desc: "Épinglez un fichier pour garder un focus constant, même en changeant de dossier." },
-        { icon: MousePointer2, label: "Actions Fichiers", desc: "Clic droit complet : Révéler dans l'OS, Renommer, Supprimer ou Création rapide." }
+        { icon: RotateCw, label: "Réindexation", desc: "Forcez un scan complet du projet via le moteur Rust (PTY)." },
+        { icon: ImageIcon, label: "Galerie d'Images", desc: "Aperçu natif haute résolution et gestion des vignettes." }
       ]
     },
     { 
@@ -47,13 +56,11 @@ export const Documentation: React.FC = () => {
       title: t("guide.sections.terminal"), 
       icon: <Terminal size={18} />,
       content: "Terminaux multi-sessions propulsés par Rust.",
+      image: "/terminal-overview.png",
       options: [
-        { icon: Plus, label: "Multi-Sessions", desc: "Ouvrez plusieurs sessions (Bash, Zsh, etc.) dans un seul projet via le header terminal." },
-        { icon: Zap, label: "Mode Broadcast", desc: "Envoyez la même commande à tous vos terminaux actifs simultanément." },
-        { icon: Grid3X3, label: "Grilles Dynamiques", desc: "Organisez vos terminaux en grilles personnalisables (2x2, 3x3) pour le monitoring." },
-        { icon: FolderTree, label: "Path Tracking", desc: "Le header affiche le chemin actuel et permet de naviguer rapidement dans les dossiers." },
-        { icon: Activity, label: "Système PTY", desc: "Sessions persistantes gérées par le backend Rust pour une stabilité maximale." },
-        { icon: Trash2, label: "Kill Session", desc: "Arrêtez instantanément tout processus bloqué via le bouton de fermeture de session." }
+        { icon: Plus, label: "Multi-Sessions", desc: "Ouvrez plusieurs sessions (Bash, Zsh) dans un seul projet." },
+        { icon: Zap, label: "Mode Broadcast", desc: "Diffusez vos commandes sur tous vos terminaux actifs." },
+        { icon: Grid3X3, label: "Grilles Dynamiques", desc: "Organisez vos terminaux en grilles personnalisables." }
       ]
     },
     { 
@@ -61,35 +68,11 @@ export const Documentation: React.FC = () => {
       title: t("guide.sections.editor"), 
       icon: <FileCode size={18} />,
       content: "Une expérience d'édition hybride et fluide.",
+      image: "/workspace-full.png",
       options: [
-        { icon: Split, label: "Split View", desc: "Divisez votre vue pour afficher le code et la prévisualisation simultanément." },
-        { icon: Eye, label: "Markdown Preview", desc: "Rendu temps réel de vos fichiers .md avec support des GitHub Flavored Markdown." },
-        { icon: Box, label: "Binary Viewer", desc: "Détection automatique et affichage sécurisé des fichiers binaires et images." },
-        { icon: RotateCw, label: "Sync Status", desc: "Indicateur Working/Idle synchronisé avec Rust pour surveiller les tâches de fond." }
-      ]
-    },
-    { 
-      id: "performance", 
-      title: t("guide.sections.performance"), 
-      icon: <CpuIcon size={18} />,
-      content: "La puissance de Rust au service de votre workflow.",
-      options: [
-        { icon: ZapOff, label: "Mmap File Reading", desc: "Lecture de fichiers volumineux via Memory Mapping pour une consommation RAM quasi-nulle." },
-        { icon: RefreshCcw, label: "Directory Sync", desc: "Algorithme de diff ultra-rapide pour synchroniser vos dossiers locaux et distants." },
-        { icon: Activity, label: "Streaming Scan", desc: "Scan de projet asynchrone streamé pour un affichage immédiat de l'arborescence." },
-        { icon: Puzzle, label: "Plugin WASM", desc: "Système d'extension modulaire permettant d'exécuter du code WebAssembly natif." }
-      ]
-    },
-    { 
-      id: "tabs", 
-      title: t("guide.sections.tabs"), 
-      icon: <Layers size={18} />,
-      content: "Une organisation de travail sans compromis.",
-      options: [
-        { icon: Library, label: "Groupement", desc: "Regroupez vos projets et vues par thématiques via le menu contextuel des onglets." },
-        { icon: Edit3, label: "Renommage", desc: "Personnalisez le nom de vos onglets pour une identification rapide." },
-        { icon: Columns, label: "Tabs Verticales", desc: "Basculez les onglets sur le côté pour libérer de l'espace vertical (idéal Wide Screen)." },
-        { icon: Trash2, label: "Fermeture Intelligente", desc: "Fermez les groupes, les projets ou les aperçus via un clic droit dédié." }
+        { icon: Split, label: "Split View", desc: "Divisez votre vue pour afficher le code et la prévisualisation." },
+        { icon: Eye, label: "Markdown Preview", desc: "Rendu temps réel de vos fichiers .md avec support GFM." },
+        { icon: Box, label: "Binary Viewer", desc: "Détection automatique et affichage sécurisé des fichiers binaires." }
       ]
     },
     { 
@@ -97,11 +80,23 @@ export const Documentation: React.FC = () => {
       title: t("guide.sections.advanced"), 
       icon: <Layout size={18} />,
       content: "Personnalisation complète de votre environnement.",
+      image: "/settings-ui.png",
       options: [
-        { icon: ZoomIn, label: "Zoom Canvas", desc: "Zoom fluide sur l'interface complète (style Figma) pour un confort visuel total." },
-        { icon: Keyboard, label: "Power Shortcuts", desc: "Mapping clavier complet pour naviguer, créer et fermer sans souris." },
-        { icon: Cpu, label: "Hardware Render", desc: "Utilise le GPU pour le rendu du terminal et des transitions fluides." },
-        { icon: Box, label: "LSM Database", desc: "Stockage Sled ultra-rapide pour vos préférences et l'état de vos sessions." }
+        { icon: Layout, label: "Mode Compact", desc: "Interface condensée pour maximiser la visibilité." },
+        { icon: Columns, label: "Tabs Verticales", desc: "Basculez les onglets sur le côté pour les écrans larges." },
+        { icon: ZoomIn, label: "Zoom Canvas", desc: "Zoom fluide sur l'interface complète style Figma." }
+      ]
+    },
+    {
+      id: "session",
+      title: "Session & Persistence",
+      icon: <Settings size={18} />,
+      content: "Ne perdez jamais votre contexte de travail.",
+      image: "/settings-session.png",
+      options: [
+        { icon: RotateCw, label: "Auto-Restore", desc: "Restaure vos fichiers, groupes et onglets au démarrage." },
+        { icon: Bookmark, label: "Focus Tracking", desc: "Mémorise l'onglet actif et le fichier suivi." },
+        { icon: Cpu, label: "LSM Sled", desc: "Base de données haute performance pour vos préférences." }
       ]
     },
     {
@@ -111,7 +106,7 @@ export const Documentation: React.FC = () => {
       content: t("guide.license.desc"),
       options: [
         { icon: ShieldCheck, label: t("guide.license.msrsl"), desc: t("guide.license.msrsl_desc") },
-        { icon: AlertTriangle, label: "Violations", desc: "Toute utilisation non autorisée du code source ou distribution commerciale fera l'objet de poursuites." }
+        { icon: AlertTriangle, label: "Violations", desc: "Toute utilisation non autorisée fera l'objet de poursuites." }
       ]
     }
   ];
@@ -124,23 +119,20 @@ export const Documentation: React.FC = () => {
           <p className="text-sm text-gray-500 font-medium italic">Oxide Bêta v1.4.0</p>
         </div>
         {sections.map((s) => (
-          <button
-            key={s.id}
-            onClick={() => setActiveSection(s.id)}
+          <button key={s.id} onClick={() => setActiveSection(s.id)}
             className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all font-semibold ${
               activeSection === s.id ? "bg-black text-white shadow-xl shadow-black/10 scale-[1.02]" : "text-gray-500 hover:bg-black/5"
             }`}
           >
             <div className="flex items-center gap-3 text-left">
-              {s.icon}
-              <span className="text-sm">{s.title}</span>
+              {s.icon} <span className="text-sm">{s.title}</span>
             </div>
             {activeSection === s.id && <ChevronRight size={14} />}
           </button>
         ))}
       </aside>
 
-      <main className="flex-1">
+      <main className="flex-1 min-w-0">
         {sections.filter(s => s.id === activeSection).map(s => (
           <div key={s.id} className="animate-in fade-in slide-in-from-right-4 duration-500">
             <div className="mb-12">
@@ -148,19 +140,10 @@ export const Documentation: React.FC = () => {
               <p className="text-xl text-gray-500 font-medium leading-relaxed">{s.content}</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {s.options.map((opt, i) => (
-                <OptionCard key={i} {...opt} />
-              ))}
-            </div>
+            {s.image && <DocImage src={s.image} alt={s.title} />}
 
-            <div className="mt-16 p-8 rounded-[2.5rem] bg-gray-50 border border-gray-100 flex flex-col gap-4">
-              <h4 className="font-bold flex items-center gap-2 text-gray-900">
-                <ShieldCheck size={16} className="text-blue-500" /> Note Juridique
-              </h4>
-              <p className="text-sm text-gray-600 leading-relaxed font-medium italic">
-                Oxide est protégé par la licence MS-RSL. Le code source est ouvert à la consultation pour garantir la transparence, mais reste la propriété exclusive de O.A.S (Optimization & Quality).
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {s.options.map((opt, i) => <OptionCard key={i} {...opt} />)}
             </div>
           </div>
         ))}
