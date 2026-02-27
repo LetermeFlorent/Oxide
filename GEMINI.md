@@ -4,15 +4,15 @@ Oxide is a high-performance, elegant developer environment built with **Tauri v2
 
 ## 🏗️ Architecture Overview
 
+- **Monorepo Structure**: The project is organized into two main workspaces:
+  - `/app`: The core Tauri application (Rust + React).
+  - `/website`: The marketing landing page (React + Vite).
+- **Build Delegation**: A root `package.json` manages global scripts and deployment delegation. For deployment platforms like Cloudflare Pages, use `npm run build` at the root, which delegates to the website and copies the output to a root `dist/` folder.
+
 - **Frontend (`/app/src`)**: React 19 + Vite + TypeScript + Tailwind CSS v4.
+  - **i18n**: Uses a custom `t` helper with split `en.json`/`fr.json` files in `src/i18n/`.
   - **State Management**: Zustand (located in `app/src/store`).
-  - **UI/UX**: Framer Motion for animations, Lucide for icons, Xterm.js for the terminal.
-  - **Editors**: Monaco Editor for code, React Markdown for previews, PDF.js for PDF rendering.
-- **Backend (`/app/src-tauri`)**: Rust.
-  - **Core**: PTY management (`portable-pty`), File system watching (`notify`), indexing (`rusqlite` & `sled`).
-  - **Advanced FS**: Mmap-based file reading, binary tree scanning, directory syncing.
-  - **Extensibility**: WASM-based plugin system.
-- **Documentation/Site (`/website`)**: Marketing website for the project.
+  - **Folder Rule**: Max 5 files per folder. Feature-based nesting is required.
 
 ## 🛠️ Key Commands
 
