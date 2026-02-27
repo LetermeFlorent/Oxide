@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "website:install": "npm install --prefix website",
-    "website:build": "npm run website:install && npm run build --prefix website",
+    "website:build": "npm run website:install && npm run build --prefix website && cp -r website/dist ./dist",
     "website:dev": "npm run dev --prefix website",
     "app:build": "npm run build --prefix app",
     "app:dev": "npm run dev --prefix app",
