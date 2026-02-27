@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Github } from "lucide-react";
 import { Button } from "../ui/Button";
 import { t } from "../../i18n";
-import { motion, useScroll } from "framer-motion";
+import { motion, useScroll, AnimatePresence } from "framer-motion";
 
 interface NavProps {
   view: "overview" | "download" | "guide";
@@ -12,10 +12,50 @@ interface NavProps {
 export const Nav: React.FC<NavProps> = ({ view, setView }) => {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("overview");
 
   useEffect(() => {
-    return scrollY.onChange((latest) => setIsScrolled(latest > 50));
+    const updateScrolled = (latest: number) => setIsScrolled(latest > 50);
+    const unsubscribe = scrollY.onChange(updateScrolled);
+    return () => unsubscribe();
   }, [scrollY]);
+
+  useEffect(() => {
+    if (view !== "overview") {
+      setActiveSection(view);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.5, rootMargin: "-100px 0px -50% 0px" }
+    );
+
+    const sections = ["features", "tech"];
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    // Handle overview/hero section
+    const handleScroll = () => {
+      if (window.scrollY < 300) {
+        setActiveSection("overview");
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [view]);
 
   const handleOverviewClick = () => {
     if (view !== "overview") {
@@ -40,6 +80,24 @@ export const Nav: React.FC<NavProps> = ({ view, setView }) => {
     }
   };
 
+  const NavItem = ({ id, label, onClick, isActive, hiddenMobile = false }: any) => (
+    <button
+      onClick={onClick}
+      className={`relative px-3 h-8 text-xs md:text-sm font-medium transition-colors duration-300 z-10 ${
+        isActive ? "text-black" : "text-gray-500 hover:text-gray-900"
+      } ${hiddenMobile ? "hidden lg:block" : ""}`}
+    >
+      {isActive && (
+        <motion.div
+          layoutId="nav-pill"
+          className="absolute inset-0 bg-black/5 rounded-full -z-10"
+          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+        />
+      )}
+      {label}
+    </button>
+  );
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
@@ -55,25 +113,39 @@ export const Nav: React.FC<NavProps> = ({ view, setView }) => {
         </div>
 
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="sm" onClick={handleOverviewClick} className={`rounded-full px-3 h-8 text-xs md:text-sm ${view === 'overview' ? 'bg-black/5 text-black' : 'text-gray-500'}`}>
-            {t("nav.overview")}
-          </Button>
-          <button onClick={(e) => handleNavClick(e, "features")} className="hidden lg:block px-3 h-8 text-sm font-medium text-gray-500 hover:text-black transition-colors">
-            {t("nav.performance")}
-          </button>
-          <button onClick={(e) => handleNavClick(e, "tech")} className="hidden lg:block px-3 h-8 text-sm font-medium text-gray-500 hover:text-black transition-colors">
-            {t("nav.architecture")}
-          </button>
-          <Button variant="ghost" size="sm" onClick={() => setView("guide")} className={`rounded-full px-3 h-8 text-xs md:text-sm ${view === 'guide' ? 'bg-black/5 text-black' : 'text-gray-500'}`}>
-            {t("nav.guide")}
-          </Button>
+          <NavItem 
+            id="overview" 
+            label={t("nav.overview")} 
+            onClick={handleOverviewClick} 
+            isActive={activeSection === "overview"} 
+          />
+          <NavItem 
+            id="features" 
+            label={t("nav.performance")} 
+            onClick={(e: any) => handleNavClick(e, "features")} 
+            isActive={activeSection === "features"}
+            hiddenMobile
+          />
+          <NavItem 
+            id="tech" 
+            label={t("nav.architecture")} 
+            onClick={(e: any) => handleNavClick(e, "tech")} 
+            isActive={activeSection === "tech"}
+            hiddenMobile
+          />
+          <NavItem 
+            id="guide" 
+            label={t("nav.guide")} 
+            onClick={() => setView("guide")} 
+            isActive={activeSection === "guide"} 
+          />
         </div>
 
         <div className="flex items-center gap-2 pl-2 border-l border-black/5">
-          <a href="https://github.com/LetermeFlorent/Oxide" className="text-gray-400 hover:text-black p-2"><Github size={18} /></a>
+          <a href="https://github.com/LetermeFlorent/Oxide" className="text-gray-400 hover:text-black p-2 transition-colors"><Github size={18} /></a>
           <Button 
             size="sm" 
-            className="rounded-full px-4 md:px-6 h-8 text-[10px] md:text-xs font-bold bg-black text-white"
+            className="rounded-full px-4 md:px-6 h-8 text-[10px] md:text-xs font-bold bg-black text-white hover:bg-gray-800 transition-all"
             onClick={() => setView(view === "download" ? "overview" : "download")}
           >
             {view === "download" ? t("nav.back") : t("nav.download")}
@@ -83,3 +155,4 @@ export const Nav: React.FC<NavProps> = ({ view, setView }) => {
     </motion.header>
   );
 };
+
