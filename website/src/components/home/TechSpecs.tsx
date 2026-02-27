@@ -1,5 +1,6 @@
 import React from "react";
-import { Card, CardTitle } from "../ui/Card";
+import { Card } from "../ui/Card";
+import { t } from "../../i18n";
 
 const TechLine = ({ label, value }: { label: string, value: string }) => (
   <div className="flex items-center justify-between py-5 border-b last:border-0 group">
@@ -11,14 +12,14 @@ const TechLine = ({ label, value }: { label: string, value: string }) => (
 export const TechSpecs: React.FC = () => (
   <section id="tech" className="py-24 px-6 max-w-4xl mx-auto border-t">
     <div className="text-center mb-16 space-y-4">
-      <h2 className="text-4xl font-extrabold tracking-tighter">Built on Open Standards.</h2>
-      <p className="text-muted-foreground font-medium text-lg">Engineered from the ground up for stability.</p>
+      <h2 className="text-4xl font-extrabold tracking-tighter">{t("tech.title")}</h2>
+      <p className="text-muted-foreground font-medium text-lg">{t("tech.subtitle")}</p>
     </div>
     <Card className="p-8 shadow-sm">
-      <TechLine label="Infrastructure" value="Tauri Core / Rust" />
-      <TechLine label="Frontend Layer" value="React / Vite / TypeScript" />
-      <TechLine label="Database Engine" value="LSM Sled Storage" />
-      <TechLine label="Visual Interface" value="Tailwind / Framer Motion" />
+      <TechLine label={t("tech.infra")} value="Tauri Core / Rust" />
+      <TechLine label={t("tech.frontend")} value="React / Vite / TypeScript" />
+      <TechLine label={t("tech.db")} value="LSM Sled Storage" />
+      <TechLine label={t("tech.visual")} value="Tailwind / Framer Motion" />
     </Card>
   </section>
 );

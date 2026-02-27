@@ -2,13 +2,9 @@ import React from "react";
 import { Download, Star } from "lucide-react";
 import { Asset, getAssetIcon, getAssetLabel } from "./ReleaseSelector.types";
 import { Button } from "../ui/Button";
+import { t } from "../../i18n";
 
-interface AssetItemProps {
-  asset: Asset;
-  recommended: boolean;
-}
-
-export const AssetItem: React.FC<AssetItemProps> = ({ asset, recommended }) => (
+export const AssetItem: React.FC<{ asset: Asset; recommended: boolean }> = ({ asset, recommended }) => (
   <Button
     key={asset.name}
     variant="secondary"
@@ -25,7 +21,7 @@ export const AssetItem: React.FC<AssetItemProps> = ({ asset, recommended }) => (
     </span>
     <div className="flex flex-col items-start leading-tight">
       <span className="font-bold tracking-tight text-xs">{getAssetLabel(asset.name)}</span>
-      {recommended && <span className="text-[9px] opacity-60 font-black uppercase text-primary">Recommended</span>}
+      {recommended && <span className="text-[9px] opacity-60 font-black uppercase text-primary">{t("download.recommended")}</span>}
     </div>
     <Download size={14} className="ml-3 opacity-20 group-hover:opacity-100 transition-all" />
   </Button>

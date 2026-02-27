@@ -10,10 +10,37 @@
   "hero": {
     "title": "Oxide",
     "subtitle": "Environnement de développement haute performance conçu avec Tauri et Rust.",
-    "cta": "Commencer"
+    "cta": "Commencer",
+    "docs": "Documentation"
+  },
+  "footer": {
+    "tagline": "Haute performance, environnement élégant.",
+    "docs": "Documentation"
+  },
+  "bento": {
+    "native_title": "Performance Native.",
+    "native_desc": "Exécution shell en temps réel via backend Rust.",
+    "glass_title": "Pur Verre.",
+    "glass_desc": "Une interface raffinée qui s'efface.",
+    "minimal_title": "Minimaliste.",
+    "minimal_desc": "Moins de 50 Mo d'utilisation RAM.",
+    "future_title": "Architecture du Futur.",
+    "future_desc": "Tauri, React et Rust. Le parfait trio."
+  },
+  "tech": {
+    "title": "Basé sur des Standards Ouverts.",
+    "subtitle": "Conçu de A à Z pour la stabilité.",
+    "infra": "Infrastructure",
+    "frontend": "Couche Frontend",
+    "db": "Moteur de Base de Données",
+    "visual": "Interface Visuelle"
   },
   "download": {
     "title": "Obtenir la dernière version.",
-    "subtitle": "Binaires directs de GitHub"
+    "subtitle": "Binaires directs de GitHub",
+    "notes": "Notes",
+    "recommended": "Recommandé",
+    "coming_soon": "Bientôt Disponible",
+    "stay_tuned": "Restez à l'écoute pour la première version."
   }
 }

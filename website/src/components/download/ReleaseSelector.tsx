@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Release } from "./ReleaseSelector.types";
 import { ReleaseItem } from "./ReleaseItem";
 import { Card } from "../ui/Card";
+import { t } from "../../i18n";
 
 export const ReleaseSelector: React.FC = () => {
   const [releases, setReleases] = useState<Release[]>([]);
@@ -29,8 +30,8 @@ export const ReleaseSelector: React.FC = () => {
   if (releases.length === 0) return (
     <Card className="p-20 text-center bg-muted/30">
       <Box size={40} className="mx-auto mb-6 text-muted-foreground/30" />
-      <h3 className="text-xl font-extrabold mb-2 text-foreground">Coming Soon</h3>
-      <p className="text-muted-foreground font-bold text-xs uppercase tracking-widest">Stay tuned for the first build.</p>
+      <h3 className="text-xl font-extrabold mb-2 text-foreground">{t("download.coming_soon")}</h3>
+      <p className="text-muted-foreground font-bold text-xs uppercase tracking-widest">{t("download.stay_tuned")}</p>
     </Card>
   );
 

@@ -1,12 +1,9 @@
 import React from "react";
 import { Box, ChevronRight } from "lucide-react";
 import { Release } from "./ReleaseSelector.types";
+import { t } from "../../i18n";
 
-interface ReleaseHeaderProps {
-  release: Release;
-}
-
-export const ReleaseHeader: React.FC<ReleaseHeaderProps> = ({ release }) => (
+export const ReleaseHeader: React.FC<{ release: Release }> = ({ release }) => (
   <div className="flex items-center justify-between">
     <div className="flex items-center gap-6">
       <div className="w-14 h-14 bg-muted/30 rounded-2xl flex items-center justify-center text-muted-foreground group-hover/card:scale-105 transition-transform duration-500 shadow-sm border">
@@ -23,7 +20,7 @@ export const ReleaseHeader: React.FC<ReleaseHeaderProps> = ({ release }) => (
       </div>
     </div>
     <a href={release.html_url} target="_blank" className="text-primary text-[13px] font-bold hover:underline flex items-center gap-1 group/link transition-all">
-      Notes <ChevronRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
+      {t("download.notes")} <ChevronRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
     </a>
   </div>
 );
