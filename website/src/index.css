@@ -30,8 +30,15 @@
 @layer base {
   * { @apply border-border; }
   body { 
-    @apply bg-background text-foreground antialiased selection:bg-black/10 selection:text-black; 
-    font-family: "Inter", system-ui, sans-serif; 
+    @apply bg-background text-foreground antialiased selection:bg-blue-500/20 selection:text-blue-900; 
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.015em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.03em;
   }
 }
 
@@ -44,12 +51,20 @@
   }
   
   .glass-panel {
-    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-sm;
+    @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300;
   }
   
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-br from-gray-900 via-gray-700 to-gray-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-gray-900 via-gray-700 to-gray-500;
+  }
+  
+  /* Smooth animations */
+  .transition-spring {
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 }
 
-.apple-blur { background: hsl(var(--background) / 0.8); backdrop-filter: saturate(180%) blur(20px); }
+.apple-blur { 
+  background: hsl(var(--background) / 0.7); 
+  backdrop-filter: saturate(180%) blur(20px); 
+}

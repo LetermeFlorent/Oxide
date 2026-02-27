@@ -3,34 +3,50 @@ import { Terminal, Layout, Zap, Cpu, Undo, ZoomIn, Keyboard, Search } from "luci
 import { t } from "../../i18n";
 import { motion } from "framer-motion";
 
-const Card: React.FC<{ title: string; description: string; icon: ReactNode; className?: string }> = ({ 
-  title, description, icon, className 
-}) => (
-  <motion.div 
-    initial={{ opacity: 0, y: 10 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-50px" }}
-    whileHover={{ y: -5, boxShadow: "0 20px 40px -10px rgba(0,0,0,0.1)" }}
-    className={`group relative overflow-hidden bg-white/70 backdrop-blur-md rounded-3xl border border-gray-100 p-8 flex flex-col justify-between transition-all duration-500 ease-out hover:border-blue-100 ${className}`}
-  >
-    <div className="absolute inset-0 bg-dot-pattern opacity-[0.03] group-hover:opacity-[0.08] transition-opacity" />
-    <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-100 group-hover:text-blue-500 transition-all duration-500 scale-90 group-hover:scale-100">
-      {icon}
-    </div>
-    
-    <div className="relative z-10">
-      <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-900 mb-6 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors duration-300">
+const Card: React.FC<{ title: string; description: string; icon: ReactNode; className?: string }> = ({
+  title, description, icon, className
+}) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      whileHover={{ y: -5, boxShadow: "0 20px 40px -10px rgba(0,0,0,0.1)" }}
+      className={`group relative overflow-hidden bg-white/70 backdrop-blur-md rounded-3xl border border-gray-100 p-8 flex flex-col justify-between transition-all duration-500 ease-out hover:border-blue-100 ${className}`}
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+        e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+      }}
+    >
+      {/* Spotlight Effect */}
+      <div
+        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-500 group-hover:opacity-100"
+        style={{
+          background: `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(59, 130, 246, 0.05), transparent 40%)`
+        }}
+      />
+      <div className="absolute inset-0 bg-dot-pattern opacity-[0.03] group-hover:opacity-[0.08] transition-opacity" />
+      <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-100 group-hover:text-blue-500 transition-all duration-500 scale-90 group-hover:scale-100">
         {icon}
       </div>
-      <h3 className="text-xl font-bold tracking-tight text-gray-900 mb-3 group-hover:text-black transition-colors">
-        {title}
-      </h3>
-      <p className="text-sm font-medium text-gray-500 leading-relaxed group-hover:text-gray-600 transition-colors">
-        {description}
-      </p>
-    </div>
-  </motion.div>
-);
+
+      <div className="relative z-10">
+        <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-900 mb-6 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors duration-300">
+          {icon}
+        </div>
+        <h3 className="text-xl font-bold tracking-tight text-gray-900 mb-3 group-hover:text-black transition-colors">
+          {title}
+        </h3>
+        <p className="text-sm font-medium text-gray-500 leading-relaxed group-hover:text-gray-600 transition-colors">
+          {description}
+        </p>
+      </div>
+    </motion.div>
+  );
+};
 
 export const BentoGrid: React.FC = () => (
   <section id="features" className="py-32 px-6 max-w-7xl mx-auto relative">
@@ -45,17 +61,17 @@ export const BentoGrid: React.FC = () => (
 
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[320px]">
       {/* Large Cards */}
-      <Card 
+      <Card
         className="md:col-span-2 lg:col-span-2 bg-gradient-to-br from-gray-50/50 to-white"
-        title={t("bento.native_title")} 
-        description={t("bento.native_desc")} 
-        icon={<Terminal size={24} />} 
+        title={t("bento.native_title")}
+        description={t("bento.native_desc")}
+        icon={<Terminal size={24} />}
       />
-      <Card 
+      <Card
         className="md:col-span-2 lg:col-span-2"
-        title={t("bento.glass_title")} 
-        description={t("bento.glass_desc")} 
-        icon={<Layout size={24} />} 
+        title={t("bento.glass_title")}
+        description={t("bento.glass_desc")}
+        icon={<Layout size={24} />}
       />
 
       {/* Standard Cards */}
@@ -63,13 +79,13 @@ export const BentoGrid: React.FC = () => (
       <Card title={t("bento.undo_title")} description={t("bento.undo_desc")} icon={<Undo size={24} />} />
       <Card title={t("bento.zoom_title")} description={t("bento.zoom_desc")} icon={<ZoomIn size={24} />} />
       <Card title={t("bento.shortcuts_title")} description={t("bento.shortcuts_desc")} icon={<Keyboard size={24} />} />
-      
+
       {/* Wide Footer Card */}
-      <Card 
+      <Card
         className="md:col-span-2 lg:col-span-4 flex-row items-center !h-auto !py-12"
-        title={t("bento.watcher_title")} 
-        description={t("bento.watcher_desc")} 
-        icon={<Search size={24} />} 
+        title={t("bento.watcher_title")}
+        description={t("bento.watcher_desc")}
+        icon={<Search size={24} />}
       />
     </div>
   </section>
