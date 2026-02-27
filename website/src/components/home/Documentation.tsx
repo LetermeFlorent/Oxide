@@ -7,7 +7,7 @@ import {
   ChevronRight, Box, Cpu, RotateCw, Image as ImageIcon,
   FileSearch, Activity, PanelLeft, Monitor,
   Plus, FolderTree, Trash2, Edit3, Grid3X3, Layers,
-  Split, FileCode, Eye
+  Split, FileCode, Eye, ZapOff, CloudSync, CpuCore, Puzzle
 } from "lucide-react";
 
 const OptionCard = ({ icon: Icon, label, desc }: any) => (
@@ -67,6 +67,18 @@ export const Documentation: React.FC = () => {
       ]
     },
     { 
+      id: "performance", 
+      title: "Performance & Backend", 
+      icon: <CpuCore size={18} />,
+      content: "La puissance de Rust au service de votre workflow.",
+      options: [
+        { icon: ZapOff, label: "Mmap File Reading", desc: "Lecture de fichiers volumineux via Memory Mapping pour une consommation RAM quasi-nulle." },
+        { icon: CloudSync, label: "Directory Sync", desc: "Algorithme de diff ultra-rapide pour synchroniser vos dossiers locaux et distants." },
+        { icon: Activity, label: "Streaming Scan", desc: "Scan de projet asynchrone streamé pour un affichage immédiat de l'arborescence." },
+        { icon: Puzzle, label: "Plugin WASM", desc: "Système d'extension modulaire permettant d'exécuter du code WebAssembly natif." }
+      ]
+    },
+    { 
       id: "tabs", 
       title: "Gestion des Onglets", 
       icon: <Layers size={18} />,
@@ -79,22 +91,10 @@ export const Documentation: React.FC = () => {
       ]
     },
     { 
-      id: "display", 
-      title: "Affichage & Workspace", 
-      icon: <Layout size={18} />,
-      content: "Une interface qui s'adapte à votre workflow.",
-      options: [
-        { icon: PanelLeft, label: "Focus Mode", desc: "Masquez ou affichez la Sidebar en un clic pour une immersion totale dans le code." },
-        { icon: Layout, label: "Mode Compact", desc: "Interface condensée pour maximiser la visibilité sur les petits écrans." },
-        { icon: Percent, label: "Visual Score", desc: "Pourcentage de progression calculé sur vos fichiers Markdown (TODOs)." },
-        { icon: BarChart, label: "Performance Gauge", desc: "Indicateur graphique de charge et de progression intégré à la barre latérale." }
-      ]
-    },
-    { 
       id: "advanced", 
-      title: "Fonctions Avancées", 
-      icon: <Zap size={18} />,
-      content: "Des outils conçus pour la performance pure.",
+      title: "Options Interface", 
+      icon: <Layout size={18} />,
+      content: "Personnalisation complète de votre environnement.",
       options: [
         { icon: ZoomIn, label: "Zoom Canvas", desc: "Zoom fluide sur l'interface complète (style Figma) pour un confort visuel total." },
         { icon: Keyboard, label: "Power Shortcuts", desc: "Mapping clavier complet pour naviguer, créer et fermer sans souris." },
@@ -144,10 +144,10 @@ export const Documentation: React.FC = () => {
 
             <div className="mt-16 p-8 rounded-[2.5rem] bg-gray-50 border border-gray-100 flex flex-col gap-4">
               <h4 className="font-bold flex items-center gap-2 text-gray-900">
-                <Zap size={16} className="text-emerald-500" /> Note de Conception
+                <CpuCore size={16} className="text-blue-500" /> Architecture Backend
               </h4>
               <p className="text-sm text-gray-600 leading-relaxed font-medium italic">
-                "Oxide a été bâti sur l'idée que l'outil ne doit jamais ralentir la pensée. Chaque option documentée ici est le fruit d'une optimisation native pour garantir fluidité et persistance."
+                "Derrière l'interface se cache un moteur Rust optimisé pour le multithreading. Que ce soit pour le streaming de fichiers ou l'exécution de plugins WASM, Oxide exploite 100% des capacités de votre processeur."
               </p>
             </div>
           </div>
