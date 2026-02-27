@@ -64,17 +64,17 @@ export const Nav: React.FC<NavProps> = ({ view, setView }) => {
           <span className="text-[10px] font-mono bg-black/5 px-1.5 py-0.5 rounded text-gray-500">{t("nav.beta")}</span>
         </div>
 
-        <div className="hidden md:flex items-center gap-1 text-sm font-medium">
-          <Button variant="ghost" size="sm" onClick={handleOverviewClick} className={`rounded-full px-4 h-8 transition-colors ${view === 'overview' ? 'text-black bg-black/5' : 'text-gray-600'}`}>
+        <div className="flex items-center gap-1 text-[10px] md:text-sm font-medium">
+          <Button variant="ghost" size="sm" onClick={handleOverviewClick} className={`rounded-full px-2 md:px-4 h-8 transition-colors ${view === 'overview' ? 'text-black bg-black/5' : 'text-gray-600'}`}>
             {t("nav.overview")}
           </Button>
-          <a href="#features" onClick={(e) => handleNavClick(e, "features")} className="text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-4 py-1.5 h-8 text-sm inline-flex items-center transition-colors cursor-pointer">
+          <a href="#features" onClick={(e) => handleNavClick(e, "features")} className="hidden lg:inline-flex text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-4 py-1.5 h-8 text-sm items-center transition-colors cursor-pointer">
             {t("nav.performance")}
           </a>
-          <a href="#tech" onClick={(e) => handleNavClick(e, "tech")} className="text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-4 py-1.5 h-8 text-sm inline-flex items-center transition-colors cursor-pointer">
+          <a href="#tech" onClick={(e) => handleNavClick(e, "tech")} className="hidden lg:inline-flex text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-4 py-1.5 h-8 text-sm items-center transition-colors cursor-pointer">
             {t("nav.architecture")}
           </a>
-          <Button variant="ghost" size="sm" onClick={() => setView("guide")} className={`rounded-full px-4 h-8 transition-colors ${view === 'guide' ? 'text-black bg-black/5' : 'text-gray-600'}`}>
+          <Button variant="ghost" size="sm" onClick={() => setView("guide")} className={`rounded-full px-2 md:px-4 h-8 transition-colors ${view === 'guide' ? 'text-black bg-black/5' : 'text-gray-600'}`}>
             {t("nav.guide")}
           </Button>
         </div>
