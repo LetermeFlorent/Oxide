@@ -9,25 +9,22 @@
     "back": "Back"
   },
   "guide": {
-    "title": "User Guide",
+    "title": "Documentation",
     "subtitle": "Master every aspect of the Oxide environment.",
     "sections": {
-      "sidebar": {
-        "title": "Sidebar & Explorer",
-        "desc": "Manage your project files with ease. Features real-time indexing status and a dedicated GPU Mode toggle for performance monitoring."
-      },
-      "terminal": {
-        "title": "Terminal Overview",
-        "desc": "The heart of Oxide. Use the 'Broadcast' feature to send commands to multiple terminals at once. Supports grid layouts and high-speed Rust execution."
-      },
-      "settings": {
-        "title": "Advanced Preferences",
-        "desc": "Customize your experience: Compact Mode for more space, Vertical Tabs for better organization, and 'Restore Session' to pick up exactly where you left off."
-      },
-      "features": {
-        "title": "Advanced Tools",
-        "desc": "Utilize the 'Surgical Watcher' for precise file tracking, 'Infinite Undo' for safe refactoring, and 'Power Shortcuts' for maximum efficiency."
-      }
+      "explorer": "Explorer & Files",
+      "terminal": "Terminal System",
+      "editor": "Editing & Views",
+      "performance": "Performance & Backend",
+      "tabs": "Tab Management",
+      "advanced": "Interface Options",
+      "license": "License & Usage"
+    },
+    "license": {
+      "title": "License & Usage",
+      "desc": "Legal terms regarding the Oxide source code and distribution.",
+      "msrsl": "MS-RSL (Microsoft Reference Source License)",
+      "msrsl_desc": "The source code is provided for reference purposes only. You may view and study the code, but distribution, modification, or commercial use is strictly prohibited without explicit O.A.S. authorization. Any violation will result in legal action."
     }
   },
   "hero": {
@@ -76,4 +73,3 @@
     "stay_tuned": "Stay tuned for the first build."
   }
 }
- 

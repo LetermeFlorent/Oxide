@@ -7,11 +7,13 @@ import {
   ChevronRight, Box, Cpu, RotateCw, Image as ImageIcon,
   FileSearch, Activity, PanelLeft, Monitor,
   Plus, FolderTree, Trash2, Edit3, Grid3X3, Layers,
-  Split, FileCode, Eye, ZapOff, RefreshCcw, Cpu as CpuIcon, Puzzle
+  Split, FileCode, Eye, ZapOff, RefreshCcw, Cpu as CpuIcon, Puzzle,
+  Scale, ShieldCheck, AlertTriangle
 } from "lucide-react";
+import { t } from "../../i18n";
 
 const OptionCard = ({ icon: Icon, label, desc }: any) => (
-  <div className="group flex flex-col gap-3 p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all">
+  <div className="group flex flex-col gap-3 p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all text-left">
     <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-colors">
       <Icon size={18} />
     </div>
@@ -28,7 +30,7 @@ export const Documentation: React.FC = () => {
   const sections = [
     { 
       id: "explorer", 
-      title: "Explorateur & Fichiers", 
+      title: t("guide.sections.explorer"), 
       icon: <Sidebar size={18} />,
       content: "Navigation chirurgicale et gestion d'actifs.",
       options: [
@@ -42,7 +44,7 @@ export const Documentation: React.FC = () => {
     },
     { 
       id: "terminal", 
-      title: "Système Terminal", 
+      title: t("guide.sections.terminal"), 
       icon: <Terminal size={18} />,
       content: "Terminaux multi-sessions propulsés par Rust.",
       options: [
@@ -56,7 +58,7 @@ export const Documentation: React.FC = () => {
     },
     { 
       id: "editor", 
-      title: "Édition & Vues", 
+      title: t("guide.sections.editor"), 
       icon: <FileCode size={18} />,
       content: "Une expérience d'édition hybride et fluide.",
       options: [
@@ -68,7 +70,7 @@ export const Documentation: React.FC = () => {
     },
     { 
       id: "performance", 
-      title: "Performance & Backend", 
+      title: t("guide.sections.performance"), 
       icon: <CpuIcon size={18} />,
       content: "La puissance de Rust au service de votre workflow.",
       options: [
@@ -80,7 +82,7 @@ export const Documentation: React.FC = () => {
     },
     { 
       id: "tabs", 
-      title: "Gestion des Onglets", 
+      title: t("guide.sections.tabs"), 
       icon: <Layers size={18} />,
       content: "Une organisation de travail sans compromis.",
       options: [
@@ -92,7 +94,7 @@ export const Documentation: React.FC = () => {
     },
     { 
       id: "advanced", 
-      title: "Options Interface", 
+      title: t("guide.sections.advanced"), 
       icon: <Layout size={18} />,
       content: "Personnalisation complète de votre environnement.",
       options: [
@@ -100,6 +102,16 @@ export const Documentation: React.FC = () => {
         { icon: Keyboard, label: "Power Shortcuts", desc: "Mapping clavier complet pour naviguer, créer et fermer sans souris." },
         { icon: Cpu, label: "Hardware Render", desc: "Utilise le GPU pour le rendu du terminal et des transitions fluides." },
         { icon: Box, label: "LSM Database", desc: "Stockage Sled ultra-rapide pour vos préférences et l'état de vos sessions." }
+      ]
+    },
+    {
+      id: "license",
+      title: t("guide.sections.license"),
+      icon: <Scale size={18} />,
+      content: t("guide.license.desc"),
+      options: [
+        { icon: ShieldCheck, label: t("guide.license.msrsl"), desc: t("guide.license.msrsl_desc") },
+        { icon: AlertTriangle, label: "Violations", desc: "Toute utilisation non autorisée du code source ou distribution commerciale fera l'objet de poursuites." }
       ]
     }
   ];
@@ -119,7 +131,7 @@ export const Documentation: React.FC = () => {
               activeSection === s.id ? "bg-black text-white shadow-xl shadow-black/10 scale-[1.02]" : "text-gray-500 hover:bg-black/5"
             }`}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 text-left">
               {s.icon}
               <span className="text-sm">{s.title}</span>
             </div>
@@ -144,10 +156,10 @@ export const Documentation: React.FC = () => {
 
             <div className="mt-16 p-8 rounded-[2.5rem] bg-gray-50 border border-gray-100 flex flex-col gap-4">
               <h4 className="font-bold flex items-center gap-2 text-gray-900">
-                <CpuIcon size={16} className="text-blue-500" /> Architecture Backend
+                <ShieldCheck size={16} className="text-blue-500" /> Note Juridique
               </h4>
               <p className="text-sm text-gray-600 leading-relaxed font-medium italic">
-                "Derrière l'interface se cache un moteur Rust optimisé pour le multithreading. Que ce soit pour le streaming de fichiers ou l'exécution de plugins WASM, Oxide exploite 100% des capacités de votre processeur."
+                Oxide est protégé par la licence MS-RSL. Le code source est ouvert à la consultation pour garantir la transparence, mais reste la propriété exclusive de O.A.S (Optimization & Quality).
               </p>
             </div>
           </div>

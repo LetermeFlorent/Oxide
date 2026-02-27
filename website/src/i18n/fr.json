@@ -9,25 +9,22 @@
     "back": "Retour"
   },
   "guide": {
-    "title": "Guide Utilisateur",
+    "title": "Documentation",
     "subtitle": "Maîtrisez chaque aspect de l'environnement Oxide.",
     "sections": {
-      "sidebar": {
-        "title": "Sidebar & Explorer",
-        "desc": "Gérez vos fichiers avec aisance. Comprend l'état d'indexation en temps réel et un sélecteur de Mode GPU dédié au monitoring des performances."
-      },
-      "terminal": {
-        "title": "Aperçu Terminal",
-        "desc": "Le cœur d'Oxide. Utilisez la fonction 'Broadcast' pour envoyer des commandes à plusieurs terminaux à la fois. Supporte les grilles et l'exécution Rust haute vitesse."
-      },
-      "settings": {
-        "title": "Préférences Avancées",
-        "desc": "Personnalisez votre expérience : Mode Compact pour plus d'espace, Onglets Verticaux pour une meilleure organisation, et 'Restauration de Session' pour reprendre là où vous vous étiez arrêté."
-      },
-      "features": {
-        "title": "Outils Avancés",
-        "desc": "Utilisez le 'Surgical Watcher' pour un suivi précis des fichiers, 'Infinite Undo' pour un refactoring sûr, et 'Raccourcis de Puissance' pour une efficacité maximale."
-      }
+      "explorer": "Explorateur & Fichiers",
+      "terminal": "Système Terminal",
+      "editor": "Édition & Vues",
+      "performance": "Performance & Backend",
+      "tabs": "Gestion des Onglets",
+      "advanced": "Options Interface",
+      "license": "Licence & Usage"
+    },
+    "license": {
+      "title": "Licence & Usage",
+      "desc": "Termes légaux concernant le code source et la distribution d'Oxide.",
+      "msrsl": "MS-RSL (Microsoft Reference Source License)",
+      "msrsl_desc": "Le code source est fourni uniquement à des fins de référence. Vous pouvez consulter et étudier le code, mais la distribution, la modification ou l'utilisation commerciale sont strictement interdites sans autorisation explicite de O.A.S. Toute violation entraînera des poursuites judiciaires."
     }
   },
   "hero": {
