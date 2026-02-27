@@ -26,7 +26,7 @@ export default function App() {
       
       if (pId) {
         const state = useStore.getState();
-        // Si c'est une nouvelle session sans projets, on tente de restaurer l'onglet cible
+        // If this is a new session with no projects, attempt to restore the target tab
         if (state.projects.length === 0 && state.terminalOverviews.length === 0) {
           const pName = params.get('projectName') || 'Project';
           
