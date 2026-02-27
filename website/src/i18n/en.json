@@ -28,19 +28,19 @@
     }
   },
   "hero": {
-    "title": "Raw Performance. Clean Design.",
+    "title": "The Terminal-First IDE.",
     "version": "Beta v1.4.0",
-    "subtitle": "Oxide is the native workspace built with Rust for uncompromising performance and distraction-free workflow.",
+    "subtitle": "Built for those who live in the console. Oxide merges terminal power with a blazingly fast modern Rust interface.",
     "cta": "Get Started",
     "docs": "Documentation"
   },
   "footer": {
-    "tagline": "Next-gen developer workspace. High performance, pure glass.",
+    "tagline": "Terminal-first developer workspace. High performance, pure glass.",
     "docs": "Documentation"
   },
   "bento": {
-    "native_title": "Terminal Overview.",
-    "native_desc": "Broadcast commands to multiple terminals simultaneously via Rust backend.",
+    "native_title": "Native Terminal Heart.",
+    "native_desc": "Broadcast commands to multiple terminals simultaneously via a high-performance Rust backend.",
     "glass_title": "GPU Mode.",
     "glass_desc": "Integrated visual gauge and hardware-accelerated rendering.",
     "minimal_title": "Pure Glass.",

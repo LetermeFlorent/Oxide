@@ -28,19 +28,19 @@
     }
   },
   "hero": {
-    "title": "Vitesse Brute. Design Épuré.",
+    "title": "L'IDE pensé pour le Terminal.",
     "version": "Bêta v1.4.0",
-    "subtitle": "Oxide est l'espace de travail natif conçu avec Rust pour une performance sans compromis et un workflow sans distractions.",
+    "subtitle": "Conçu pour ceux qui vivent dans la console. Oxide fusionne la puissance du terminal avec une interface moderne ultra-rapide en Rust.",
     "cta": "Commencer",
     "docs": "Documentation"
   },
   "footer": {
-    "tagline": "Le futur de votre workflow. Haute performance, design épuré.",
+    "tagline": "L'IDE terminal-first. Haute performance, design épuré.",
     "docs": "Documentation"
   },
   "bento": {
-    "native_title": "Aperçu Terminal.",
-    "native_desc": "Diffusez des commandes sur plusieurs terminaux simultanément via le backend Rust.",
+    "native_title": "Cœur Terminal Natif.",
+    "native_desc": "Diffusez des commandes sur plusieurs terminaux simultanément via un backend Rust haute performance.",
     "glass_title": "Mode GPU.",
     "glass_desc": "Jauges visuelles intégrées et rendu avec accélération matérielle.",
     "minimal_title": "Pur Verre.",
