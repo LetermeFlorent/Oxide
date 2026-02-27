@@ -2,11 +2,12 @@
   "name": "oxide-monorepo",
   "private": true,
   "scripts": {
-    "website:build": "npm run build --prefix website",
+    "website:install": "npm install --prefix website",
+    "website:build": "npm run website:install && npm run build --prefix website",
     "website:dev": "npm run dev --prefix website",
     "app:build": "npm run build --prefix app",
     "app:dev": "npm run dev --prefix app",
-    "build": "npm run build --prefix website",
+    "build": "npm run website:build",
     "dev": "npm run dev --prefix website"
   }
 }
