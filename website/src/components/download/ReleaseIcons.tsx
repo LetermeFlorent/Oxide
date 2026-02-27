@@ -1,19 +1,6 @@
 import React from "react";
 import { Monitor, Apple, Package, Terminal } from "lucide-react";
 
-export interface Asset {
-  name: string;
-  browser_download_url: string;
-}
-
-export interface Release {
-  tag_name: string;
-  name: string;
-  published_at: string;
-  html_url: string;
-  assets: Asset[];
-}
-
 export const getAssetIcon = (name: string) => {
   const ext = name.toLowerCase();
   if (ext.endsWith(".exe") || ext.endsWith(".msi")) return <Monitor size={16} />;

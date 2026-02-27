@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "lucide-react";
 import { motion } from "framer-motion";
-import { Release } from "./ReleaseSelector.types";
+import { Release } from "./Release.types";
 import { ReleaseItem } from "./ReleaseItem";
 import { Card } from "../ui/Card";
 import { t } from "../../i18n";

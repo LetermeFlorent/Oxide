@@ -1,6 +1,7 @@
 import React from "react";
 import { Download, Star } from "lucide-react";
-import { Asset, getAssetIcon, getAssetLabel } from "./ReleaseSelector.types";
+import { Asset } from "./Release.types";
+import { getAssetIcon, getAssetLabel } from "./ReleaseIcons";
 import { Button } from "../ui/Button";
 import { t } from "../../i18n";
 

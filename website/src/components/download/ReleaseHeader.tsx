@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, ChevronRight } from "lucide-react";
-import { Release } from "./ReleaseSelector.types";
+import { Release } from "./Release.types";
 import { t } from "../../i18n";
 
 export const ReleaseHeader: React.FC<{ release: Release }> = ({ release }) => (

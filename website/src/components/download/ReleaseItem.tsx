@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Release } from "./ReleaseSelector.types";
+import { Release } from "./Release.types";
 import { ReleaseHeader } from "./ReleaseHeader";
 import { AssetItem } from "./AssetItem";
 import { Card } from "../ui/Card";
