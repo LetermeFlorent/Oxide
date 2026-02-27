@@ -5,7 +5,7 @@ import { Download, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 
 export const Hero: React.FC<{ onDownload: () => void; onGuide: () => void }> = ({ onDownload, onGuide }) => (
-  <section className="relative pt-32 pb-24 px-6 md:px-0 max-w-7xl mx-auto overflow-hidden text-center flex flex-col items-center">
+  <section id="overview" className="relative pt-32 pb-24 px-6 md:px-0 max-w-7xl mx-auto overflow-hidden text-center flex flex-col items-center">
 
     {/* Subtle Gradient Spot */}
     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-b from-blue-50/50 to-transparent rounded-full blur-[100px] opacity-60 pointer-events-none" />

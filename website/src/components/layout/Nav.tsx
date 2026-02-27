@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Github } from "lucide-react";
 import { Button } from "../ui/Button";
 import { t } from "../../i18n";
-import { motion, useScroll, AnimatePresence } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 
 interface NavProps {
   view: "overview" | "download" | "guide";
@@ -26,40 +26,33 @@ export const Nav: React.FC<NavProps> = ({ view, setView }) => {
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.5, rootMargin: "-100px 0px -50% 0px" }
-    );
+    const observerOptions = {
+      root: null,
+      threshold: 0.3,
+      rootMargin: "-20% 0px -20% 0px"
+    };
 
-    const sections = ["features", "tech"];
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    const sections = ["overview", "features", "tech"];
     sections.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
 
-    // Handle overview/hero section
-    const handleScroll = () => {
-      if (window.scrollY < 300) {
-        setActiveSection("overview");
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => observer.disconnect();
   }, [view]);
 
   const handleOverviewClick = () => {
     if (view !== "overview") {
       setView("overview");
+      setActiveSection("overview");
       setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 300);
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -68,6 +61,7 @@ export const Nav: React.FC<NavProps> = ({ view, setView }) => {
 
   const handleNavClick = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
+    setActiveSection(id);
     if (view !== "overview") {
       setView("overview");
       setTimeout(() => {
