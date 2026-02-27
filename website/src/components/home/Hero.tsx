@@ -24,7 +24,7 @@ export const Hero: React.FC<{ onDownload: () => void; onGuide: () => void }> = (
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.1, duration: 0.6 }}
-        className="text-6xl md:text-[7rem] leading-[0.9] font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-black via-gray-800 to-gray-500 max-w-4xl mx-auto drop-shadow-sm"
+        className="text-5xl md:text-7xl lg:text-8xl leading-[1.1] font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-black via-gray-800 to-gray-500 max-w-4xl mx-auto drop-shadow-sm py-2"
       >
         {t("hero.title")}
       </motion.h1>
