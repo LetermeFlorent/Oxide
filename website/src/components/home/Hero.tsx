@@ -75,7 +75,7 @@ export const Hero: React.FC<{ onDownload: () => void; onGuide: () => void }> = (
             <div className="w-3 h-3 rounded-full bg-yellow-400/80" />
             <div className="w-3 h-3 rounded-full bg-green-400/80" />
           </div>
-          <img src="/welcome.png" alt="Oxide Welcome Screen" className="w-full h-auto opacity-90 group-hover:opacity-100 transition-opacity" />
+          <img src="/terminal-overview.png" alt="Oxide Welcome Screen" className="w-full h-auto opacity-90 group-hover:opacity-100 transition-opacity" />
         </div>
       </motion.div>
     </div>
