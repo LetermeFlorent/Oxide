@@ -7,7 +7,7 @@ import {
   ChevronRight, Box, Cpu, RotateCw, Image as ImageIcon,
   FileSearch, Activity, PanelLeft, Monitor,
   Plus, FolderTree, Trash2, Edit3, Grid3X3, Layers,
-  Split, FileCode, Eye, ZapOff, CloudSync, CpuCore, Puzzle
+  Split, FileCode, Eye, ZapOff, RefreshCcw, Cpu as CpuIcon, Puzzle
 } from "lucide-react";
 
 const OptionCard = ({ icon: Icon, label, desc }: any) => (
@@ -69,11 +69,11 @@ export const Documentation: React.FC = () => {
     { 
       id: "performance", 
       title: "Performance & Backend", 
-      icon: <CpuCore size={18} />,
+      icon: <CpuIcon size={18} />,
       content: "La puissance de Rust au service de votre workflow.",
       options: [
         { icon: ZapOff, label: "Mmap File Reading", desc: "Lecture de fichiers volumineux via Memory Mapping pour une consommation RAM quasi-nulle." },
-        { icon: CloudSync, label: "Directory Sync", desc: "Algorithme de diff ultra-rapide pour synchroniser vos dossiers locaux et distants." },
+        { icon: RefreshCcw, label: "Directory Sync", desc: "Algorithme de diff ultra-rapide pour synchroniser vos dossiers locaux et distants." },
         { icon: Activity, label: "Streaming Scan", desc: "Scan de projet asynchrone streamé pour un affichage immédiat de l'arborescence." },
         { icon: Puzzle, label: "Plugin WASM", desc: "Système d'extension modulaire permettant d'exécuter du code WebAssembly natif." }
       ]
@@ -144,7 +144,7 @@ export const Documentation: React.FC = () => {
 
             <div className="mt-16 p-8 rounded-[2.5rem] bg-gray-50 border border-gray-100 flex flex-col gap-4">
               <h4 className="font-bold flex items-center gap-2 text-gray-900">
-                <CpuCore size={16} className="text-blue-500" /> Architecture Backend
+                <CpuIcon size={16} className="text-blue-500" /> Architecture Backend
               </h4>
               <p className="text-sm text-gray-600 leading-relaxed font-medium italic">
                 "Derrière l'interface se cache un moteur Rust optimisé pour le multithreading. Que ce soit pour le streaming de fichiers ou l'exécution de plugins WASM, Oxide exploite 100% des capacités de votre processeur."
