@@ -17,6 +17,28 @@ export const Nav: React.FC<NavProps> = ({ view, setView }) => {
     return scrollY.onChange((latest) => setIsScrolled(latest > 50));
   }, [scrollY]);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    if (view !== "overview") {
+      setView("overview");
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          const offset = 100;
+          const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
+        }
+      }, 300);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        const offset = 100;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
@@ -37,10 +59,18 @@ export const Nav: React.FC<NavProps> = ({ view, setView }) => {
           <Button variant="ghost" size="sm" onClick={() => setView("overview")} className="text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-4 h-8 transition-colors">
             {t("nav.overview")}
           </Button>
-          <a href="#performance" className="text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-4 py-1.5 h-8 text-sm inline-flex items-center transition-colors">
+          <a 
+            href="#features" 
+            onClick={(e) => handleNavClick(e, "features")}
+            className="text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-4 py-1.5 h-8 text-sm inline-flex items-center transition-colors cursor-pointer"
+          >
             {t("nav.performance")}
           </a>
-          <a href="#tech" className="text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-4 py-1.5 h-8 text-sm inline-flex items-center transition-colors">
+          <a 
+            href="#tech" 
+            onClick={(e) => handleNavClick(e, "tech")}
+            className="text-gray-600 hover:text-black hover:bg-black/5 rounded-full px-4 py-1.5 h-8 text-sm inline-flex items-center transition-colors cursor-pointer"
+          >
             {t("nav.architecture")}
           </a>
         </div>
