@@ -3,6 +3,7 @@ import { Box } from "lucide-react";
 import { motion } from "framer-motion";
 import { Release } from "./ReleaseSelector.types";
 import { ReleaseItem } from "./ReleaseItem";
+import { Card } from "../ui/Card";
 
 export const ReleaseSelector: React.FC = () => {
   const [releases, setReleases] = useState<Release[]>([]);
@@ -13,7 +14,6 @@ export const ReleaseSelector: React.FC = () => {
       .then(res => res.json())
       .then(data => { 
         if (Array.isArray(data)) {
-          // Sort releases by date descending (newest first)
           const sorted = [...data].sort((a, b) => 
             new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
           );
@@ -24,14 +24,14 @@ export const ReleaseSelector: React.FC = () => {
       .catch(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="flex justify-center p-20"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black/20" /></div>;
+  if (loading) return <div className="flex justify-center p-20"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary/20" /></div>;
 
   if (releases.length === 0) return (
-    <div className="p-20 text-center bg-white border border-black/5 rounded-[40px]">
-      <Box size={40} className="mx-auto mb-6 text-black/10" />
-      <h3 className="text-xl font-black mb-2 text-[#1d1d1f]">Coming Soon</h3>
-      <p className="text-black/40 font-bold text-xs uppercase tracking-widest">Stay tuned for the first build.</p>
-    </div>
+    <Card className="p-20 text-center bg-muted/30">
+      <Box size={40} className="mx-auto mb-6 text-muted-foreground/30" />
+      <h3 className="text-xl font-extrabold mb-2 text-foreground">Coming Soon</h3>
+      <p className="text-muted-foreground font-bold text-xs uppercase tracking-widest">Stay tuned for the first build.</p>
+    </Card>
   );
 
   return (

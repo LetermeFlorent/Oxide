@@ -1,0 +1,19 @@
+{
+  "nav": {
+    "beta": "Bêta",
+    "overview": "Aperçu",
+    "performance": "Performance",
+    "architecture": "Architecture",
+    "download": "Télécharger",
+    "back": "Retour"
+  },
+  "hero": {
+    "title": "Oxide",
+    "subtitle": "Environnement de développement haute performance conçu avec Tauri et Rust.",
+    "cta": "Commencer"
+  },
+  "download": {
+    "title": "Obtenir la dernière version.",
+    "subtitle": "Binaires directs de GitHub"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "nav": {
+    "beta": "Beta",
+    "overview": "Overview",
+    "performance": "Performance",
+    "architecture": "Architecture",
+    "download": "Download",
+    "back": "Back"
+  },
+  "hero": {
+    "title": "Oxide",
+    "subtitle": "High-performance developer environment built with Tauri and Rust.",
+    "cta": "Get Started"
+  },
+  "download": {
+    "title": "Get the latest build.",
+    "subtitle": "Direct binaries from GitHub"
+  }
+}
