@@ -29,13 +29,6 @@ const App: React.FC = () => {
           >
             <Hero onDownload={() => setView("download")} />
             
-            <section className="px-6 py-12 max-w-7xl mx-auto relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-[2.5rem] blur opacity-10 group-hover:opacity-20 transition duration-1000 group-hover:duration-200"></div>
-              <div className="relative rounded-[2rem] shadow-2xl shadow-blue-900/10 overflow-hidden border border-white/50 bg-white/50 backdrop-blur-sm ring-1 ring-black/5">
-                <img src="/screenshot.png" alt="Oxide Interface" className="w-full h-auto transform transition-transform duration-700 hover:scale-[1.01]" />
-              </div>
-            </section>
-            
             <BentoGrid />
             <TechSpecs />
           </motion.main>
