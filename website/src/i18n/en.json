@@ -1,6 +1,6 @@
 {
   "nav": {
-    "beta": "Beta",
+    "beta": "Beta v1.4.0",
     "overview": "Overview",
     "performance": "Performance",
     "architecture": "Architecture",
@@ -9,23 +9,24 @@
   },
   "hero": {
     "title": "Oxide",
-    "subtitle": "High-performance developer environment built with Tauri and Rust.",
+    "version": "Beta v1.4.0",
+    "subtitle": "The next-gen workspace. High-performance developer environment built with Tauri and Rust.",
     "cta": "Get Started",
     "docs": "Documentation"
   },
   "footer": {
-    "tagline": "High performance, elegant environment.",
+    "tagline": "Next-gen developer workspace. High performance, pure glass.",
     "docs": "Documentation"
   },
   "bento": {
-    "native_title": "Native Performance.",
-    "native_desc": "Real-time shell execution via Rust backend.",
-    "glass_title": "Pure Glass.",
-    "glass_desc": "A refined interface that fades away.",
-    "minimal_title": "Minimalist.",
-    "minimal_desc": "Under 50MB RAM usage.",
-    "future_title": "Future Architecture.",
-    "future_desc": "Tauri, React, and Rust. The perfect trifecta."
+    "native_title": "Terminal Overview.",
+    "native_desc": "Broadcast commands to multiple terminals simultaneously via Rust backend.",
+    "glass_title": "GPU Mode.",
+    "glass_desc": "Integrated visual gauge and hardware-accelerated rendering.",
+    "minimal_title": "Pure Glass.",
+    "minimal_desc": "A refined, distraction-free interface that stays out of your way.",
+    "future_title": "Intelligent Indexing.",
+    "future_desc": "Instant file discovery powered by LSM Sled storage and SQLite."
   },
   "tech": {
     "title": "Built on Open Standards.",

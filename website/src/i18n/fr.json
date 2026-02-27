@@ -1,6 +1,6 @@
 {
   "nav": {
-    "beta": "Bêta",
+    "beta": "Bêta v1.4.0",
     "overview": "Aperçu",
     "performance": "Performance",
     "architecture": "Architecture",
@@ -9,23 +9,24 @@
   },
   "hero": {
     "title": "Oxide",
-    "subtitle": "Environnement de développement haute performance conçu avec Tauri et Rust.",
+    "version": "Bêta v1.4.0",
+    "subtitle": "Espace de travail nouvelle génération. Environnement haute performance conçu avec Tauri et Rust.",
     "cta": "Commencer",
     "docs": "Documentation"
   },
   "footer": {
-    "tagline": "Haute performance, environnement élégant.",
+    "tagline": "Le futur de votre workflow. Haute performance, design épuré.",
     "docs": "Documentation"
   },
   "bento": {
-    "native_title": "Performance Native.",
-    "native_desc": "Exécution shell en temps réel via backend Rust.",
-    "glass_title": "Pur Verre.",
-    "glass_desc": "Une interface raffinée qui s'efface.",
-    "minimal_title": "Minimaliste.",
-    "minimal_desc": "Moins de 50 Mo d'utilisation RAM.",
-    "future_title": "Architecture du Futur.",
-    "future_desc": "Tauri, React et Rust. Le parfait trio."
+    "native_title": "Aperçu Terminal.",
+    "native_desc": "Diffusez des commandes sur plusieurs terminaux simultanément via le backend Rust.",
+    "glass_title": "Mode GPU.",
+    "glass_desc": "Jauges visuelles intégrées et rendu avec accélération matérielle.",
+    "minimal_title": "Pur Verre.",
+    "minimal_desc": "Une interface raffinée et sans distraction qui s'efface devant votre code.",
+    "future_title": "Indexation Intelligente.",
+    "future_desc": "Découverte instantanée de fichiers grâce au stockage LSM Sled et SQLite."
   },
   "tech": {
     "title": "Basé sur des Standards Ouverts.",

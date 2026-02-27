@@ -7,7 +7,7 @@ export const Hero: React.FC<{ onDownload: () => void }> = ({ onDownload }) => (
   <section className="relative pt-32 pb-24 px-6 max-w-7xl mx-auto overflow-hidden">
     <div className="flex flex-col items-center text-center space-y-8">
       <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring bg-secondary text-secondary-foreground">
-        Alpha Version 1.1.12
+        {t("hero.version")}
       </div>
       <h1 className="text-4xl md:text-7xl font-extrabold tracking-tighter max-w-4xl text-foreground">
         {t("hero.title")}
