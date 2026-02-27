@@ -106,7 +106,7 @@ export const Documentation: React.FC = () => {
       content: t("guide.license.desc"),
       options: [
         { icon: ShieldCheck, label: t("guide.license.msrsl"), desc: t("guide.license.msrsl_desc") },
-        { icon: AlertTriangle, label: "Violations", desc: "Toute utilisation non autorisée fera l'objet de poursuites." }
+        { icon: AlertTriangle, label: "Violations", desc: "Toute utilisation non autorisée du code source ou distribution commerciale fera l'objet de poursuites." }
       ]
     }
   ];
