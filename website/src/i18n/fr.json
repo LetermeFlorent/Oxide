@@ -28,9 +28,9 @@
     }
   },
   "hero": {
-    "title": "Oxide",
+    "title": "Vitesse Brute. Design Épuré.",
     "version": "Bêta v1.4.0",
-    "subtitle": "Espace de travail nouvelle génération. Environnement haute performance conçu avec Tauri et Rust.",
+    "subtitle": "Oxide est l'espace de travail natif conçu avec Rust pour une performance sans compromis et un workflow sans distractions.",
     "cta": "Commencer",
     "docs": "Documentation"
   },

@@ -28,9 +28,9 @@
     }
   },
   "hero": {
-    "title": "Oxide",
+    "title": "Raw Performance. Clean Design.",
     "version": "Beta v1.4.0",
-    "subtitle": "The next-gen workspace. High-performance developer environment built with Tauri and Rust.",
+    "subtitle": "Oxide is the native workspace built with Rust for uncompromising performance and distraction-free workflow.",
     "cta": "Get Started",
     "docs": "Documentation"
   },
