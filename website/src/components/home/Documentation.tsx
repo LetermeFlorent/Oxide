@@ -6,7 +6,8 @@ import {
   Undo, ZoomIn, Keyboard, MousePointer2,
   ChevronRight, Box, Cpu, RotateCw, Image as ImageIcon,
   FileSearch, Activity, PanelLeft, Monitor,
-  Plus, FolderTree, Trash2, Edit3, Grid3X3, Layers
+  Plus, FolderTree, Trash2, Edit3, Grid3X3, Layers,
+  Split, FileCode, Eye
 } from "lucide-react";
 
 const OptionCard = ({ icon: Icon, label, desc }: any) => (
@@ -51,6 +52,18 @@ export const Documentation: React.FC = () => {
         { icon: FolderTree, label: "Path Tracking", desc: "Le header affiche le chemin actuel et permet de naviguer rapidement dans les dossiers." },
         { icon: Activity, label: "Système PTY", desc: "Sessions persistantes gérées par le backend Rust pour une stabilité maximale." },
         { icon: Trash2, label: "Kill Session", desc: "Arrêtez instantanément tout processus bloqué via le bouton de fermeture de session." }
+      ]
+    },
+    { 
+      id: "editor", 
+      title: "Édition & Vues", 
+      icon: <FileCode size={18} />,
+      content: "Une expérience d'édition hybride et fluide.",
+      options: [
+        { icon: Split, label: "Split View", desc: "Divisez votre vue pour afficher le code et la prévisualisation simultanément." },
+        { icon: Eye, label: "Markdown Preview", desc: "Rendu temps réel de vos fichiers .md avec support des GitHub Flavored Markdown." },
+        { icon: Box, label: "Binary Viewer", desc: "Détection automatique et affichage sécurisé des fichiers binaires et images." },
+        { icon: RotateCw, label: "Sync Status", desc: "Indicateur Working/Idle synchronisé avec Rust pour surveiller les tâches de fond." }
       ]
     },
     { 
