@@ -4,7 +4,8 @@ import {
   Layout, Columns, Percent, BarChart, 
   FileText, Bookmark, Library, Search, 
   Undo, ZoomIn, Keyboard, MousePointer2,
-  ChevronRight, Box, Cpu
+  ChevronRight, Box, Cpu, RotateCw, Image as ImageIcon,
+  FileSearch, Activity, PanelLeft, Monitor
 } from "lucide-react";
 
 const OptionCard = ({ icon: Icon, label, desc }: any) => (
@@ -27,60 +28,62 @@ export const Documentation: React.FC = () => {
       id: "explorer", 
       title: "Explorateur & Fichiers", 
       icon: <Sidebar size={18} />,
-      content: "Gérez vos projets avec une précision chirurgicale.",
+      content: "Navigation chirurgicale et gestion d'actifs.",
       options: [
-        { icon: Search, label: "Recherche Globale", desc: "Recherche instantanée dans tout le projet grâce à l'indexation SQLite." },
-        { icon: Box, label: "Indexation LSM", desc: "Moteur Sled pour une découverte de fichiers ultra-rapide, même sur de gros volumes." },
-        { icon: Cpu, label: "Mode GPU", desc: "Basculez sur le rendu matériel pour un monitoring en temps réel des ressources." },
-        { icon: MousePointer2, label: "Context Menu", desc: "Clic droit complet pour créer, renommer, supprimer ou réindexer vos dossiers." }
+        { icon: Search, label: "Barre de Recherche", desc: "Filtrez vos fichiers instantanément avec une barre de recherche intégrée au header." },
+        { icon: RotateCw, label: "Réindexation", desc: "Bouton de rafraîchissement pour forcer un scan complet via le moteur Rust (PTY)." },
+        { icon: ImageIcon, label: "Galerie d'Images", desc: "Aperçu natif des images et gestion des vignettes dans la sidebar." },
+        { icon: FileText, label: "Support PDF", desc: "Visualiseur PDF intégré pour consulter vos documentations sans quitter l'app." },
+        { icon: Bookmark, label: "Suivi de Fichier", desc: "Option 'Follow' pour garder un fichier en focus constant et suivre sa progression." },
+        { icon: MousePointer2, label: "Actions Contextuelles", desc: "Clic droit pour : Révéler dans l'explorateur OS, Renommer, Supprimer ou Créer." }
       ]
     },
     { 
       id: "terminal", 
       title: "Système Terminal", 
       icon: <Terminal size={18} />,
-      content: "Un écosystème de terminaux piloté par Rust (PTY).",
+      content: "Terminaux XTerm.js propulsés par Rust.",
       options: [
-        { icon: Zap, label: "Mode Broadcast", desc: "Diffusez vos commandes sur tous les terminaux actifs simultanément." },
-        { icon: Layout, label: "Terminal Grid", desc: "Affichez vos terminaux en grille pour une surveillance multi-projets." },
-        { icon: Terminal, label: "Sessions Persistantes", desc: "Vos sessions PTY survivent aux rechargements grâce à la couche native Rust." },
-        { icon: Columns, label: "Split View", desc: "Divisez votre vue terminal pour comparer logs et exécutions." }
+        { icon: Zap, label: "Mode Broadcast", desc: "Envoyez la même commande à tous vos terminaux ouverts en un clic." },
+        { icon: Layout, label: "Grilles Dynamiques", desc: "Organisez vos terminaux en grilles (2x2, 3x3) selon vos besoins de monitoring." },
+        { icon: Activity, label: "Diagnostics", desc: "Suivi en temps réel des erreurs et logs de sortie de vos processus." },
+        { icon: RotateCw, label: "Relance Rapide", desc: "Bouton dédié pour redémarrer instantanément une session PTY bloquée." }
       ]
     },
     { 
       id: "display", 
-      title: "Affichage & Tabs", 
+      title: "Affichage & Workspace", 
       icon: <Layout size={18} />,
-      content: "Personnalisez l'interface selon votre flux de travail.",
+      content: "Une interface qui s'adapte à votre écran.",
       options: [
-        { icon: Layout, label: "Mode Compact", desc: "Réduit l'interface au minimum pour maximiser l'espace de code." },
-        { icon: Columns, label: "Onglets Verticaux", desc: "Basculez les onglets de projet sur le côté pour une meilleure lisibilité." },
-        { icon: Percent, label: "Score de Progression", desc: "Affiche le pourcentage d'avancement de vos tâches en cours." },
-        { icon: BarChart, label: "Jauge Visuelle", desc: "Indicateur graphique de charge et de progression dans la sidebar." }
+        { icon: PanelLeft, label: "Sidebar Toggle", desc: "Masquez ou affichez l'explorateur pour libérer 100% de l'espace au code." },
+        { icon: Columns, label: "Tabs Verticales", desc: "Placez vos onglets sur le côté, idéal pour les écrans ultra-larges." },
+        { icon: Layout, label: "Mode Compact", desc: "Réduit la taille des icônes et des textes pour voir plus de contenu." },
+        { icon: Percent, label: "Barres de Progression", desc: "Indicateur visuel sur les fichiers Markdown pour suivre l'avancement des TODOs." }
       ]
     },
     { 
       id: "session", 
-      title: "Session & Sécurité", 
+      title: "Session & Restauration", 
       icon: <Settings size={18} />,
-      content: "Ne perdez jamais votre travail, même après un crash.",
+      content: "Continuité de travail absolue.",
       options: [
-        { icon: FileText, label: "Réouverture Auto", desc: "Restaure automatiquement les derniers fichiers ouverts au lancement." },
-        { icon: Bookmark, label: "Restore Followed", desc: "Garde le focus sur les fichiers que vous suiviez spécifiquement." },
-        { icon: Library, label: "Groupes d'Onglets", desc: "Restaure vos groupements d'onglets personnalisés." },
-        { icon: Undo, label: "Infinite Undo", desc: "Historique d'annulation robuste pour toutes les opérations de fichiers." }
+        { icon: Monitor, label: "Vue Overview", desc: "Option pour démarrer systématiquement sur l'aperçu global des projets." },
+        { icon: Library, label: "Restauration Groupes", desc: "Réouvre vos groupements d'onglets tels que vous les avez laissés." },
+        { icon: Bookmark, label: "Onglet Actif", desc: "Mémorise et restaure l'onglet exact sur lequel vous travailliez." },
+        { icon: FileSearch, label: "Recherche Globale", desc: "Fenêtre de recherche transversale accessible via le raccourci global." }
       ]
     },
     { 
       id: "advanced", 
       title: "Fonctions Avancées", 
       icon: <Zap size={18} />,
-      content: "Des outils conçus pour les Power Users.",
+      content: "Optimisation et performance pure.",
       options: [
-        { icon: ZoomIn, label: "Zoom Canevas", desc: "Zoom fluide sur toute l'interface pour s'adapter à votre confort visuel." },
-        { icon: Keyboard, label: "Power Shortcuts", desc: "Mapping complet des touches pour piloter Oxide sans la souris." },
-        { icon: Search, label: "Surgical Watcher", desc: "Surveille les changements fichiers avec un debounce de 2s pour éviter le flicker." },
-        { icon: Box, label: "Zero-Bloat", desc: "Architecture sans librairies lourdes pour une empreinte RAM < 50MB." }
+        { icon: ZoomIn, label: "Zoom Canvas", desc: "Utilisez Ctrl + Roulette pour zoomer sur l'interface comme sur un canevas Figma." },
+        { icon: Keyboard, label: "Shortcuts Map", desc: "Raccourcis pour : Switch de projet, création de fichier, toggle terminal." },
+        { icon: Cpu, label: "Accélération GPU", desc: "Utilise le GPU pour le rendu du terminal et des animations pour 0 lag." },
+        { icon: Box, label: "LSM / Sled", desc: "Base de données NoSQL haute performance pour stocker vos préférences." }
       ]
     }
   ];
@@ -127,11 +130,10 @@ export const Documentation: React.FC = () => {
 
             <div className="mt-16 p-8 rounded-[2.5rem] bg-gray-50 border border-gray-100 flex flex-col gap-4">
               <h4 className="font-bold flex items-center gap-2">
-                <Zap size={16} className="text-emerald-500" /> Note de l'Ingénieur
+                <Zap size={16} className="text-emerald-500" /> Note Technique
               </h4>
               <p className="text-sm text-gray-600 leading-relaxed font-medium">
-                Toutes ces options sont synchronisées avec le backend Rust pour garantir une latence minimale. 
-                Si vous modifiez un réglage dans la Sidebar, il est instantanément persisté dans votre configuration locale.
+                Oxide utilise une architecture hybride. Le moteur de rendu React 19 gère l'UI, tandis que le coeur en Rust s'occupe de la gestion des processus, du système de fichiers et de la base de données LSM. Cette séparation garantit que l'interface reste réactive même lors d'opérations lourdes.
               </p>
             </div>
           </div>
