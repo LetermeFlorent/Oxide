@@ -1,0 +1,12 @@
+{
+  "name": "oxide-monorepo",
+  "private": true,
+  "scripts": {
+    "website:build": "npm run build --prefix website",
+    "website:dev": "npm run dev --prefix website",
+    "app:build": "npm run build --prefix app",
+    "app:dev": "npm run dev --prefix app",
+    "build": "npm run build --prefix website",
+    "dev": "npm run dev --prefix website"
+  }
+}
