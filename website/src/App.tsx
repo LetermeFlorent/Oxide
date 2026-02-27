@@ -26,7 +26,10 @@ const App: React.FC = () => {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="relative z-10"
           >
-            <Hero onDownload={() => setView("download")} />
+            <Hero 
+              onDownload={() => setView("download")} 
+              onGuide={() => setView("guide")}
+            />
             <BentoGrid />
             <TechSpecs />
           </motion.main>
@@ -60,7 +63,7 @@ const App: React.FC = () => {
           </motion.main>
         )}
       </AnimatePresence>
-      <Footer />
+      <Footer setView={setView} />
     </div>
   );
 };

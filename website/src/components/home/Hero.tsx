@@ -1,10 +1,10 @@
 import React from "react";
 import { Button } from "../ui/Button";
 import { t } from "../../i18n";
-import { ArrowRight, Download, ExternalLink } from "lucide-react";
+import { Download, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 
-export const Hero: React.FC<{ onDownload: () => void }> = ({ onDownload }) => (
+export const Hero: React.FC<{ onDownload: () => void; onGuide: () => void }> = ({ onDownload, onGuide }) => (
   <section className="relative pt-32 pb-24 px-6 md:px-0 max-w-7xl mx-auto overflow-hidden text-center flex flex-col items-center">
     
     {/* Subtle Gradient Spot */}
@@ -54,9 +54,10 @@ export const Hero: React.FC<{ onDownload: () => void }> = ({ onDownload }) => (
         <Button 
           size="lg" 
           variant="outline" 
+          onClick={onGuide}
           className="rounded-full h-12 px-8 text-base border-gray-200 bg-white hover:bg-gray-50 text-gray-700 hover:text-black hover:border-gray-300 transition-all duration-300"
         >
-          {t("hero.docs")} <ExternalLink className="ml-2 w-4 h-4 text-gray-400" />
+          {t("hero.docs")} <BookOpen className="ml-2 w-4 h-4 text-gray-400" />
         </Button>
       </motion.div>
       
