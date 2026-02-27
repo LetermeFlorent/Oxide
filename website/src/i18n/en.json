@@ -26,7 +26,15 @@
     "minimal_title": "Pure Glass.",
     "minimal_desc": "A refined, distraction-free interface that stays out of your way.",
     "future_title": "Intelligent Indexing.",
-    "future_desc": "Instant file discovery powered by LSM Sled storage and SQLite."
+    "future_desc": "Instant file discovery powered by LSM Sled storage and SQLite.",
+    "undo_title": "Infinite Undo.",
+    "undo_desc": "Safe file operations with a robust undo/redo system.",
+    "zoom_title": "Zoomable UI.",
+    "zoom_desc": "Infinite canvas-style zoom to focus or overview your workspace.",
+    "shortcuts_title": "Power Shortcuts.",
+    "shortcuts_desc": "Comprehensive keyboard mapping for ultra-fast navigation.",
+    "watcher_title": "Surgical Watcher.",
+    "watcher_desc": "Real-time filesystem sync with advanced debounce and filtering."
   },
   "tech": {
     "title": "Built on Open Standards.",

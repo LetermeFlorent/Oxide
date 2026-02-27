@@ -26,7 +26,15 @@
     "minimal_title": "Pur Verre.",
     "minimal_desc": "Une interface raffinée et sans distraction qui s'efface devant votre code.",
     "future_title": "Indexation Intelligente.",
-    "future_desc": "Découverte instantanée de fichiers grâce au stockage LSM Sled et SQLite."
+    "future_desc": "Découverte instantanée de fichiers grâce au stockage LSM Sled et SQLite.",
+    "undo_title": "Undo Infini.",
+    "undo_desc": "Opérations sur les fichiers sécurisées avec un système undo/redo robuste.",
+    "zoom_title": "UI Zoomable.",
+    "zoom_desc": "Zoom style canevas infini pour se concentrer ou survoler votre espace.",
+    "shortcuts_title": "Raccourcis de Puissance.",
+    "shortcuts_desc": "Mapping clavier complet pour une navigation ultra-rapide.",
+    "watcher_title": "Surgical Watcher.",
+    "watcher_desc": "Synchro filesystem en temps réel avec filtrage et debounce avancés."
   },
   "tech": {
     "title": "Basé sur des Standards Ouverts.",
