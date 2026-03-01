@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { treeWorker as worker } from "../../../utils/treeWorkerInstance";
+import { treeWorker as worker } from "../../../utils/tree/treeWorkerInstance";
 
 export const ITEM_HEIGHT = 28;
 
@@ -9,6 +9,7 @@ export function useSidebarWorker(ap: any, expanded: any, q: string) {
   const [count, setCount] = useState(0);
   const [visible, setVisible] = useState<any[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const timer = useRef<any>(null);
 
   useEffect(() => {
     const handle = (e: MessageEvent) => {
@@ -25,16 +26,25 @@ export function useSidebarWorker(ap: any, expanded: any, q: string) {
   }, []);
 
   useEffect(() => {
-    if (!ap?.tree) { setCount(0); return; }
-    worker.postMessage({ type: 'COUNT_EXPANDED', nodes: ap.tree, expandedFolders: expanded, searchQuery: q });
-  }, [ap?.tree, expanded, q]);
+    if (!ap?.tree || ap.isLoading) { setCount(0); return; }
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      // Send the WHOLE tree only when it changes
+      worker.postMessage({ type: 'COUNT_EXPANDED', nodes: ap.tree, expandedFolders: expanded, searchQuery: q });
+    }, 200);
+  }, [ap?.tree, expanded, q, ap?.isLoading]);
 
   useEffect(() => {
     if (ap?.isLoading || !ap?.tree) { setVisible([]); return; }
     const start = Math.max(0, Math.floor(scrollTop / ITEM_HEIGHT) - 5);
     const end = Math.min(count, Math.ceil((scrollTop + h) / ITEM_HEIGHT) + 5);
-    worker.postMessage({ type: 'GET_VISIBLE_TREE', nodes: ap.tree, expandedFolders: expanded, startIndex: start, endIndex: end, searchQuery: q });
-  }, [ap?.tree, count, expanded, scrollTop, h, q, ap?.isLoading]);
+    
+    // Optimize: Don't send the tree again, just send indices
+    requestAnimationFrame(() => {
+      worker.postMessage({ type: 'GET_VISIBLE_TREE', nodes: null, startIndex: start, endIndex: end });
+    });
+  }, [scrollTop, h, count, ap?.isLoading]); // Only re-render on scroll/height/count change
+
 
   return { scrollRef, setScrollTop, scrollTop, expandedCount: count, visibleItems: visible };
 }

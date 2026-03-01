@@ -1,5 +1,5 @@
 
-import { FileEntry } from "../../store/types";
+import { FileEntry } from "../../store/config/types";
 import { sortNodes, normalizePath as norm } from "./treeCore";
 
 const isValidEntry = (entry: FileEntry): boolean => {

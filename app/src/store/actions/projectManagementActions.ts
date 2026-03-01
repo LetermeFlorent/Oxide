@@ -1,4 +1,4 @@
-import { ProjectStatus } from "./types";
+import { ProjectStatus } from "../config/types";
 import { createProject } from "./projectActions";
 
 export const addProject = (path: string, name: string, tree: any) => (s: any) => {
@@ -39,9 +39,13 @@ export const closeProject = (id: string) => (s: any) => {
   };
 };
 
-export const setProjectStatus = (id: string, status: ProjectStatus) => (s: any) => ({
-  projects: s.projects.map((p: any) => p.id === id ? { ...p, status } : p)
-});
+export const setProjectStatus = (id: string, status: ProjectStatus) => (s: any) => {
+  const p = s.projects.find((px: any) => px.id === id);
+  if (p && p.status === status) return {};
+  return {
+    projects: s.projects.map((px: any) => px.id === id ? { ...px, status } : px)
+  };
+};
 
 export const setFollowedFile = (pid: string, path: string | null, pr: number | null) => (s: any) => ({
   projects: s.projects.map((p: any) => p.id === pid ? { ...p, followedFilePath: path, taskProgress: pr } : p)

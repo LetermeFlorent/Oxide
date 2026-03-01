@@ -1,4 +1,4 @@
-import { ViewMode, WorkspaceState } from "./types";
+import { ViewMode, WorkspaceState } from "../config/types";
 
 export const setViewMode = (v: ViewMode) => () => ({ viewMode: v });
 

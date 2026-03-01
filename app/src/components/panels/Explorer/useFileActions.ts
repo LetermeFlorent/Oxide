@@ -1,8 +1,8 @@
 
 import { useCallback } from "react";
 import { useStore } from "../../../store/useStore";
-import { FileEntry } from "../../../store/types";
-import { monitoredInvoke } from "../../../utils/performance";
+import { FileEntry } from "../../../store/config/types";
+import { monitoredInvoke } from "../../../utils/performance/monitoredInvoke";
 import { revealItemInDir } from "@tauri-apps/plugin-opener";
 import { t } from "../../../i18n";
 

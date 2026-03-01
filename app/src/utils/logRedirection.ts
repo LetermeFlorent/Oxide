@@ -1,3 +1,1 @@
-export function initLogRedirection() {
-  // Logs disabled
-}
+export * from "./system/logRedirection";

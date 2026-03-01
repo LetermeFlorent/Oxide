@@ -1,12 +1,11 @@
-
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { WorkspaceState } from "./types";
+import { WorkspaceState } from "./config/types";
 import { stateCreator } from "./stateCreator";
-import { storeStorage } from "./storeStorage";
-import { migrateStore } from "./storeMigration";
-import { partializeStore } from "./storePartialize";
-import { STORAGE_KEY } from "./constants";
+import { storeStorage } from "./config/storeStorage";
+import { migrateStore } from "./config/storeMigration";
+import { partializeStore } from "./config/storePartialize";
+import { STORAGE_KEY } from "./config/constants";
 
 export const useStore = create<WorkspaceState>()(
   persist(stateCreator, {

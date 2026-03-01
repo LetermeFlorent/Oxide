@@ -18,7 +18,7 @@ export function MainLayout({ onOpen, onOpenFolder, onFile }: any) {
 
   return (
     <div className="flex-1 flex flex-row overflow-hidden min-h-0 relative z-0">
-      <ProjectWatcher /><ActivityBar onOpenFolder={onOpenFolder} />
+      {s.activeProjectId && <ProjectWatcher />}<ActivityBar onOpenFolder={onOpenFolder} />
       {!s.compactMode && <div className="w-2 shrink-0" />}
       {s.verticalTabs && (s.projects.length > 0 || s.terminalOverviews.length > 0) && (
         <><div className={`w-48 flex flex-col shrink-0 overflow-hidden ${s.compactMode ? 'border-r border-gray-200' : 'rounded-xl shadow-sm border border-gray-100 bg-white'}`}><ProjectTabs onOpen={onOpen} /></div>{!s.compactMode && <div className="w-2 shrink-0" />}</>

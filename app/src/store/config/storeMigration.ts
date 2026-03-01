@@ -1,6 +1,8 @@
 
 export const migrateStore = (persisted: any, version: number) => {
-  if (version < 4 && persisted && typeof persisted === 'object') {
+  if (!persisted || typeof persisted !== 'object') return persisted;
+
+  if (version < 4) {
     if (Array.isArray(persisted.projects)) {
       persisted.projects = persisted.projects.filter((p: any) => p?.id?.trim());
     }
@@ -10,7 +12,8 @@ export const migrateStore = (persisted: any, version: number) => {
     if (persisted.activeProjectId === "") persisted.activeProjectId = null;
   }
   
-  if (persisted && typeof persisted === 'object') {
+  // Only clean tree if version is old or if we suspect corruption
+  if (version < 5) {
     persisted.projects = (persisted.projects || []).map((p: any) => ({
       ...p,
       tree: cleanTree(p.tree)

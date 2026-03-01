@@ -1,13 +1,15 @@
 
-import { FileEntry } from "../../store/types";
+import { FileEntry } from "../../store/config/types";
+
+const decoder = new TextDecoder();
 
 function parseSubNode(buf: Uint8Array, v: DataView, s: { off: number }): FileEntry {
   const isFolder = buf[s.off++] === 1;
   const nLen = v.getUint32(s.off, true); s.off += 4;
   const pLen = v.getUint32(s.off, true); s.off += 4;
   const cCount = v.getUint32(s.off, true); s.off += 4;
-  const name = new TextDecoder().decode(buf.subarray(s.off, s.off + nLen)); s.off += nLen;
-  const path = new TextDecoder().decode(buf.subarray(s.off, s.off + pLen)); s.off += pLen;
+  const name = decoder.decode(buf.subarray(s.off, s.off + nLen)); s.off += nLen;
+  const path = decoder.decode(buf.subarray(s.off, s.off + pLen)); s.off += pLen;
   const node: FileEntry = { name, path, isFolder };
   if (isFolder) {
     node.children = [];

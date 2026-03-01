@@ -1,7 +1,7 @@
 
 import { useCallback, useState } from "react";
 import { useStore } from "../../../store/useStore";
-import { monitoredInvoke } from "../../../utils/performance";
+import { monitoredInvoke } from "../../../utils/performance/monitoredInvoke";
 
 export function useGridActions(overviewId: string, pIds: string[]) {
   const [masterCmd, setMasterCmd] = useState("");

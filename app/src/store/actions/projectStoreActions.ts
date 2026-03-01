@@ -1,5 +1,5 @@
 
-import { monitoredInvoke } from "../utils/performance";
+import { monitoredInvoke } from "../../utils/performance/monitoredInvoke";
 
 export const projectStoreActions = (set: any) => ({
   updateActiveProject: (u: any) => set((s: any) => ({ projects: s.projects.map((p: any) => p.id === s.activeProjectId ? { ...p, ...u } : p) })),

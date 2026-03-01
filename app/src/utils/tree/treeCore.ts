@@ -1,5 +1,5 @@
 
-import { FileEntry } from "../../store/types";
+import { FileEntry } from "../../store/config/types";
 
 /**
  * Sorts nodes: Folders first, then case-insensitive alphabetical order.

@@ -1,5 +1,5 @@
 
-import { FileEntry } from "../../store/types";
+import { FileEntry } from "../../store/config/types";
 
 const isValidEntry = (item: FileEntry): boolean => {
   return !!(item?.name && item.name.length > 0);

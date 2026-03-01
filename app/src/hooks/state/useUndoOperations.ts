@@ -1,6 +1,6 @@
 
 import { useCallback } from "react";
-import { monitoredInvoke } from "../utils/performance";
+import { monitoredInvoke } from "../../utils/performance/monitoredInvoke";
 
 export function useUndoOperations(lastDeleted: any, activeId: string | null, applyPatch: any, setLast: any) {
   return useCallback(async () => {

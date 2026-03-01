@@ -1,12 +1,15 @@
 {
   "name": "oxide-monorepo",
   "private": true,
+  "version": "1.4.8",
   "scripts": {
     "website:install": "npm install --prefix website",
     "website:build": "npm run website:install && npm run build --prefix website && rm -rf dist && cp -r website/dist ./dist",
     "website:dev": "npm run dev --prefix website",
     "app:build": "npm run build --prefix app",
     "app:dev": "npm run dev --prefix app",
+    "app:desktop": "npm run tauri dev --prefix app",
+    "app:install": "npm install --prefix app",
     "build": "npm run website:build",
     "dev": "npm run dev --prefix website"
   }

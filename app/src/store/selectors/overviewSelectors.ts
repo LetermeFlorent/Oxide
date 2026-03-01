@@ -1,6 +1,6 @@
 
 import { createSelector } from 'reselect';
-import { WorkspaceState } from '../types';
+import { WorkspaceState } from '../config/types';
 import { getProjects, getActiveProjectId } from './projectSelectors';
 
 export const getOverviews = (s: WorkspaceState) => s.terminalOverviews;

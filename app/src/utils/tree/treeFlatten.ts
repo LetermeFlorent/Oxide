@@ -1,5 +1,5 @@
 
-import { FileEntry } from "../../store/types";
+import { FileEntry } from "../../store/config/types";
 
 export interface FlatEntry { entry: FileEntry; level: number; }
 
@@ -26,7 +26,11 @@ export const getVisibleFlatTree = (nodes: FileEntry[] | undefined, expanded: Rec
     const cur = stack[stack.length - 1];
     if (cur.i >= cur.nodes.length) { stack.pop(); continue; }
     const node = cur.nodes[cur.i++];
-    if (gIdx >= start && gIdx < end) res.push({ entry: node, level: cur.lvl, index: gIdx });
+    if (gIdx >= start && gIdx < end) {
+      // Clone entry without children to avoid massive serialization overhead
+      const { children, ...sanitized } = node;
+      res.push({ entry: sanitized as FileEntry, level: cur.lvl, index: gIdx });
+    }
     if (gIdx >= end) break;
     gIdx++;
     if (node.isFolder && expanded[node.path] && node.children?.length) stack.push({ nodes: node.children, lvl: cur.lvl + 1, i: 0 });

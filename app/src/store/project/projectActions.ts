@@ -1,5 +1,5 @@
 
-import { FileEntry, ProjectSession, ProjectStatus, WorkspaceState } from "../types";
+import { FileEntry, ProjectSession, ProjectStatus, WorkspaceState } from "../config/types";
 
 const isValidPath = (path: string | null | undefined): path is string => {
   return !!(path && typeof path === 'string' && path.trim().length > 0);

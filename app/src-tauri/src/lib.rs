@@ -17,11 +17,19 @@ pub mod commands;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    println!("[INFO] Starting Oxide Core...");
     tauri::Builder::default()
-        .setup(|app| { setup::init(app).map_err(|e| e.into()) })
+        .setup(|app| { 
+            println!("[INFO] Running setup...");
+            setup::init(app).map_err(|e| {
+                eprintln!("[ERROR] Setup failed: {}", e);
+                e.into()
+            }) 
+        })
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
+        .plugin(tauri_plugin_shell::init())
         .invoke_handler(commands::register())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -1,13 +1,13 @@
 
 import { useState, memo, useCallback, MouseEvent } from "react";
 import { useStore } from "../../store/useStore";
-import { FileEntry } from "../../store/types";
+import { FileEntry } from "../../store/config/types";
 import { TreeItemContent } from "./Explorer/components/TreeItemContent";
 import { FileContextMenu } from "./Explorer/components/FileContextMenu";
-import { useFolderManagement } from "../../hooks/useFolderManagement";
+import { useFolderManagement } from "../../hooks/index";
 import { useFileActions, useExplorerState } from "./Explorer/index";
-import { monitoredInvoke } from "../../utils/performance";
-import { calculateTaskProgress } from "../../utils/mdUtils";
+import { monitoredInvoke } from "../../utils/performance/monitoredInvoke";
+import { calculateTaskProgress } from "../../utils/md/mdTasks";
 
 export const TreeItem = memo(({ entry, onClick, level = 0, projectId }: { entry: FileEntry, onClick: (e: FileEntry) => void, level?: number, projectId?: string }) => {
   const [menu, setMenu] = useState<{ x: number, y: number, entry: FileEntry } | null>(null);

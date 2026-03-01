@@ -1,3 +1,1 @@
-export function runDiagnostics() {
-  // Diagnostics disabled
-}
+export * from "./system/appDiagnostics";

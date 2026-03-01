@@ -1,5 +1,6 @@
 
 export function calculateTaskProgress(content: string): number | null {
+  if (!content) return null;
   const lines = content.split('\n');
   let total = 0, done = 0;
   const taskRegex = /^(\s*([-*+]|\d+\.)\s+\[)( |x|X)(\].*)$/i;
@@ -15,10 +16,12 @@ export function calculateTaskProgress(content: string): number | null {
 }
 
 export function hasTasks(content: string): boolean {
+  if (!content) return false;
   return /^(\s*([-*+]|\d+\.)\s+\[)( |x|X)(\].*)$/mi.test(content);
 }
 
 export function toggleTaskAtIndex(content: string, targetIndex: number): string {
+  if (!content) return '';
   const lines = content.split('\n');
   let currentTaskIndex = 0;
   // Support -, *, + and numbered lists like 1. [ ]

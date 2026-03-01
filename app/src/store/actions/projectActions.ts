@@ -1,4 +1,4 @@
-import { ProjectSession, FileEntry } from "./types";
+import { ProjectSession, FileEntry } from "../config/types";
 
 export const createProject = (path: string, name: string, tree: FileEntry[]): ProjectSession => {
   const id = path?.trim() || `proj-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
@@ -6,7 +6,7 @@ export const createProject = (path: string, name: string, tree: FileEntry[]): Pr
   return {
     id, name, terminalTab: 'bash', status: 'idle', selectedFile: null, 
     followedFilePath: taskFile ? taskFile.path : null, taskProgress: null,
-    fileContent: '', fileUrl: null, tree: tree || [], isLoading: !tree || tree.length === 0
+    fileContent: '', fileUrl: null, tree: tree || [], isLoading: false
   };
 };
 

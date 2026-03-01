@@ -1,5 +1,5 @@
 
-import { FileEntry } from "../../store/types";
+import { FileEntry } from "../../store/config/types";
 
 export function findMarkdownFiles(entries: FileEntry[]): string[] {
   const files: string[] = [];

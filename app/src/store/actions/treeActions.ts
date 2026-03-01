@@ -1,5 +1,5 @@
-import { FileEntry, WorkspaceState } from "./types";
-import { applyFilePatch as applyPatch } from "../utils/treeUtils";
+import { FileEntry, WorkspaceState } from "../config/types";
+import { applyFilePatch as applyPatch } from "../../utils/tree/treePatch";
 
 /**
  * Updates the tree and image list for a specific project.

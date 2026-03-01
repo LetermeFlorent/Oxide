@@ -1,6 +1,6 @@
 
 import { createSelector } from 'reselect';
-import { WorkspaceState } from '../types';
+import { WorkspaceState } from '../config/types';
 
 export const getShowExplorer = (s: WorkspaceState) => s.showExplorer;
 export const getCompactMode = (s: WorkspaceState) => s.compactMode;

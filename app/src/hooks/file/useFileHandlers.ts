@@ -1,7 +1,7 @@
 
 import { useCallback } from "react";
-import { monitoredInvoke } from "../utils/performance";
-import { useStore } from "../store/useStore";
+import { monitoredInvoke } from "../../utils/performance/monitoredInvoke";
+import { useStore } from "../../store/useStore";
 
 export function useFileHandlers(activeId: string | null, loadFile: any, updateTree: any) {
   return useCallback(async (f: any) => {

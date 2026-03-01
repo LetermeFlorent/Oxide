@@ -1,3 +1,1 @@
-
-export * from "./performance/perfMonitor";
-export * from "./performance/monitoredInvoke";
+export * from "./performance/performance";

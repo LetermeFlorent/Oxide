@@ -1,5 +1,5 @@
 
-import { ProjectSession, ProjectStatus, FileEntry } from "../types";
+import { ProjectSession, ProjectStatus, FileEntry } from "../config/types";
 
 export const createProject = (path: string, name: string, tree: FileEntry[]): ProjectSession => {
   const taskFile = (tree || []).find(f => !f.isFolder && ['task.md', 'tasks.md'].includes(f.name.toLowerCase()));

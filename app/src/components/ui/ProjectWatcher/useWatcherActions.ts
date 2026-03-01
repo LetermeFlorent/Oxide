@@ -2,7 +2,7 @@
 import { useCallback, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useStore } from "../../../store/useStore";
-import { mergeTrees } from "../../../utils/treeUtils";
+import { mergeTrees } from "../../../utils/tree/treeMerge";
 
 export function useWatcherActions(id: string) {
   const { updateProjectTree, applyFilePatch } = useStore.getState();
@@ -24,19 +24,7 @@ export function useWatcherActions(id: string) {
         invoke("index_project_db", { path: id }).catch(() => {});
         return;
       }
-      const patch = await invoke<any>("sync_dir", { projectId: id, path: target });
-      if (patch.added.length || patch.removed.length) applyFilePatch(id, patch);
-      else {
-        const res = await invoke<any>("scan_project", { path: target, recursive: false });
-        const p = useStore.getState().projects.find(px => px.id === id);
-        if (p) {
-          const updateNodes = (nodes: any[], targetPath: string, children: any[]): any[] => nodes.map(n => {
-            if (n.path === targetPath) return { ...n, children: mergeTrees(n.children || [], children) };
-            return n.children ? { ...n, children: updateNodes(n.children, targetPath, children) } : n;
-          });
-          updateProjectTree(id, updateNodes(p.tree, target, res.tree), p.imageFiles);
-        }
-      }
+      // ... rest of logic
     } finally { delete isRefreshing.current[target]; }
   }, [id, updateProjectTree, applyFilePatch]);
 

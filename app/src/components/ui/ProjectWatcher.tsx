@@ -5,20 +5,22 @@ import { useWatcherActions, useWatcherEvents } from "./ProjectWatcher/index";
 import { safeKey } from "../../utils/ui/keyUtils";
 
 const Watcher = memo(({ id }: { id: string }) => {
+  const p = useStore(s => s.projects.find(px => px.id === id));
   const { refresh } = useWatcherActions(id);
   const initialized = useRef(false);
   
   useWatcherEvents(id, refresh);
   
   useEffect(() => {
-    const p = useStore.getState().projects.find(px => px.id === id);
-    const isEmpty = !p || !p.tree || p.tree.length === 0;
+    if (!p) return; // STRICT GUARD: No project, no watcher
+    const isEmpty = !p.tree || p.tree.length === 0;
     if (isEmpty && !initialized.current) {
       initialized.current = true;
       refresh();
     }
-  }, [id, refresh]);
+  }, [id, p, refresh]);
 
+  if (!p) return null;
   return null;
 });
 
