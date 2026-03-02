@@ -21,7 +21,7 @@ export const MainContainer = ({ appReady, onFile }: MainContainerProps) => {
         </div>
         <WindowControls />
       </div>
-      <div className="flex-1 flex flex-col min-h-0 overflow-hidden" style={{ padding: compactMode ? '0' : '8px', pt: compactMode ? '0' : '0', gap: compactMode ? '0' : '8px' }}>
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden" style={{ padding: compactMode ? '0' : '8px', gap: compactMode ? '0' : '8px' }}>
         <MainLayout onOpen={() => openFolder('add')} onOpenFolder={() => openFolder('replace')} onFile={onFile} />
       </div>
       <GlobalModals />
