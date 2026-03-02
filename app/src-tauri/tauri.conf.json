@@ -18,11 +18,12 @@
         "height": 768,
         "minWidth": 1024,
         "minHeight": 768,
-        "decorations": true,
+        "decorations": false,
         "transparent": false,
         "shadow": true
       }
     ],
+    "withGlobalTauri": true,
     "security": {
       "csp": null
     }

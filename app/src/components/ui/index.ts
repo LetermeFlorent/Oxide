@@ -1,4 +1,5 @@
 
+export * from "./WindowControls";
 export * from "./AppLoader";
 export * from "./ConfirmModal";
 export * from "./PromptModal";

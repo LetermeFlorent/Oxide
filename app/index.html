@@ -14,21 +14,23 @@
       .title { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5em; color: #000000; margin-right: -0.5em; line-height: 1; }
     </style>
   </head>
-  <body>
-    <div id="initial-loader">
-      <div class="title">Oxide</div>
-      <div class="progress-container"><div id="loader-bar" class="progress-bar"></div></div>
-      <div id="loader-pct" class="percentage">0%</div>
+  <body data-tauri-drag-region style="cursor: default;">
+    <div id="initial-loader" data-tauri-drag-region style="cursor: default; position: fixed; inset: 0; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f3f3f3;">
+      <div class="title" style="pointer-events: none;">Oxide</div>
+      <div class="progress-container" style="pointer-events: none;"><div id="loader-bar" class="progress-bar"></div></div>
+      <div id="loader-pct" class="percentage" style="pointer-events: none;">0%</div>
     </div>
     <script>
-      // Force Reset: If ?reset=true is in URL, clear storage and reload
-      if (window.location.search.includes('reset=true')) {
-        localStorage.clear();
-        window.location.href = window.location.pathname;
-      }
-
       // Native Bootstrapper: Move bar instantly
       (function() {
+        var loader = document.getElementById('initial-loader');
+        if (loader) {
+          loader.addEventListener('mousedown', function(e) {
+            if (window.__TAURI__) {
+              window.__TAURI__.window.getCurrentWindow().startDragging();
+            }
+          });
+        }
         var progress = 0;
         var bar = document.getElementById('loader-bar');
         var pct = document.getElementById('loader-pct');
@@ -44,7 +46,6 @@
 
         // Ultimate Safety: Force remove loader after 5s if app hangs
         setTimeout(function() {
-          var loader = document.getElementById('initial-loader');
           if (loader && loader.style.opacity !== '0') {
             console.warn("Loader Safety: Force removing hung loader... ✨");
             loader.style.opacity = '0';
