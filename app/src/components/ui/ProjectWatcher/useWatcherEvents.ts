@@ -4,7 +4,7 @@ import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/core";
 import { useStore } from "../../../store/useStore";
 
-export function useWatcherEvents(id: string, refresh: (p?: string) => Promise<void>) {
+export function useWatcherEvents(id: string, refresh: (p?: string, changed?: string[]) => Promise<void>) {
   const pendingPaths = useRef<Set<string>>(new Set());
   const timer = useRef<any>(null);
 
