@@ -30,8 +30,8 @@ export function useWatcherEvents(id: string, refresh: (p?: string) => Promise<vo
           return dir.startsWith(id) ? dir : id;
         }));
         
-        if (dirs.size > 5) return refresh(id);
-        for (const d of dirs) await refresh(d);
+        if (dirs.size > 5) return refresh(id, currentPaths);
+        for (const d of dirs) await refresh(d, currentPaths);
       }, 2000);
     });
 
