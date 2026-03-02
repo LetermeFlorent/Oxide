@@ -14,7 +14,7 @@ import { TerminalHeader } from "./Terminal/TerminalHeader";
  * @param {string} props.projectId - The project ID (path) to associate with this terminal
  * @returns {JSX.Element} The terminal interface with header and shell
  */
-export const Terminal = memo(({ projectId, suffix = "", onDragStart, onRemove }: { projectId: string, suffix?: string, onDragStart?: (e: React.PointerEvent) => void, onRemove?: () => void }) => {
+export const Terminal = memo(({ projectId, sessionId, onDragStart, onRemove }: { projectId: string, sessionId?: string, onDragStart?: (e: React.PointerEvent) => void, onRemove?: () => void }) => {
   const compactMode = useStore(s => s.compactMode);
   const exists = useStore(useCallback(s => s.projects.some(p => p.id === projectId), [projectId]));
 
@@ -31,7 +31,7 @@ export const Terminal = memo(({ projectId, suffix = "", onDragStart, onRemove }:
     <div className={`flex-1 flex flex-col bg-white overflow-hidden h-full border-l border-gray-200 ${compactMode ? '' : 'rounded-xl shadow-sm'}`}>
       <TerminalHeader projectId={projectId} onDragStart={onDragStart} onRemove={onRemove} />
       <div className="flex-1 flex flex-col min-h-0 relative">
-        <BashTerminal projectId={projectId} suffix={suffix} />
+        <BashTerminal projectId={projectId} sessionId={sessionId} />
       </div>
     </div>
   );

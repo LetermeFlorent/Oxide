@@ -1,19 +1,17 @@
 
 import { memo, useMemo, useCallback } from "react";
 import { useTerminal } from "./useTerminal";
-import { Terminal as TerminalIcon } from "lucide-react";
 import { useStore } from "../../../store/useStore";
-import { GeminiIndicator } from "./components/GeminiIndicator";
-import { PanelHeader } from "../../ui/PanelHeader";
 
-export const BashTerminal = memo(({ projectId, suffix = "" }: { projectId: string, suffix?: string }) => {
+export const BashTerminal = memo(({ projectId, sessionId }: { projectId: string, sessionId?: string }) => {
   const activeTerminalId = useStore(useCallback(s => s.projects.find(px => px.id === projectId)?.activeTerminalId || 'bash', [projectId]));
-  const ptyId = useMemo(() => {
-    if (suffix) return `bash-${projectId.replace(/[^a-zA-Z0-9]/g, '-')}${suffix}`;
-    return `bash-${projectId.replace(/[^a-zA-Z0-9]/g, '-')}-${activeTerminalId}`;
-  }, [projectId, suffix, activeTerminalId]);
+  const targetSessionId = sessionId || activeTerminalId;
   
-  const { ref, term } = useTerminal(projectId, ptyId, !!suffix);
+  const ptyId = useMemo(() => {
+    return `bash-${projectId.replace(/[^a-zA-Z0-9]/g, '-')}-${targetSessionId}`;
+  }, [projectId, targetSessionId]);
+  
+  const { ref, term } = useTerminal(projectId, ptyId, false);
 
   return (
     <div key={ptyId} className="flex-1 flex flex-col bg-white min-w-0 overflow-hidden">
