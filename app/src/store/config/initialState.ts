@@ -8,5 +8,8 @@ export const initialState: Partial<WorkspaceState> = {
   compactMode: false, verticalTabs: false, viewMode: 'preview',
   globalTabsOrder: [],
   terminalOverviews: [], expandedFolders: {}, hydrated: false,
+  theme: 'auto',
+  isDark: false,
+  showPerformanceOverlay: false,
   lastDeleted: null, explorerModal: null, confirmModal: null, promptModal: null,
 };

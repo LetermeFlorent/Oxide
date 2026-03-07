@@ -23,6 +23,8 @@ export const stateCreator: StateCreator<WorkspaceState, [["zustand/persist", unk
   setProjectStatus: (id, s) => set(PM.setProjectStatus(id, s) as any),
   setFollowedFile: (pid, path, pr) => set(PM.setFollowedFile(pid, path, pr) as any),
   setHydrated: (h) => set({ hydrated: h }),
+  setTheme: (theme) => set({ theme }),
+  setIsDark: (isDark) => set({ isDark }),
   switchProject: (id) => set((s: any) => ({ activeProjectId: id, showSettings: id === 'settings' || s.showSettings })),
   setLastDeleted: (d) => set({ lastDeleted: d }),
   setExplorerModal: (m) => set({ explorerModal: m }),

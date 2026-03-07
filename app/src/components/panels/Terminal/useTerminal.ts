@@ -11,6 +11,7 @@ export function useTerminal(projectId: string, ptyId: string, isOverview: boolea
   const ref = useRef<HTMLDivElement>(null);
   const [term, setTerm] = useState<XTerm | null>(null);
   const [fit, setFit] = useState<FitAddon | null>(null);
+  const isDark = useStore(s => s.isDark);
   const { isActive } = useTerminalState(projectId, ptyId, isOverview, term);
 
   useEffect(() => {
@@ -29,6 +30,16 @@ export function useTerminal(projectId: string, ptyId: string, isOverview: boolea
     setFit(fitAddon);
     return () => { instance.dispose(); setTerm(null); setFit(null); };
   }, [projectId, ptyId, isOverview]);
+
+  useEffect(() => {
+    if (!term) return;
+    term.options.theme = isDark ? {
+      background: '#0f172a', foreground: '#f1f5f9', cursor: '#6366f1',
+      cursorAccent: '#0f172a', selectionBackground: 'rgba(99, 102, 241, 0.4)',
+      black: '#000000', red: '#ef4444', green: '#10b981', yellow: '#f59e0b',
+      blue: '#3b82f6', magenta: '#8b5cf6', cyan: '#06b6d4', white: '#cbd5e1'
+    } : TERMINAL_CONFIG.theme;
+  }, [term, isDark]);
 
   useTerminalEvents(projectId, ptyId, isOverview, term);
   useTerminalResizing(ptyId, ref, term, fit);

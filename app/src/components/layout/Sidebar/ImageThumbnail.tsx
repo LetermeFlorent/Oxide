@@ -32,10 +32,10 @@ export const ImageThumbnail = memo(({ path }: { path: string }) => {
   }, [path]);
 
   return (
-    <div className="w-8 h-8 rounded border border-gray-100 bg-gray-50 flex items-center justify-center overflow-hidden shrink-0 relative">
+    <div className="w-8 h-8 rounded border border-border bg-sidebar-bg flex items-center justify-center overflow-hidden shrink-0 relative">
       {loading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
-          <Loader2 size={10} className="text-gray-400 animate-spin" />
+        <div className="absolute inset-0 flex items-center justify-center bg-sidebar-bg z-10">
+          <Loader2 size={10} className="text-foreground/40 animate-spin" />
         </div>
       )}
       <canvas ref={canvasRef} className="w-full h-full object-cover" />

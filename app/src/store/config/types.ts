@@ -30,11 +30,16 @@ export interface WorkspaceState {
   restoreActiveTab: boolean; compactMode: boolean; verticalTabs: boolean;
   viewMode: ViewMode; globalTabsOrder: string[]; terminalOverviews: TerminalOverview[];
   expandedFolders: Record<string, boolean>; hydrated: boolean;
+  theme: 'light' | 'dark' | 'auto';
+  isDark: boolean;
+  showPerformanceOverlay: boolean;
   lastDeleted: { entry: FileEntry, projectId: string, parentPath: string, content?: string } | null;
   explorerModal: { show: boolean, type: 'file' | 'folder', target: FileEntry | null } | null;
   confirmModal: { show: boolean, title: string, message: string, onConfirm: () => void, kind?: 'danger' | 'warning' | 'info' } | null;
   promptModal: { show: boolean, title: string, label: string, defaultValue: string, onConfirm: (val: string) => void } | null;
   setHydrated: (val: boolean) => void;
+  setTheme: (theme: 'light' | 'dark' | 'auto') => void;
+  setIsDark: (isDark: boolean) => void;
   setExplorerModal: (modal: { show: boolean, type: 'file' | 'folder', target: FileEntry | null } | null) => void;
   setConfirmModal: (modal: { show: boolean, title: string, message: string, onConfirm: () => void, kind?: 'danger' | 'warning' | 'info' } | null) => void;
   setPromptModal: (modal: { show: boolean, title: string, label: string, defaultValue: string, onConfirm: (val: string) => void } | null) => void;

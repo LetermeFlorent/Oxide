@@ -23,7 +23,7 @@ export const ModalInput = memo(({ value, onChange, onKeyDown, autoFocus = false 
     onChange={(e) => onChange(e.target.value)}
     onFocus={(e) => e.target.select()}
     onKeyDown={onKeyDown}
-    className="w-full px-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-[12px] font-bold text-gray-700 outline-none focus:border-black/20 focus:bg-white transition-all mb-5" 
+    className="w-full px-4 py-3.5 bg-sidebar-bg border border-border rounded-2xl text-[12px] font-bold text-gray-700 outline-none focus:border-black/20 focus:bg-panel-bg transition-all mb-5" 
   />
 ));
 

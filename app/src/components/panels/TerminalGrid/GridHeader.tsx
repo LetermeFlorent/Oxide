@@ -12,18 +12,18 @@ interface GridHeaderProps {
 }
 
 export const GridHeader = memo(({ name, count, cmd, setCmd, onBroadcast }: GridHeaderProps) => (
-  <div className="h-10 px-4 flex items-center bg-gray-50 border-b border-gray-100 gap-4 shrink-0">
+  <div className="h-10 px-4 flex items-center bg-sidebar-bg border-b border-border gap-4 shrink-0">
     <div className="flex items-center gap-2 shrink-0">
       <Zap size={14} className="text-orange-500 fill-orange-500" />
-      <span className="text-[9px] font-black text-gray-800 uppercase tracking-[0.2em]">{name}</span>
+      <span className="text-[9px] font-black text-foreground uppercase tracking-[0.2em]">{name}</span>
     </div>
-    <form onSubmit={onBroadcast} className="flex-1 flex items-center bg-white border border-gray-200 rounded-lg px-3 h-7 focus-within:border-gray-600 transition-all">
+    <form onSubmit={onBroadcast} className="flex-1 flex items-center bg-panel-bg border border-border rounded-lg px-3 h-7 focus-within:border-foreground/40 transition-all">
       <input 
         type="text" value={cmd} onChange={e => setCmd(e.target.value)} 
         placeholder={t('overview.broadcast_placeholder', { count })} 
-        className="flex-1 bg-transparent border-none outline-none text-[10px] font-bold text-gray-700" 
+        className="flex-1 bg-transparent border-none outline-none text-[10px] font-bold text-foreground" 
       />
-      <button type="submit" className="p-1 hover:bg-gray-100 rounded text-gray-400"><Send size={12} /></button>
+      <button type="submit" className="p-1 hover:bg-hover-bg rounded text-foreground/40"><Send size={12} /></button>
     </form>
   </div>
 ));

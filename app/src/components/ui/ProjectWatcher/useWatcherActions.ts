@@ -31,7 +31,7 @@ export function useWatcherActions(id: string) {
       if (!path || path === id) {
         const res = await invoke<any>("scan_project", { path: id, recursive: true });
         updateProjectTree(id, mergeTrees(p.tree, res.tree));
-        invoke("index_project_db", { path: id }).catch(() => {});
+        invoke("index_project_lsm", { path: id }).catch(() => {});
         return;
       }
     } finally { delete isRefreshing.current[target]; }

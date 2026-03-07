@@ -11,28 +11,17 @@ interface IconButtonProps {
 }
 
 export const IconButton = memo(({ 
-  id, icon: Icon, onClick, active = false, activeColor = "text-black" 
+  id, icon: Icon, onClick, active = false, activeColor = "text-foreground" 
 }: IconButtonProps) => (
   <motion.button 
-    whileHover={{ scale: 1.1, y: -2 }}
-    whileTap={{ scale: 0.9 }}
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
     onClick={onClick} 
-    className={`p-2 mb-2 relative flex items-center justify-center rounded-lg transition-all duration-200 ${
-      active ? `${activeColor} bg-gray-50/50` : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50/30'
+    className={`w-10 h-10 mb-2 relative flex items-center justify-center rounded-2xl transition-all duration-300 ${
+      active ? `bg-active-bg ${activeColor} shadow-sm` : 'text-foreground/40 hover:text-foreground hover:bg-hover-bg'
     }`}
   >
-    <Icon size={20} className="relative z-10" />
-    <AnimatePresence>
-      {active && (
-        <motion.div 
-          layoutId={`active-bar-${id}`}
-          initial={{ opacity: 0, x: -5 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -5 }}
-          className="absolute left-0 w-0.5 h-4 bg-current rounded-full" 
-        />
-      )}
-    </AnimatePresence>
+    <Icon size={20} strokeWidth={active ? 2.5 : 2} className="relative z-10" />
   </motion.button>
 ));
 

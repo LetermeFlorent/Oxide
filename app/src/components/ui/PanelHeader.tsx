@@ -10,10 +10,10 @@ interface PanelHeaderProps {
 }
 
 export const PanelHeader = memo(({ icon: Icon, title, children, className = "" }: PanelHeaderProps) => (
-  <div className={`h-8 px-3 flex items-center justify-between shrink-0 border-b border-gray-50 bg-white ${className}`}>
+  <div className={`h-8 px-3 flex items-center justify-between shrink-0 border-b border-border bg-panel-bg ${className}`}>
     <div className="flex items-center gap-2 overflow-hidden flex-1">
-      <Icon size={12} className="text-gray-600" />
-      <span className="text-[9px] font-black uppercase tracking-widest text-gray-800 truncate">
+      <Icon size={12} className="text-foreground/60" />
+      <span className="text-[9px] font-black uppercase tracking-widest text-foreground truncate">
         {title}
       </span>
     </div>

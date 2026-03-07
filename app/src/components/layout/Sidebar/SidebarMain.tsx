@@ -10,17 +10,21 @@ import { useSidebarWorker, ITEM_HEIGHT } from "./useSidebarWorker";
 import { useFileActions } from "../../panels/Explorer/useFileActions";
 
 export const Sidebar = memo(({ onFileClick }: { onFileClick: (f: any) => void }) => {
-  const s = useStore();
+  const expandedFolders = useStore(s => s.expandedFolders);
+  const compactMode = useStore(s => s.compactMode);
+  const explorerModal = useStore(s => s.explorerModal);
+  const setExplorerModal = useStore(s => s.setExplorerModal);
+  
   const ap = useStore(selectActiveProject);
   const [sq, setSq] = useState("");
   
-  const { scrollRef, setScrollTop, expandedCount, visibleItems } = useSidebarWorker(ap, s.expandedFolders, sq);
+  const { scrollRef, setScrollTop, expandedCount, visibleItems } = useSidebarWorker(ap, expandedFolders, sq);
   const { isIndexing, handleReindex, handleExplorerConfirm } = useSidebarActions(ap);
   const [bgMenu, setBgMenu] = useState<{ x: number, y: number } | null>(null);
   const h = useFileActions(ap?.id || "");
 
   return (
-    <div className={`flex-1 flex flex-col bg-white overflow-hidden select-none ${s.compactMode ? '' : 'rounded-xl shadow-sm border border-gray-100'}`}>
+    <div className={`flex-1 flex flex-col bg-panel-bg overflow-hidden select-none ${compactMode ? '' : 'rounded-[18px] shadow-sm'}`}>
       <SidebarHeader q={sq} setQ={setSq} />
       <div className="flex-1 flex flex-col min-h-0">
         <SidebarList 
@@ -33,8 +37,8 @@ export const Sidebar = memo(({ onFileClick }: { onFileClick: (f: any) => void })
       {ap && <SidebarModals 
         bgMenu={bgMenu} setBgMenu={setBgMenu} 
         activeProject={ap} 
-        explorerModal={s.explorerModal} setExplorerModal={s.setExplorerModal}
-        h={h} onConfirm={(name: string) => handleExplorerConfirm(name, s.explorerModal)}
+        explorerModal={explorerModal} setExplorerModal={setExplorerModal}
+        h={h} onConfirm={(name: string) => handleExplorerConfirm(name, explorerModal)}
       />}
     </div>
   );

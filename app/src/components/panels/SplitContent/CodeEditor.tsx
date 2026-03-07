@@ -4,6 +4,7 @@
 
 import { Editor } from "@monaco-editor/react";
 import { memo, useCallback } from "react";
+import { useStore } from "../../../store/useStore";
 import { useFileSaving } from "../../../hooks/useFileSaving";
 import { editorOptions } from "./CodeEditorOptions";
 
@@ -14,6 +15,7 @@ interface CodeEditorProps {
 
 export const CodeEditor = memo(({ content, language }: CodeEditorProps) => {
   const saveFile = useFileSaving();
+  const isDark = useStore(s => s.isDark);
   
   const handleChange = useCallback((value?: string) => {
     if (value !== undefined) saveFile(value);
@@ -25,7 +27,7 @@ export const CodeEditor = memo(({ content, language }: CodeEditorProps) => {
         height="100%" 
         language={language || "plaintext"} 
         value={content || ""} 
-        theme="light" 
+        theme={isDark ? "vs-dark" : "light"} 
         loading={<div />} 
         options={editorOptions} 
         onChange={handleChange}

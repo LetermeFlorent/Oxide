@@ -1,6 +1,5 @@
 
 pub mod binary;
-pub mod db;
 pub mod diff;
 pub mod fs;
 pub mod lsm;

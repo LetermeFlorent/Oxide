@@ -25,7 +25,7 @@ export const ResizeHandle = memo(({ onMouseDown, onResize, vertical = false }: a
     <div
       onMouseDown={handleMouseDown}
       className={`${vertical ? 'h-1.5 w-full cursor-row-resize' : 'w-1.5 h-full cursor-col-resize'}
-      bg-transparent hover:bg-black/10 active:bg-black/20 transition-all z-50 shrink-0`}
+      bg-transparent hover:bg-hover-bg active:bg-active-bg transition-all z-50 shrink-0`}
     />
   );
 });

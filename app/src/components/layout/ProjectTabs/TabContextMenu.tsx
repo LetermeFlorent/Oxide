@@ -10,7 +10,7 @@ export const TabContextMenu = ({ menu, onHide, onRename, onConfigure, onCreateGr
     return (
       <ContextMenuContainer x={menu.x} y={menu.y} onHide={onHide}>
         <ContextMenuItem icon={Edit2} label="Rename Group" onClick={() => { onRename(menu.groupId, 'group'); onHide(); }} />
-        <div className="my-1 border-t border-gray-100" />
+        <div className="my-1 border-t border-border" />
         <ContextMenuItem icon={Trash2} label="Delete Group" variant="danger" onClick={() => { onDeleteGroup(menu.groupId); onHide(); }} />
       </ContextMenuContainer>
     );
@@ -34,7 +34,7 @@ export const TabContextMenu = ({ menu, onHide, onRename, onConfigure, onCreateGr
           {menu.type === 'overview' && (
             <ContextMenuItem icon={Settings} label="Configure Grid" onClick={() => onConfigure(menu.itemId)} />
           )}
-          <div className="my-1 border-t border-gray-100" />
+          <div className="my-1 border-t border-border" />
           <ContextMenuItem icon={Plus} label="New Group" onClick={() => onCreateGroup(menu.itemId)} />
           {groups.filter((g: any) => g?.id?.trim()).map((g: any, idx: number) => (
             <ContextMenuItem key={safeKey('ctx-group', g.id, idx)} icon={Library} label={g.name} onClick={() => onMoveToGroup(menu.itemId, g.id)} />
@@ -44,7 +44,7 @@ export const TabContextMenu = ({ menu, onHide, onRename, onConfigure, onCreateGr
           )}
         </>
       )}
-      <div className="my-1 border-t border-gray-100" />
+      <div className="my-1 border-t border-border" />
       <ContextMenuItem icon={Trash2} label="Close Tab" onClick={handleClose} variant="danger" />
     </ContextMenuContainer>
   );

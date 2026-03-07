@@ -5,7 +5,7 @@ import { t } from "../../../i18n";
 
 export const SessionSettings = memo(({ state, setSetting }: any) => (
   <section className="space-y-4">
-    <div className="flex items-center gap-2"><FileText size={12} className="text-gray-400" /><h3 className="text-[9px] font-black uppercase tracking-widest text-gray-400">{t('settings.session')}</h3></div>
+    <div className="flex items-center gap-2"><FileText size={12} className="text-foreground/40" /><h3 className="text-[9px] font-black uppercase tracking-widest text-foreground/40">{t('settings.session')}</h3></div>
     <div className="grid grid-cols-1 gap-2">
       <ToggleItem icon={FileText} label={t('settings.reopen')} active={state.reopenLastFiles} onClick={() => setSetting('reopenLastFiles', !state.reopenLastFiles)} />
       <ToggleItem icon={Bookmark} label={t('settings.followed')} active={state.restoreFollowedFiles} onClick={() => setSetting('restoreFollowedFiles', !state.restoreFollowedFiles)} />

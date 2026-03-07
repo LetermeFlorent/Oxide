@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 const PDFCanvasRenderer = lazy(() => import("./PDFCanvasRenderer").then(m => ({ default: m.PDFCanvasRenderer })));
 
 const Loading = () => (
-  <div className="flex-1 flex items-center justify-center bg-white"><Loader2 className="w-6 h-6 animate-spin text-black" /></div>
+  <div className="flex-1 flex items-center justify-center bg-panel-bg"><Loader2 className="w-6 h-6 animate-spin text-foreground" /></div>
 );
 
 export const BinaryViewer = memo(({ url, isPdf }: { url: string, isPdf: boolean }) => (

@@ -6,7 +6,10 @@ import { PromptModal } from "./PromptModal";
 import { SettingsModal } from "./Modals/SettingsModal";
 
 export const GlobalModals = memo(() => {
-  const { confirmModal, setConfirmModal, promptModal, setPromptModal } = useStore();
+  const confirmModal = useStore(s => s.confirmModal);
+  const setConfirmModal = useStore(s => s.setConfirmModal);
+  const promptModal = useStore(s => s.promptModal);
+  const setPromptModal = useStore(s => s.setPromptModal);
   return (
     <>
       <SettingsModal />

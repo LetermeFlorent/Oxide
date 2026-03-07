@@ -31,8 +31,8 @@ import { memo } from "react";
  * @returns {JSX.Element} The markdown preview interface
  */
 export const MarkdownPreview = memo(({ content, fileName }: { content: string, fileName?: string }) => (
-  <div className="flex-1 flex flex-col bg-white overflow-hidden">
-    <div className="flex-1 p-6 overflow-auto scrollbar-modern selection:bg-gray-50">
+  <div className="flex-1 flex flex-col bg-panel-bg overflow-hidden">
+    <div className="flex-1 p-6 overflow-auto scrollbar-modern selection:bg-active-bg">
       <div className="prose-custom max-w-2xl mx-auto">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
       </div>

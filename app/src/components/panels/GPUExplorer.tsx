@@ -29,7 +29,7 @@ export const GPUExplorer = memo(({ onFileClick }: { onFileClick: (file: any) => 
   };
 
   return (
-    <div ref={containerRef} className="flex-1 relative overflow-hidden bg-white select-none">
+    <div ref={containerRef} className="flex-1 relative overflow-hidden bg-panel-bg select-none">
       <div ref={scrollRef} className="absolute inset-0 overflow-y-auto scrollbar-modern" onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}>
         <div style={{ height: expandedCount * 24, pointerEvents: 'none' }} />
       </div>

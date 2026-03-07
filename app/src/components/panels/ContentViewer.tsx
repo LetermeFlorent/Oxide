@@ -10,7 +10,7 @@ export const ContentViewer = memo(({ content, fileName, fileUrl }: any) => {
   if (!fileName && !fileUrl) return <ContentViewerEmpty compactMode={s.compactMode} />;
 
   return (
-    <div className={`flex-1 flex flex-col overflow-hidden min-w-0 bg-white ${s.compactMode ? '' : 'rounded-xl'}`}>
+    <div className={`flex-1 flex flex-col overflow-hidden min-w-0 bg-panel-bg ${s.compactMode ? '' : 'rounded-xl'}`}>
       <ContentViewerHeader s={s} fileName={fileName} />
       <SplitContent content={content} viewMode={s.viewMode} isMd={s.isMd} isPdf={s.isPdf} fileUrl={fileUrl} fileName={fileName} />
     </div>

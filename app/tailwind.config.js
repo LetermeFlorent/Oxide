@@ -10,6 +10,10 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         border: "var(--border)",
+        "sidebar-bg": "var(--sidebar-bg)",
+        "panel-bg": "var(--panel-bg)",
+        "hover-bg": "var(--hover-bg)",
+        "active-bg": "var(--active-bg)",
         input: "var(--input)",
         ring: "var(--ring)",
         primary: {

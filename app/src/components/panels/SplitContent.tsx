@@ -2,10 +2,10 @@
 import { Monitor, FileCode } from "lucide-react";
 import { ResizeHandle } from "../ui/ResizeHandle";
 import { memo, lazy, Suspense } from "react";
-import { MarkdownView } from "./SplitContent/MarkdownView";
 import { BinaryViewer, PaneHeader, LoadingFallback, useSplitContent } from "./SplitContent/index";
 
 const CodeEditor = lazy(() => import("./SplitContent/CodeEditor").then(m => ({ default: m.CodeEditor })));
+const MarkdownView = lazy(() => import("./SplitContent/MarkdownView").then(m => ({ default: m.MarkdownView })));
 
 export const SplitContent = memo(({ content, viewMode, isMd, isPdf, fileUrl, fileName }: any) => {
   const { startH, isSplit, language } = useSplitContent(fileName, viewMode, isMd);
@@ -16,7 +16,9 @@ export const SplitContent = memo(({ content, viewMode, isMd, isPdf, fileUrl, fil
       {(isMd && (viewMode === 'preview' || isSplit)) && (
         <div style={isSplit ? { height: 'var(--split-h)' } : { flex: 1 }} className="flex flex-col min-h-0 relative">
           {isSplit && <PaneHeader icon={Monitor} label="PREVIEW" />}
-          <MarkdownView content={content} />
+          <Suspense fallback={<LoadingFallback />}>
+            <MarkdownView content={content} />
+          </Suspense>
         </div>
       )}
       {isSplit && <ResizeHandle vertical onMouseDown={startH} />}

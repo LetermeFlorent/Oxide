@@ -3,6 +3,7 @@ import { useStore } from "../../store/useStore";
 import { ProjectTabs } from "./ProjectTabs";
 import { MainLayout } from "./MainLayout";
 import { GlobalModals } from "../ui/GlobalModals";
+import { PerformanceOverlay } from "../ui/PerformanceOverlay";
 import { WindowControls } from "../ui/WindowControls";
 import { useFolderManagement } from "../../hooks/file/useFolderManagement";
 
@@ -10,11 +11,14 @@ interface MainContainerProps { appReady: boolean; onFile: (path: string, content
 
 export const MainContainer = ({ appReady, onFile }: MainContainerProps) => {
   const { openFolder } = useFolderManagement();
-  const { compactMode, verticalTabs, projects, showSettings } = useStore();
+  const compactMode = useStore(s => s.compactMode);
+  const verticalTabs = useStore(s => s.verticalTabs);
+  const projects = useStore(s => s.projects);
+  const showSettings = useStore(s => s.showSettings);
   const showTabs = !verticalTabs && (projects.length > 0 || !!showSettings);
 
   return (
-    <div data-tauri-drag-region className={`h-screen w-screen bg-[#f3f3f3] overflow-hidden flex flex-col select-none transition-opacity duration-500 ${appReady ? 'opacity-100' : 'opacity-0'}`} style={{ cursor: 'default' }}>
+    <div data-tauri-drag-region className={`h-screen w-screen bg-background overflow-hidden flex flex-col select-none transition-opacity duration-500 ${appReady ? 'opacity-100' : 'opacity-0'}`} style={{ cursor: 'default' }}>
       <div className={`flex shrink-0 ${compactMode ? 'h-8' : 'h-10 mt-2 mx-2'}`} data-tauri-drag-region>
         <div className="flex-1 flex overflow-hidden min-w-0" data-tauri-drag-region>
           {showTabs && <ProjectTabs onOpen={() => openFolder('add')} />}
@@ -25,6 +29,7 @@ export const MainContainer = ({ appReady, onFile }: MainContainerProps) => {
         <MainLayout onOpen={() => openFolder('add')} onOpenFolder={() => openFolder('replace')} onFile={onFile} />
       </div>
       <GlobalModals />
+      <PerformanceOverlay />
     </div>
   );
 };

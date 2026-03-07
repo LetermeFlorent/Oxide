@@ -23,7 +23,7 @@ export const PDFPage = memo(({ pdf, pageNo }: { pdf: any, pageNo: number }) => {
     return () => task?.cancel();
   }, [pdf, pageNo]);
 
-  return <div className="bg-white border border-gray-100 shadow-sm mb-10"><canvas ref={canvasRef} className="w-[850px] h-auto block" /></div>;
+  return <div className="bg-panel-bg border border-border shadow-sm mb-10"><canvas ref={canvasRef} className="w-[850px] h-auto block" /></div>;
 });
 
 PDFPage.displayName = 'PDFPage';

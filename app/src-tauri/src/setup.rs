@@ -1,6 +1,6 @@
 
 use crate::state::AppState;
-use crate::{db, pty};
+use crate::pty;
 use std::sync::{Arc, Mutex};
 use tauri::{App, Manager, AppHandle};
 
@@ -10,12 +10,6 @@ pub fn init(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
     });
     let _ = std::fs::create_dir_all(&dir);
     
-    // Attempt to open DBs gracefully
-    let conn = db::init_db(&dir).unwrap_or_else(|e| {
-        eprintln!("[ERROR] SQLite init failed: {}", e);
-        rusqlite::Connection::open_in_memory().unwrap()
-    });
-    
     let sled = sled::open(dir.join("oxide_lsm_v3")).ok();
     if sled.is_none() { eprintln!("[WARNING] Sled LSM DB could not be opened (lock active?)."); }
 
@@ -24,7 +18,6 @@ pub fn init(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
         pty_system: portable_pty::NativePtySystem::default(),
         watchers: Arc::new(Mutex::new(std::collections::HashMap::new())),
         lsm_db: Arc::new(Mutex::new(sled)),
-        db: Arc::new(Mutex::new(conn)),
     });
     Ok(())
 }

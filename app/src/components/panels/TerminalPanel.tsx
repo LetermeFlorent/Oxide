@@ -26,7 +26,7 @@ export const TerminalPanel = () => {
   const activeProjectId = useStore(s => s.activeProjectId);
   if (!activeProjectId) return null;
   return (
-    <div className="h-full flex flex-col bg-white border-l border-gray-200 overflow-hidden">
+    <div className="h-full flex flex-col bg-panel-bg border-l border-border overflow-hidden">
       <Terminal projectId={activeProjectId} />
     </div>
   );

@@ -1,7 +1,7 @@
 {
   "name": "oxide",
   "private": true,
-  "version": "1.4.10",
+  "version": "1.6.10",
   "type": "module",
   "scripts": {
     "dev": "tauri dev",

@@ -21,7 +21,7 @@ export const MarkdownView = memo(({ content }: { content: string }) => {
   }, [content, saveFile]);
 
   return (
-    <div className="flex-1 relative bg-white select-text">
+    <div className="flex-1 relative bg-panel-bg select-text">
       <div ref={containerRef} className="absolute inset-0 overflow-y-auto scrollbar-modern-thin p-8">
         <div className="prose-oxide max-w-3xl mx-auto pb-20">
           <ReactMarkdown 

@@ -21,14 +21,14 @@ export const Terminal = memo(({ projectId, sessionId, onDragStart, onRemove }: {
   if (!projectId) return null;
   if (!exists) {
     return (
-      <div className={`flex-1 flex flex-col items-center justify-center bg-gray-50/30 border border-dashed border-gray-200 text-gray-400 ${compactMode ? '' : 'rounded-xl'}`}>
+      <div className={`flex-1 flex flex-col items-center justify-center bg-sidebar-bg/30 border border-dashed border-border text-foreground/40 ${compactMode ? '' : 'rounded-xl'}`}>
         <span className="text-[10px] font-black uppercase tracking-widest">Loading...</span>
       </div>
     );
   }
 
   return (
-    <div className={`flex-1 flex flex-col bg-white overflow-hidden h-full border-l border-gray-200 ${compactMode ? '' : 'rounded-xl shadow-sm'}`}>
+    <div className={`flex-1 flex flex-col bg-panel-bg overflow-hidden h-full border-l border-border ${compactMode ? '' : 'rounded-xl shadow-sm'}`}>
       <TerminalHeader projectId={projectId} onDragStart={onDragStart} onRemove={onRemove} />
       <div className="flex-1 flex flex-col min-h-0 relative">
         <BashTerminal projectId={projectId} sessionId={sessionId} />

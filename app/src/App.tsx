@@ -8,12 +8,15 @@ import { useAppStateSync } from "./hooks/state/useAppStateSync";
 import { useSessionRestoration } from "./hooks/state/useSessionRestoration";
 import { useSyncFileProgress } from "./hooks/file/useSyncFileProgress";
 import { useMemoryMonitor } from "./hooks/useMemoryMonitor";
+import { useThemeDetection } from "./hooks/ui/useThemeDetection";
 import { MainContainer } from "./components/layout/MainContainer";
 
 export default function App() {
   const { appReady, hydrated } = useAppInitialization();
   const { onFile, onUndo } = useFileOperations();
   const activeProjectId = useStore(s => s.activeProjectId);
+
+  useThemeDetection();
 
   // EMERGENCY SAFETY PURGE: If RAM was exploding or suspicious data exists, clear everything
   useEffect(() => {

@@ -10,7 +10,7 @@ pub fn register() -> impl Fn(tauri::ipc::Invoke<tauri::Wry>) -> bool {
         fs::operations::read_text_file, fs::operations::write_text_file, fs::create_dir, fs::get_file_size,
         search::commands::search_in_projects, watcher::commands::watch_project, watcher::folders::watch_folder,
         watcher::folders::unwatch_folder, watcher::commands::unwatch_project, workspace::save_workspace,
-        db::list_folder_from_db, db::index_project_db, diff::commands::sync_dir,
+        diff::commands::sync_dir,
         binary::commands::scan_project_binary, mmap_viewer::read_file_mmap,
         lsm::commands::index_project_lsm, lsm::commands::list_folder_lsm, plugin_system::execute_wasm_plugin
     ]

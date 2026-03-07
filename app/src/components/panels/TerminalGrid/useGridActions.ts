@@ -10,10 +10,17 @@ export function useGridActions(overviewId: string, pIds: string[]) {
   const handleBroadcast = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     if (!masterCmd.trim() || !pIds.length) return;
-    const ids = pIds.map(id => `bash-${id.replace(/[^a-zA-Z0-9]/g, '-')}-overview-${overviewId}`);
+    
+    const state = useStore.getState();
+    const ids = pIds.map(id => {
+      const project = state.projects.find(p => p.id === id);
+      const activeId = project?.activeTerminalId || 'bash';
+      return `bash-${id.replace(/[^a-zA-Z0-9]/g, '-')}-${activeId}`;
+    });
+    
     monitoredInvoke("write_to_all_ptys", { ids, data: masterCmd + "\n" });
     setMasterCmd("");
-  }, [masterCmd, pIds, overviewId]);
+  }, [masterCmd, pIds]);
 
   const handleRemove = useCallback((projectId: string) => {
     setTerminalOverviewProjects(overviewId, pIds.filter(id => id !== projectId));
