@@ -35,6 +35,10 @@ export interface WorkspaceState {
   isDark: boolean;
   showPerformanceOverlay: boolean;
   showOverviewModal: boolean;
+  renamingId: string | null;
+  tempName: string;
+  showGroupModal: boolean;
+  pendingItemId: string | null;
   contextMenu: { x: number, y: number, itemId: string | null, groupId: string | null, type: 'project' | 'overview' | 'group' } | null;
   lastDeleted: { entry: FileEntry, projectId: string, parentPath: string, content?: string } | null;
   explorerModal: { show: boolean, type: 'file' | 'folder', target: FileEntry | null } | null;

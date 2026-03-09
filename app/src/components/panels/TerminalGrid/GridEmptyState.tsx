@@ -1,6 +1,7 @@
 
 import { memo } from "react";
 import { t } from "../../../i18n";
+import { LayoutGrid } from "lucide-react";
 
 export const GridEmptyState = memo(() => (
   <div className="flex-1 flex flex-col items-center justify-center text-foreground/40 gap-4 bg-panel-bg/50 border border-dashed border-border rounded-xl">

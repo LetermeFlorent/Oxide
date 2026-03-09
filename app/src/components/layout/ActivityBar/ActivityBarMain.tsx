@@ -2,13 +2,10 @@
 import { Terminal, PanelLeft, FolderOpen, Settings, Monitor, Search } from "lucide-react";
 import { useStore } from "../../../store/useStore";
 import { memo, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { selectActiveOverview } from "../../../store/selectors";
 import { IconButton } from "./IconButton";
 import { ProgressThermometer } from "./ProgressThermometer";
 import { useActivityBarActions } from "./useActivityBarActions";
-import { OverviewModal } from "../../ui/Modals/OverviewModal";
-import { WindowControls } from "../../ui/WindowControls";
 import { t } from "../../../i18n";
 
 export const ActivityBar = memo(({ onOpenFolder }: { onOpenFolder: () => void }) => {

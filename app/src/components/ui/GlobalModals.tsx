@@ -53,16 +53,17 @@ export const GlobalModals = memo(() => {
         onHide={() => setContextMenu(null)} 
         onRename={(id: string, type: string) => { 
           const it = type === 'overview' ? s.terminalOverviews.find(o => o.id === id) : (type === 'group' ? s.groups.find(g => g.id === id) : s.projects.find(p => p.id === id)); 
-          s.setRenamingId?.(id); 
-          s.setTempName?.(it?.name || ""); 
+          s.setRenamingId(id); 
+          s.setTempName(it?.name || ""); 
           setContextMenu(null); 
         }} 
         onConfigure={(id: string) => { 
-          // Note: Configuration modal is still handled locally in ProjectTabs for now
-          // until a full store refactor of these specific modals.
+          // Note: Configuration modal logic would need to be moved to store if we want it here
         }}
         onCreateGroup={(id: string) => {
-          // Handled via setPendingItemId and setShowGroupModal
+          s.setPendingItemId(id);
+          s.setShowGroupModal(true);
+          setContextMenu(null);
         }}
         onMoveToGroup={(id: string, g: string | null) => { s.moveToGroup(id, g); setContextMenu(null); }}
         onDeleteGroup={(id: string) => { s.deleteGroup(id); setContextMenu(null); }}

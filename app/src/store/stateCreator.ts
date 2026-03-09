@@ -11,7 +11,7 @@ import * as Tree from "./actions/treeActions";
 import * as UI from "./actions/uiActions";
 import { monitoredInvoke } from "../utils/performance/monitoredInvoke";
 
-export const stateCreator: StateCreator<WorkspaceState, [["zustand/persist", unknown]]> = (set) => ({
+export const stateCreator: StateCreator<WorkspaceState, [["zustand/persist", unknown]]> = (set, get) => ({
   ...initialState as Required<typeof initialState>,
   ...groupActions(set), 
   ...overviewActions(set), 
@@ -45,7 +45,7 @@ export const stateCreator: StateCreator<WorkspaceState, [["zustand/persist", unk
   togglePreview: () => set(UI.togglePreview() as any),
   toggleSearch: () => set(UI.toggleSearch() as any),
   toggleSettings: (sh) => set(UI.toggleSettings(sh) as any),
-  toggleOverviewModal: (sh) => set({ showOverviewModal: sh !== undefined ? sh : !(get() as any).showOverviewModal }),
+  toggleOverviewModal: (sh) => set({ showOverviewModal: sh !== undefined ? sh : !get().showOverviewModal }),
   setSetting: (k, v) => set(UI.setSetting(k, v) as any),
   resetWorkspace: () => { 
     localStorage.removeItem(STORAGE_KEY); 
