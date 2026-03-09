@@ -11,7 +11,6 @@ import { useFileActions } from "../../panels/Explorer/useFileActions";
 
 export const Sidebar = memo(({ onFileClick }: { onFileClick: (f: any) => void }) => {
   const expandedFolders = useStore(s => s.expandedFolders);
-  const compactMode = useStore(s => s.compactMode);
   const explorerModal = useStore(s => s.explorerModal);
   const setExplorerModal = useStore(s => s.setExplorerModal);
   
@@ -24,7 +23,7 @@ export const Sidebar = memo(({ onFileClick }: { onFileClick: (f: any) => void })
   const h = useFileActions(ap?.id || "");
 
   return (
-    <div className={`flex-1 flex flex-col bg-panel-bg overflow-hidden select-none ${compactMode ? '' : 'rounded-[18px] shadow-sm'}`}>
+    <div className="flex-1 flex flex-col bg-panel-bg overflow-hidden select-none rounded-[12px] shadow-sm">
       <SidebarHeader q={sq} setQ={setSq} />
       <div className="flex-1 flex flex-col min-h-0">
         <SidebarList 

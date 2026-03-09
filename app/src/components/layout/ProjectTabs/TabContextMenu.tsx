@@ -1,9 +1,10 @@
-import { Trash2, Edit2, Plus, Library, Settings, XCircle } from "lucide-react";
+import { Trash2, Edit2, Plus, Library, Settings, XCircle, Palette } from "lucide-react";
 import { ContextMenuContainer, ContextMenuItem } from "../../ui/ContextMenu";
 import { t } from "../../../i18n";
 import { safeKey } from "../../../utils/ui/keyUtils";
+import { useStore } from "../../../store/useStore";
 
-export const TabContextMenu = ({ menu, onHide, onRename, onConfigure, onCreateGroup, onMoveToGroup, onDeleteGroup, groups, projects, terminalOverviews, isViewMode, onCloseProject, onCloseOverview }: any) => {
+export const TabContextMenu = ({ menu, onHide, onRename, onConfigure, onCreateGroup, onMoveToGroup, onDeleteGroup, groups, projects, terminalOverviews, isViewMode, onCloseProject, onCloseOverview, setColorModal, setShowGroupModal, setPendingItemId }: any) => {
   if (!menu) return null;
 
   if (menu.type === 'group') {
@@ -31,11 +32,14 @@ export const TabContextMenu = ({ menu, onHide, onRename, onConfigure, onCreateGr
       {!isViewMode && (
         <>
           <ContextMenuItem icon={Edit2} label={t('common.rename')} onClick={() => onRename(menu.itemId, menu.type)} />
+          {menu.type === 'project' && (
+            <ContextMenuItem icon={Palette} label="Change Color" onClick={() => { setColorModal({ show: true, projectId: menu.itemId }); onHide(); }} />
+          )}
           {menu.type === 'overview' && (
             <ContextMenuItem icon={Settings} label="Configure Grid" onClick={() => onConfigure(menu.itemId)} />
           )}
           <div className="my-1 border-t border-border" />
-          <ContextMenuItem icon={Plus} label="New Group" onClick={() => onCreateGroup(menu.itemId)} />
+          <ContextMenuItem icon={Plus} label="New Group" onClick={() => { setPendingItemId(menu.itemId); setShowGroupModal(true); onHide(); }} />
           {groups.filter((g: any) => g?.id?.trim()).map((g: any, idx: number) => (
             <ContextMenuItem key={safeKey('ctx-group', g.id, idx)} icon={Library} label={g.name} onClick={() => onMoveToGroup(menu.itemId, g.id)} />
           ))}

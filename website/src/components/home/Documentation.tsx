@@ -82,7 +82,6 @@ export const Documentation: React.FC = () => {
       content: "Personnalisation complète de votre environnement.",
       image: "/workspace-full.png",
       options: [
-        { icon: Layout, label: "Mode Compact", desc: "Interface condensée pour maximiser la visibilité." },
         { icon: Columns, label: "Tabs Verticales", desc: "Basculez les onglets sur le côté pour les écrans larges." },
         { icon: ZoomIn, label: "Zoom Canvas", desc: "Zoom fluide sur l'interface complète style Figma." }
       ]

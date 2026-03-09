@@ -19,7 +19,7 @@ export const CloseTabsModal = ({ show, onHide, allTabs, selectedIds, onToggle, o
         </div>
         <div className="max-h-60 overflow-y-auto scrollbar-modern-thin space-y-1 p-1">
           {allTabs.filter((t: any) => t?.id?.trim()).map((tab: any, idx: number) => (
-            <div key={safeKey('close-tab', tab.id, idx)} onClick={() => onToggle(tab.id)} className={`flex items-center justify-between p-3 rounded-2xl cursor-pointer transition-all ${selectedIds.includes(tab.id) ? 'bg-sidebar-bg border border-border' : 'hover:bg-sidebar-bg border border-transparent'}`}>
+            <div key={safeKey('close-tab', tab.id, idx)} onClick={() => onToggle(tab.id)} className={`flex items-center justify-between p-3 rounded-[12px] cursor-pointer transition-all ${selectedIds.includes(tab.id) ? 'bg-sidebar-bg border border-border' : 'hover:bg-sidebar-bg border border-transparent'}`}>
               <div className="flex flex-col">
                 <span className="text-[10px] font-bold text-foreground/60 truncate max-w-[200px]">{tab.name}</span>
                 <span className="text-[8px] font-medium text-foreground/40 uppercase tracking-widest">{tab.type}</span>
@@ -31,8 +31,8 @@ export const CloseTabsModal = ({ show, onHide, allTabs, selectedIds, onToggle, o
           ))}
         </div>
         <div className="flex gap-2 pt-2">
-          <button onClick={onHide} className="flex-1 py-3 rounded-2xl border border-border text-[10px] font-bold hover:bg-sidebar-bg transition-all">Cancel</button>
-          <button onClick={onConfirm} disabled={selectedIds.length === 0} className="flex-1 py-3 rounded-2xl bg-red-500 text-white text-[10px] font-bold hover:bg-red-600 disabled:opacity-20 disabled:hover:bg-red-500 transition-all flex items-center justify-center gap-2">
+          <button onClick={onHide} className="flex-1 py-3 rounded-[12px] border border-border text-[10px] font-bold hover:bg-sidebar-bg transition-all">Cancel</button>
+          <button onClick={onConfirm} disabled={selectedIds.length === 0} className="flex-1 py-3 rounded-[12px] bg-red-500 text-white text-[10px] font-bold hover:bg-red-600 disabled:opacity-20 disabled:hover:bg-red-500 transition-all flex items-center justify-center gap-2">
             <Trash2 size={12} /> Close Selected
           </button>
         </div>

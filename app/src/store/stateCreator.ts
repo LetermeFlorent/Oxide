@@ -26,8 +26,14 @@ export const stateCreator: StateCreator<WorkspaceState, [["zustand/persist", unk
   setTheme: (theme) => set({ theme }),
   setIsDark: (isDark) => set({ isDark }),
   switchProject: (id) => set((s: any) => ({ activeProjectId: id, showSettings: id === 'settings' || s.showSettings })),
+  setContextMenu: (m) => set({ contextMenu: m }),
+  setRenamingId: (id) => set({ renamingId: id }),
+  setTempName: (name) => set({ tempName: name }),
+  setShowGroupModal: (show) => set({ showGroupModal: show }),
+  setPendingItemId: (id) => set({ pendingItemId: id }),
   setLastDeleted: (d) => set({ lastDeleted: d }),
   setExplorerModal: (m) => set({ explorerModal: m }),
+  setColorModal: (m) => set({ colorModal: m }),
   setConfirmModal: (m) => set({ confirmModal: m }),
   setPromptModal: (m) => set({ promptModal: m }),
   applyFilePatch: (pid, p) => set(Tree.applyFilePatch(pid, p) as any),
@@ -39,6 +45,7 @@ export const stateCreator: StateCreator<WorkspaceState, [["zustand/persist", unk
   togglePreview: () => set(UI.togglePreview() as any),
   toggleSearch: () => set(UI.toggleSearch() as any),
   toggleSettings: (sh) => set(UI.toggleSettings(sh) as any),
+  toggleOverviewModal: (sh) => set({ showOverviewModal: sh !== undefined ? sh : !(get() as any).showOverviewModal }),
   setSetting: (k, v) => set(UI.setSetting(k, v) as any),
   resetWorkspace: () => { 
     localStorage.removeItem(STORAGE_KEY); 

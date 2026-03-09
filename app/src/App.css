@@ -21,7 +21,7 @@
   /* Modern Floating UI - Light */
   --background: #f0f0f3;    /* Deeper Surface for contrast */
   --foreground: #1c1c1e;    /* Soft Black */
-  --border: transparent;    /* Removed borders in favor of gaps */
+  --border: #e5e5ea;        /* Visible separation for light mode */
   --sidebar-bg: #ffffff;    /* Card Surface */
   --panel-bg: #ffffff;      /* Card Surface */
   --hover-bg: #f5f5f7;      /* Subtle Interaction */

@@ -14,9 +14,8 @@
   "settings": {
     "title": "Préférences",
     "save": "Enregistrer et Fermer",
-    "display": "Affichage Latéral",
+    "display": "Affichage Sidebar",
     "session": "Session & Fichiers",
-    "compact": "Mode Compact",
     "vertical": "Onglets Verticaux",
     "percentage": "Score de Progrès",
     "gauge": "Jauge Visuelle",

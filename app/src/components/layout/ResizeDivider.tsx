@@ -38,8 +38,8 @@ export const ResizeDivider = ({ vertical = false }: ResizeDividerProps) => {
 
   return (
     <Handle
-      className={`${vertical ? 'h-1.5 w-full' : 'w-1.5 h-full'}
-      bg-transparent hover:bg-gray-600/30 transition-colors z-50 shrink-0`}
+      className={`${vertical ? 'h-1 w-full' : 'w-1 h-full'}
+      bg-transparent z-50 shrink-0`}
     />
   );
 };

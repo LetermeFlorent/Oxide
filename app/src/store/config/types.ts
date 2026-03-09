@@ -16,6 +16,7 @@ export interface ProjectSession {
   taskProgress: number | null; fileContent: string; fileUrl: string | null;
   tree: FileEntry[]; imageFiles?: FileEntry[]; isLoading?: boolean; groupId?: string;
   isGeminiActive?: boolean;
+  color?: string;
   terminalSessions?: TerminalSession[]; activeTerminalId?: string;
 }
 export interface TerminalOverview {
@@ -27,23 +28,32 @@ export interface WorkspaceState {
   showProgressPercentage: boolean;
   showProgressBar: boolean; reopenLastFiles: boolean; restoreFollowedFiles: boolean;
   restoreGroups: boolean; restoreTerminalOverviews: boolean; startOnOverview: boolean;
-  restoreActiveTab: boolean; compactMode: boolean; verticalTabs: boolean;
+  restoreActiveTab: boolean; verticalTabs: boolean;
   viewMode: ViewMode; globalTabsOrder: string[]; terminalOverviews: TerminalOverview[];
   expandedFolders: Record<string, boolean>; hydrated: boolean;
   theme: 'light' | 'dark' | 'auto';
   isDark: boolean;
   showPerformanceOverlay: boolean;
+  showOverviewModal: boolean;
+  contextMenu: { x: number, y: number, itemId: string | null, groupId: string | null, type: 'project' | 'overview' | 'group' } | null;
   lastDeleted: { entry: FileEntry, projectId: string, parentPath: string, content?: string } | null;
   explorerModal: { show: boolean, type: 'file' | 'folder', target: FileEntry | null } | null;
+  colorModal: { show: boolean, projectId: string } | null;
   confirmModal: { show: boolean, title: string, message: string, onConfirm: () => void, kind?: 'danger' | 'warning' | 'info' } | null;
   promptModal: { show: boolean, title: string, label: string, defaultValue: string, onConfirm: (val: string) => void } | null;
   setHydrated: (val: boolean) => void;
   setTheme: (theme: 'light' | 'dark' | 'auto') => void;
   setIsDark: (isDark: boolean) => void;
   setExplorerModal: (modal: { show: boolean, type: 'file' | 'folder', target: FileEntry | null } | null) => void;
+  setColorModal: (modal: { show: boolean, projectId: string } | null) => void;
   setConfirmModal: (modal: { show: boolean, title: string, message: string, onConfirm: () => void, kind?: 'danger' | 'warning' | 'info' } | null) => void;
   setPromptModal: (modal: { show: boolean, title: string, label: string, defaultValue: string, onConfirm: (val: string) => void } | null) => void;
   setLastDeleted: (data: { entry: FileEntry, projectId: string, parentPath: string, content?: string } | null) => void;
+  setContextMenu: (menu: { x: number, y: number, itemId: string | null, groupId: string | null, type: 'project' | 'overview' | 'group' } | null) => void;
+  setRenamingId: (id: string | null) => void;
+  setTempName: (name: string) => void;
+  setShowGroupModal: (show: boolean) => void;
+  setPendingItemId: (id: string | null) => void;
   addProject: (path: string, name: string, tree: FileEntry[]) => void;
   addProjects: (items: { path: string, name: string, tree: FileEntry[] }[]) => void;
   replaceProject: (path: string, name: string, tree: FileEntry[]) => void;
@@ -59,6 +69,7 @@ export interface WorkspaceState {
   setViewMode: (viewMode: ViewMode) => void; setGlobalTabsOrder: (order: string[]) => void; 
   toggleExplorer: () => void; togglePreview: () => void; toggleSearch: () => void;
   toggleSettings: (show?: boolean) => void;
+  toggleOverviewModal: (show?: boolean) => void;
   setSetting: (key: any, value: boolean) => void;
   addTerminalOverview: (name: string, projectIds: string[]) => void;
   updateTerminalOverview: (id: string, name: string) => void;
@@ -71,6 +82,7 @@ export interface WorkspaceState {
   setFolderExpanded: (path: string, expanded: boolean) => void;
   addTerminalSession: (projectId: string) => void;
   switchTerminalSession: (projectId: string, terminalId: string) => void;
+  renameTerminalSession: (projectId: string, terminalId: string, name: string) => void;
   closeTerminalSession: (projectId: string, terminalId: string) => void;
   resetWorkspace: () => void;
 }

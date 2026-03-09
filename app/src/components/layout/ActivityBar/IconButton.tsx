@@ -17,7 +17,7 @@ export const IconButton = memo(({
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
     onClick={onClick} 
-    className={`w-10 h-10 mb-2 relative flex items-center justify-center rounded-2xl transition-all duration-300 ${
+    className={`w-10 h-10 mb-2 relative flex items-center justify-center rounded-[12px] transition-all duration-300 ${
       active ? `bg-active-bg ${activeColor} shadow-sm` : 'text-foreground/40 hover:text-foreground hover:bg-hover-bg'
     }`}
   >

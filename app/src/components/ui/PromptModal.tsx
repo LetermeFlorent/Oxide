@@ -13,7 +13,7 @@ export const PromptModal = memo(({ show, title, label, defaultValue, onHide, onC
   return (
     <ModalLayout show={show} z={4000}>
       <div className="flex items-center gap-3 mb-5">
-        <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-sidebar-bg text-gray-500"><Edit3 size={20} /></div>
+        <div className="w-10 h-10 rounded-[12px] flex items-center justify-center bg-sidebar-bg text-gray-500"><Edit3 size={20} /></div>
         <div>
           <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40 mb-0.5">{title}</h3>
           <p className="text-[13px] font-bold text-foreground leading-none">{label}</p>

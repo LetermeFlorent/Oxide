@@ -24,7 +24,7 @@ export const ProjectSelectorList = memo(({ projects, selectedIds, onToggle }: an
       </button>
     ))}
     {!projects.length && (
-      <div className="py-10 text-center border-2 border-dashed border-sidebar-bg rounded-2xl">
+      <div className="py-10 text-center border-2 border-dashed border-sidebar-bg rounded-[12px]">
         <span className="text-[10px] font-black uppercase tracking-widest text-foreground/20 italic">{t('explorer.open_folders_first')}</span>
       </div>
     )}

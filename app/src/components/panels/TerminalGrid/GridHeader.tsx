@@ -17,7 +17,7 @@ export const GridHeader = memo(({ name, count, cmd, setCmd, onBroadcast }: GridH
       <Zap size={14} className="text-orange-500 fill-orange-500" />
       <span className="text-[9px] font-black text-foreground uppercase tracking-[0.2em]">{name}</span>
     </div>
-    <form onSubmit={onBroadcast} className="flex-1 flex items-center bg-panel-bg border border-border rounded-lg px-3 h-7 focus-within:border-foreground/40 transition-all">
+    <form onSubmit={onBroadcast} className="flex-1 flex items-center bg-hover-bg border border-border rounded-lg px-3 h-7 focus-within:border-foreground/40 transition-all">
       <input 
         type="text" value={cmd} onChange={e => setCmd(e.target.value)} 
         placeholder={t('overview.broadcast_placeholder', { count })} 

@@ -5,14 +5,13 @@ import { useStore } from "../../../store/useStore";
 import { safeKey } from "../../../utils/ui/keyUtils";
 
 export const ImageGallery = memo(({ projectId, images, onFileClick }: any) => {
-  const compactMode = useStore(s => s.compactMode);
   const displayImages = useMemo(() => images.slice(0, 12), [images]);
   const hasMore = images.length > 12;
 
   if (images.length === 0) return null;
 
   return (
-    <div className={`flex flex-col gap-2 ${compactMode ? 'p-1 bg-sidebar-bg/50' : 'p-3 bg-panel-bg border border-border shadow-sm rounded-2xl'}`}>
+    <div className="flex flex-col gap-2 p-3 bg-panel-bg border border-border shadow-sm rounded-[12px]">
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-1.5 text-foreground/40">
           <Image size={10} strokeWidth={3} />

@@ -2,20 +2,24 @@
 import { motion } from "framer-motion";
 import { LucideIcon } from "lucide-react";
 import { memo } from "react";
+import { createPortal } from "react-dom";
 
-export const ContextMenuContainer = memo(({ children, x, y, onHide }: any) => (
-  <div className="fixed inset-0 z-[1000]" onClick={onHide} onContextMenu={(e) => { e.preventDefault(); onHide(); }}>
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.95 }} 
-      animate={{ opacity: 1, scale: 1 }} 
-      style={{ left: Math.min(x, window.innerWidth - 180), top: Math.min(y, window.innerHeight - 200) }} 
-      className="absolute w-44 bg-panel-bg border border-border rounded-xl shadow-2xl p-1"
-      onClick={(e) => e.stopPropagation()}
-    >
-      {children}
-    </motion.div>
-  </div>
-));
+export const ContextMenuContainer = memo(({ children, x, y, onHide }: any) => {
+  return createPortal(
+    <div className="fixed inset-0 z-[99999]" onClick={onHide} onContextMenu={(e) => { e.preventDefault(); onHide(); }}>
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }} 
+        animate={{ opacity: 1, scale: 1 }} 
+        style={{ left: Math.min(x, window.innerWidth - 180), top: Math.min(y, window.innerHeight - 200) }} 
+        className="absolute w-44 bg-panel-bg border border-border rounded-xl shadow-2xl p-1"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {children}
+      </motion.div>
+    </div>,
+    document.body
+  );
+});
 
 export const ContextMenuItem = memo(({ onClick, icon: Icon, label, variant = 'default' }: { onClick: () => void, icon: LucideIcon, label: string, variant?: 'default' | 'danger' | 'primary' }) => {
   const styles = {

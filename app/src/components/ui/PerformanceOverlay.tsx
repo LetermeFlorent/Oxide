@@ -22,7 +22,7 @@ export const PerformanceOverlay = () => {
       {show && (
         <motion.div 
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }}
-          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] bg-panel-bg border border-border rounded-2xl shadow-2xl p-4 w-[400px] max-h-[300px] overflow-hidden flex flex-col"
+          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] bg-panel-bg border border-border rounded-[12px] shadow-2xl p-4 w-[400px] max-h-[300px] overflow-hidden flex flex-col"
         >
           <div className="flex items-center justify-between mb-3 shrink-0">
             <div className="flex items-center gap-2 text-foreground/60">

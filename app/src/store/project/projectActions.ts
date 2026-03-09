@@ -94,13 +94,22 @@ export const projectActions = (set: any) => ({
       : [{ id: p.activeTerminalId || 'bash', name: 'Bash' }];
       
     const newId = `terminal-${Math.random().toString(36).substring(2, 11)}`;
-    const newSessions = [...sessions, { id: newId, name: `Bash ${sessions.length + 1}` }];
+    const newSessions = [...sessions, { id: newId, name: 'Bash' }];
     return updateProjectInState(s, projectId, { terminalSessions: newSessions, activeTerminalId: newId });
   }),
 
   switchTerminalSession: (projectId: string, terminalId: string) => set((s: WorkspaceState) => 
     updateProjectInState(s, projectId, { activeTerminalId: terminalId })
   ),
+
+  renameTerminalSession: (projectId: string, terminalId: string, name: string) => set((s: WorkspaceState) => {
+    const p = s.projects.find(px => px.id === projectId);
+    if (!p) return s;
+    const newSessions = (p.terminalSessions || []).map(ts => 
+      ts.id === terminalId ? { ...ts, name } : ts
+    );
+    return updateProjectInState(s, projectId, { terminalSessions: newSessions });
+  }),
 
   closeTerminalSession: (projectId: string, terminalId: string) => set((s: WorkspaceState) => {
     const p = s.projects.find(px => px.id === projectId);

@@ -9,7 +9,7 @@ export const OverviewConfigModal = memo(({ show, onClose, name, setName, project
   <AnimatePresence>
     {show && (
       <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/50">
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="w-full max-w-sm bg-panel-bg border border-border rounded-3xl shadow-2xl p-6">
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="w-full max-w-sm bg-panel-bg border border-border rounded-[12px] shadow-2xl p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2"><Terminal size={16} /><h3 className="text-[11px] font-black uppercase text-foreground/40">{t('overview.new')}</h3></div>
             <button onClick={onClose} className="p-1 hover:bg-hover-bg rounded-lg text-foreground/40"><X size={16} /></button>

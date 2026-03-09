@@ -8,7 +8,6 @@ export function useContentViewer(content: string, fileName?: string) {
   const viewMode = useStore(s => s.viewMode);
   const setViewMode = useStore(s => s.setViewMode);
   const updateActiveProject = useStore(s => s.updateActiveProject);
-  const compactMode = useStore(s => s.compactMode);
   
   const isMd = useMemo(() => fileName?.toLowerCase().endsWith('.md') ?? false, [fileName]);
   const isPdf = useMemo(() => fileName?.toLowerCase().endsWith('.pdf') ?? false, [fileName]);
@@ -26,5 +25,5 @@ export function useContentViewer(content: string, fileName?: string) {
     else updateActiveProject({ followedFilePath: project.selectedFile.path, taskProgress: calculateTaskProgress(content) });
   }, [project, isFollowing, content, updateActiveProject]);
 
-  return { viewMode, setViewMode, compactMode, isMd, isPdf, isImage, isFollowing, toggleFollow };
+  return { viewMode, setViewMode, isMd, isPdf, isImage, isFollowing, toggleFollow };
 }

@@ -5,7 +5,8 @@ import { revealItemInDir as revealExplorer } from "@tauri-apps/plugin-opener";
 import { t } from "../../../i18n";
 
 export function useActivityBarActions(projects: any[], onOpenFolder: () => void) {
-  const [showConfig, setShowConfig] = useState(false);
+  const showConfig = useStore(s => s.showOverviewModal);
+  const setShowConfig = useStore(s => s.toggleOverviewModal);
   const [name, setName] = useState(t('overview.title'));
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const addTerminalOverview = useStore(s => s.addTerminalOverview);
@@ -28,11 +29,9 @@ export function useActivityBarActions(projects: any[], onOpenFolder: () => void)
     }
   };
 
-  const handleFolderAction = async (activeId: string | null, hideIcons: boolean) => {
+  return { showConfig, setShowConfig, name, setName, selectedIds, toggleProject, handleSelectAll, handleCreate, handleFolderAction: async (activeId: string | null, hideIcons: boolean) => {
     if (activeId && activeId !== 'settings' && !hideIcons) {
       try { await revealExplorer(activeId); } catch (err) {  }
     } else { onOpenFolder(); }
-  };
-
-  return { showConfig, setShowConfig, name, setName, selectedIds, toggleProject, handleSelectAll, handleCreate, handleFolderAction };
+  } };
 }

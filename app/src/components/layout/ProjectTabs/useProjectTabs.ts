@@ -7,20 +7,43 @@ import { useTabGroups } from "./useTabGroups";
 
 export function useProjectTabs() {
   const s = useStore();
-  const { renamingId, setRenamingId, tempName, setTempName, submitRename: originalSubmitRename } = useTabRenaming(s.terminalOverviews, s.updateProject, s.updateTerminalOverview);
   
+  const renamingId = useStore(st => st.renamingId);
+  const setRenamingId = useStore(st => st.setRenamingId);
+  const tempName = useStore(st => st.tempName);
+  const setTempName = useStore(st => st.setTempName);
+  const showGroupModal = useStore(st => st.showGroupModal);
+  const setShowGroupModal = useStore(st => st.setShowGroupModal);
+  const pendingItemId = useStore(st => st.pendingItemId);
+  const setPendingItemId = useStore(st => st.setPendingItemId);
+
   const submitRename = () => {
-    const item = s.groups.find(g => g.id === renamingId);
-    if (item) {
-      s.renameGroup(renamingId!, tempName);
+    if (!renamingId || !tempName.trim()) {
       setRenamingId(null);
+      return;
+    }
+    const isGroup = s.groups.some(g => g.id === renamingId);
+    if (isGroup) {
+      s.renameGroup(renamingId, tempName.trim());
+    } else if (s.terminalOverviews.some(o => o.id === renamingId)) {
+      s.updateTerminalOverview(renamingId, tempName.trim());
     } else {
-      originalSubmitRename();
+      s.updateProject(renamingId, { name: tempName.trim() });
+    }
+    setRenamingId(null);
+  };
+
+  const { newGroupName, setNewGroupName, showCloseModal, setShowCloseModal, selectedCloseIds, setSelectedCloseIds, handleCreateGroup, handleCloseSelected } = useTabGroups(s.createGroup, s.terminalOverviews, s.closeProject, s.closeTerminalOverview);
+  
+  // Custom handleCreateGroup to use global pendingItemId
+  const handleGlobalCreateGroup = () => {
+    if (newGroupName.trim() && pendingItemId) {
+      s.createGroup(newGroupName.trim(), [pendingItemId]);
+      setShowGroupModal(false);
+      setPendingItemId(null);
     }
   };
 
-  const { showGroupModal, setShowGroupModal, newGroupName, setNewGroupName, setPendingItemId, showCloseModal, setShowCloseModal, selectedCloseIds, setSelectedCloseIds, handleCreateGroup, handleCloseSelected } = useTabGroups(s.createGroup, s.terminalOverviews, s.closeProject, s.closeTerminalOverview);
-  const [contextMenu, setContextMenu] = useState<any>(null);
   const [showEditOverviewModal, setShowEditOverviewModal] = useState(false);
   const [editingOverviewId, setEditingOverviewId] = useState<string | null>(null);
   const [editingProjectIds, setEditingProjectIds] = useState<string[]>([]);
@@ -44,6 +67,11 @@ export function useProjectTabs() {
       const id = p.id?.trim();
       if (id) tabsMap.set(id, { id, name: p.name, type: 'project' as const });
     });
+
+    // 4. Add Settings
+    if (s.showSettings) {
+      tabsMap.set('settings', { id: 'settings', name: 'Settings', type: 'settings' as const });
+    }
     
     const uniqueTabs = Array.from(tabsMap.values());
 
@@ -67,15 +95,15 @@ export function useProjectTabs() {
   };
 
   return {
-    projects: s.projects, terminalOverviews: s.terminalOverviews, groups: s.groups, activeProjectId: s.activeProjectId, allTabs, renamingId, tempName, setTempName, contextMenu, setContextMenu,
+    projects: s.projects, terminalOverviews: s.terminalOverviews, groups: s.groups, activeProjectId: s.activeProjectId, allTabs, renamingId, tempName, setTempName, 
     showEditOverviewModal, setShowEditOverviewModal, editingOverviewId, editingProjectIds, setEditingProjectIds, showGroupModal, setShowGroupModal, newGroupName, setNewGroupName, showCloseModal, setShowCloseModal, selectedCloseIds, setSelectedCloseIds,
     switchProject: s.switchProject, closeProject: s.closeProject, closeTerminalOverview: s.closeTerminalOverview, updateProject: s.updateProject, updateTerminalOverview: s.updateTerminalOverview, 
     deleteGroup: s.deleteGroup, toggleGroup: s.toggleGroup, moveToGroup: s.moveToGroup, createGroup: s.createGroup, setProjects: s.setProjects, setTerminalOverviews: s.setTerminalOverviews,
-    setGlobalTabsOrder: s.setGlobalTabsOrder,
+    setGlobalTabsOrder: s.setGlobalTabsOrder, setContextMenu: s.setContextMenu, contextMenu: s.contextMenu,
     reorderUngroupedProjects: (newUngrouped: any[]) => s.setProjects([...s.projects.filter(p => p.groupId), ...newUngrouped]),
     reorderUngroupedOverviews: (newUngrouped: any[]) => s.setTerminalOverviews([...s.terminalOverviews.filter(o => o.groupId), ...newUngrouped]),
     reorderGroupProjects: (groupId: string, newGroupProjects: any[]) => s.setProjects([...s.projects.filter(p => p.groupId !== groupId), ...newGroupProjects]),
     reorderGroupOverviews: (groupId: string, newGroupOverviews: any[]) => s.setTerminalOverviews([...s.terminalOverviews.filter(o => o.groupId !== groupId), ...newGroupOverviews]),
-    handleOpenEditOverview, submitRename, handleCloseSelected, handleCreateGroup, setRenamingId, setPendingItemId
+    handleOpenEditOverview, submitRename, handleCloseSelected, handleCreateGroup: handleGlobalCreateGroup, setRenamingId, setPendingItemId
   };
 }

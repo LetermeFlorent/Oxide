@@ -22,7 +22,6 @@ export const ActivityBar = memo(({ onOpenFolder }: { onOpenFolder: () => void })
   const toggleSettings = useStore(s => s.toggleSettings);
   const activeProjectId = useStore(s => s.activeProjectId);
   const projects = useStore(s => s.projects);
-  const compactMode = useStore(s => s.compactMode);
   const showProgressBar = useStore(s => s.showProgressBar);
   const showProgressPercentage = useStore(s => s.showProgressPercentage);
   
@@ -32,7 +31,7 @@ export const ActivityBar = memo(({ onOpenFolder }: { onOpenFolder: () => void })
   const { showConfig, setShowConfig, name, setName, selectedIds, toggleProject, handleSelectAll, handleCreate, handleFolderAction } = useActivityBarActions(projects, onOpenFolder);
 
   return (
-    <div data-tauri-drag-region className={`w-[60px] flex flex-col items-center py-3 bg-panel-bg shrink-0 z-50 relative overflow-hidden select-none ${compactMode ? '' : 'rounded-[24px] shadow-sm'}`}>
+    <div data-tauri-drag-region className="w-[60px] flex flex-col items-center py-3 bg-panel-bg shrink-0 z-50 relative overflow-hidden select-none rounded-[12px] shadow-sm">
       <IconButton id="new-overview" icon={Terminal} onClick={() => setShowConfig(true)} active={showConfig} />
       
       {!hideIcons && [
@@ -43,19 +42,6 @@ export const ActivityBar = memo(({ onOpenFolder }: { onOpenFolder: () => void })
         <IconButton key={btn.id} id={btn.id} icon={btn.icon} onClick={btn.onClick} active={btn.active} activeColor={btn.color} />
       ))}
 
-      <OverviewModal 
-        show={showConfig} 
-        onHide={() => setShowConfig(false)} 
-        title={t('overview.new')} 
-        label={t('overview.title')} 
-        projects={projects} 
-        selectedIds={selectedIds} 
-        onToggle={toggleProject} 
-        onConfirm={handleCreate} 
-        name={name} 
-        setName={setName} 
-        onSelectAll={handleSelectAll} 
-      />
       <div className="flex-1" />
       {(showProgressBar || showProgressPercentage) && <ProgressThermometer progress={progress} showBar={showProgressBar} showPercent={showProgressPercentage} />}
       <IconButton id="settings" icon={Settings} onClick={toggleSettings} active={showSettings} />

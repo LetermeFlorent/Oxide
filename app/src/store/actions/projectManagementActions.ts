@@ -32,9 +32,16 @@ export const addProjects = (items: any[]) => (s: any) => {
 export const closeProject = (id: string) => (s: any) => {
   const next = s.projects.filter((p: any) => p.id !== id);
   const nextOrder = (s.globalTabsOrder || []).filter((oid: string) => oid !== id);
+  // Also remove the project from all terminal overviews
+  const nextOverviews = s.terminalOverviews.map((o: any) => ({
+    ...o,
+    projectIds: o.projectIds.filter((pId: string) => pId !== id)
+  }));
+  
   return { 
     projects: next, 
     globalTabsOrder: nextOrder,
+    terminalOverviews: nextOverviews,
     activeProjectId: s.activeProjectId === id ? (next[0]?.id || s.terminalOverviews[0]?.id || null) : s.activeProjectId 
   };
 };

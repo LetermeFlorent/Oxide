@@ -27,8 +27,8 @@ import { memo } from "react";
 export const DraggableHandle = memo(({ onMouseDown, vertical = false }: any) => (
   <div
     onMouseDown={onMouseDown}
-    className={`${vertical ? 'h-2 w-full cursor-row-resize' : 'w-2 h-full cursor-col-resize'}
-    bg-transparent hover:bg-active-bg active:bg-sidebar-bg transition-all duration-300 shrink-0 z-50`}
+    className={`${vertical ? 'h-1 w-full cursor-row-resize' : 'w-1 h-full cursor-col-resize'}
+    bg-transparent shrink-0 z-50`}
   />
 ));
 

@@ -4,7 +4,7 @@ import { memo, useCallback } from "react";
 
 const SETTINGS_TAB = { id: 'settings', name: 'Settings' };
 
-export const TabItem = memo(({ id, type, active, compactMode, onClick, onClose, onContextMenu, renamingId, tempName, setTempName, submitRename, vertical, mode }: any) => {
+export const TabItem = memo(({ id, type, active, onClick, onClose, onContextMenu, renamingId, tempName, setTempName, submitRename, vertical, mode, isNested }: any) => {
   const item = useStore(useCallback(s => 
     type === 'overview' ? s.terminalOverviews.find(o => o.id === id) : 
     type === 'project' ? s.projects.find(p => p.id === id) :
@@ -26,19 +26,30 @@ export const TabItem = memo(({ id, type, active, compactMode, onClick, onClose, 
   const Icon = getIcon();
   const status = item ? (item as any).status : null;
   const isLoading = item ? (item as any).isLoading : false;
+  const accentColor = item ? (item as any).color : null;
   const displayName = type === 'settings' ? 'Settings' : 
                     type === 'view-mode' ? id.replace('view-mode-', '').toUpperCase() : 
                     item?.name;
+
+  const baseClasses = vertical 
+    ? 'w-full h-11 mb-1 px-4' 
+    : (isNested ? 'h-7 min-w-[120px] max-w-[180px] mx-0.5 px-3' : 'h-8 min-w-[140px] max-w-[200px] px-3');
+    
+  const activeStyle = active 
+    ? (isNested ? 'bg-foreground/5 border border-foreground/10 rounded-lg' : 'bg-panel-bg border border-border shadow-sm rounded-lg') 
+    : 'bg-transparent text-foreground/40 hover:bg-panel-bg/40 rounded-lg';
+
+  const verticalActiveExtra = vertical && active ? 'ring-1 ring-border/50 !bg-active-bg shadow-md' : '';
 
   return (
     <div 
       onClick={(e: React.MouseEvent) => renamingId !== id && onClick(id, mode)}
       onContextMenu={(e) => { e.preventDefault(); onContextMenu(e, id, type); }}
-      className={`group relative flex items-center gap-2 px-3 transition-all cursor-pointer shrink-0 overflow-hidden select-none ${vertical ? 'w-full h-10 mb-0.5' : 'h-8 min-w-[140px] max-w-[200px] self-center'} ${
-        active 
-          ? (compactMode ? 'bg-panel-bg border-r border-border shadow-none' : 'bg-panel-bg border border-border shadow-sm rounded-lg') 
-          : (compactMode ? 'bg-transparent text-foreground/40 border-r border-border' : 'bg-transparent text-foreground/40 hover:bg-panel-bg/40 rounded-lg')
-      } ${vertical ? (active ? 'border-l-4 border-l-foreground !border-r-0 !rounded-none bg-sidebar-bg/50' : 'border-l-4 border-l-transparent hover:bg-sidebar-bg/30') : ''}`}
+      className={`group relative flex items-center gap-2 transition-all cursor-pointer shrink-0 overflow-hidden select-none ${baseClasses} ${activeStyle} ${verticalActiveExtra}`}
+      style={{
+        backgroundColor: accentColor ? (active ? `${accentColor}25` : `${accentColor}10`) : undefined,
+        borderColor: accentColor && active && !isNested ? accentColor : undefined
+      }}
     >
       <div className="relative z-10 flex items-center gap-2 flex-1 min-w-0 pr-6">
         <div className="relative shrink-0 flex items-center justify-center w-4 h-4">

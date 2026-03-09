@@ -15,7 +15,7 @@ export const EditOverviewModal = ({ show, onHide, projects, selectedIds, onToggl
         <div className="flex flex-col gap-4">
         <div className="max-h-60 overflow-y-auto scrollbar-modern-thin space-y-1 p-1">
           {projects.filter((p: any) => p && p.id && p.id.trim() !== "").map((p: any, idx: number) => (
-            <button key={safeKey('edit-ov', p.id, idx)} onClick={() => toggleProject(p.id)} className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all ${selectedIds.includes(p.id) ? 'bg-sidebar-bg border border-border' : 'hover:bg-sidebar-bg border border-transparent'}`}>
+            <button key={safeKey('edit-ov', p.id, idx)} onClick={() => toggleProject(p.id)} className={`w-full flex items-center justify-between px-4 py-3 rounded-[12px] transition-all ${selectedIds.includes(p.id) ? 'bg-sidebar-bg border border-border' : 'hover:bg-sidebar-bg border border-transparent'}`}>
               <div className="flex items-center gap-3">
                 <div className={`p-2 rounded-xl ${selectedIds.includes(p.id) ? 'bg-black text-white' : 'bg-gray-100 text-foreground/40'}`}>
                   <Terminal size={14} />
@@ -32,8 +32,8 @@ export const EditOverviewModal = ({ show, onHide, projects, selectedIds, onToggl
           ))}
         </div>
         <div className="flex gap-2 pt-2">
-          <button onClick={onHide} className="flex-1 py-3 rounded-2xl border border-border text-[10px] font-bold hover:bg-sidebar-bg transition-all">Cancel</button>
-          <button onClick={onConfirm} className="flex-1 py-3 rounded-2xl bg-black text-white text-[10px] font-bold hover:opacity-80 transition-all flex items-center justify-center gap-2">
+          <button onClick={onHide} className="flex-1 py-3 rounded-[12px] border border-border text-[10px] font-bold hover:bg-sidebar-bg transition-all">Cancel</button>
+          <button onClick={onConfirm} className="flex-1 py-3 rounded-[12px] bg-black text-white text-[10px] font-bold hover:opacity-80 transition-all flex items-center justify-center gap-2">
             <Grid size={12} /> Save Layout
           </button>
         </div>
